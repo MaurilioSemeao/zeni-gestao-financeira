@@ -1,0 +1,641 @@
+openapi: 3.0.0
+info:
+  title: Zeni - API de Gestão Financeira
+  description: API REST para o sistema de gestão financeira pessoal Zeni.
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/mssemeao/Zeni/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:8080/api/v1
+  description: Servidor de Desenvolvimento Local
+paths:
+  /auth/cadastrar:
+    post:
+      tags:
+      - Autenticação
+      summary: (HU-01) Cria uma nova conta de usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CadastroRequest"
+        required: true
+      responses:
+        "201":
+          description: Usuário criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsuarioResponse"
+        "400":
+          description: "Dados de cadastro inválidos (ex. e-mail em formato incorreto, senha fraca)."
+        "409":
+          description: Conflito. O e-mail fornecido já está em uso.
+  /auth/login:
+    post:
+      tags:
+      - Autenticação
+      summary: (HU-02) Autentica um usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Autenticação bem-sucedida.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Não autorizado. Credenciais inválidas.
+  /usuarios/me:
+    get:
+      tags:
+      - Usuários
+      summary: Retorna o perfil do usuário logado
+      responses:
+        "200":
+          description: Perfil do usuário retornado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsuarioResponse"
+      security:
+      - bearerAuth: []
+  /transacoes:
+    get:
+      tags:
+      - Transações
+      summary: Lista as transações do usuário
+      responses:
+        "200":
+          description: Lista de transações retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransacaoResponse"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Transações
+      summary: (HU-03) Registra uma nova transação
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransacaoRequest"
+        required: true
+      responses:
+        "201":
+          description: Transação criada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransacaoResponse"
+      security:
+      - bearerAuth: []
+  /transacoes/{id}:
+    put:
+      tags:
+      - Transações
+      summary: Atualiza uma transação
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransacaoRequest"
+        required: true
+      responses:
+        "200":
+          description: Transação atualizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransacaoResponse"
+        "404":
+          description: Transação não encontrada.
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Transações
+      summary: Exclui uma transação
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Transação excluída com sucesso.
+        "404":
+          description: Transação não encontrada.
+      security:
+      - bearerAuth: []
+  /categorias:
+    get:
+      tags:
+      - Categorias
+      summary: Lista as categorias do usuário
+      responses:
+        "200":
+          description: Lista de categorias retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoriaResponse"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Categorias
+      summary: (HU-04) Cria uma nova categoria
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoriaRequest"
+        required: true
+      responses:
+        "201":
+          description: Categoria criada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoriaResponse"
+      security:
+      - bearerAuth: []
+  /categorias/{id}:
+    put:
+      tags:
+      - Categorias
+      summary: (HU-08) Atualiza uma categoria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoriaRequest"
+        required: true
+      responses:
+        "200":
+          description: Categoria atualizada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoriaResponse"
+        "404":
+          description: Categoria não encontrada.
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Categorias
+      summary: Exclui uma categoria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Categoria excluída com sucesso.
+        "404":
+          description: Categoria não encontrada.
+      security:
+      - bearerAuth: []
+  /contas:
+    get:
+      tags:
+      - Contas
+      summary: Lista as contas do usuário
+      responses:
+        "200":
+          description: Lista de contas retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContaResponse"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Contas
+      summary: Cria uma nova conta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContaRequest"
+        required: true
+      responses:
+        "201":
+          description: Conta criada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContaResponse"
+      security:
+      - bearerAuth: []
+  /cartoes:
+    get:
+      tags:
+      - Cartões de Crédito
+      summary: Lista os cartões de crédito do usuário
+      responses:
+        "200":
+          description: Lista de cartões retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CartaoCreditoResponse"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Cartões de Crédito
+      summary: (HU-05) Cadastra um novo cartão de crédito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartaoCreditoRequest"
+        required: true
+      responses:
+        "201":
+          description: Cartão criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartaoCreditoResponse"
+      security:
+      - bearerAuth: []
+  /cartoes/{cartaoId}/faturas:
+    get:
+      tags:
+      - Faturas
+      summary: (HU-07) Lista as faturas de um cartão
+      parameters:
+      - name: cartaoId
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Faturas retornadas com sucesso.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FaturaResponse"
+      security:
+      - bearerAuth: []
+  /faturas/{faturaId}:
+    get:
+      tags:
+      - Faturas
+      summary: Detalha uma fatura específica
+      parameters:
+      - name: faturaId
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Detalhes da fatura retornados com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FaturaDetalhadaResponse"
+        "404":
+          description: Fatura não encontrada.
+      security:
+      - bearerAuth: []
+  /faturas/{faturaId}/pagar:
+    patch:
+      tags:
+      - Faturas
+      summary: Marca uma fatura como paga
+      parameters:
+      - name: faturaId
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Fatura marcada como paga com sucesso.
+        "400":
+          description: Ação não permitida (ex. fatura ainda está aberta).
+        "404":
+          description: Fatura não encontrada.
+      security:
+      - bearerAuth: []
+  /dashboard:
+    get:
+      tags:
+      - Dashboard & Relatórios
+      summary: (HU-09) Retorna dados para o dashboard
+      responses:
+        "200":
+          description: Dados do dashboard retornados com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardResponse"
+      security:
+      - bearerAuth: []
+  /relatorios/exportar:
+    get:
+      tags:
+      - Dashboard & Relatórios
+      summary: (HU-10) Exporta relatório de transações
+      responses:
+        "200":
+          description: Arquivo Excel gerado com sucesso.
+          content:
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+      security:
+      - bearerAuth: []
+  /admin/parcerias:
+    get:
+      tags:
+      - Admin
+      summary: (Admin) Lista todas as parcerias
+      responses:
+        "200":
+          description: Lista de parcerias retornada.
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Admin
+      summary: "(HU-11, Admin) Cria uma nova parceria"
+      responses:
+        "201":
+          description: Parceria criada com sucesso.
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    CadastroRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Usuário Exemplo
+        email:
+          type: string
+          format: email
+          example: usuario@example.com
+        senha:
+          type: string
+          format: password
+          example: senhaForte123
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: usuario@example.com
+        senha:
+          type: string
+          format: password
+          example: senhaForte123
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        usuario:
+          $ref: "#/components/schemas/UsuarioResponse"
+    UsuarioResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        tipoUsuario:
+          type: string
+          enum:
+          - PADRAO
+          - ADMIN
+    TransacaoRequest:
+      type: object
+      properties:
+        descricao:
+          type: string
+          example: Almoço no restaurante
+        valor:
+          type: number
+          format: double
+          example: 45.5
+        data:
+          type: string
+          format: date
+          example: 2025-10-13
+        tipo:
+          type: string
+          enum:
+          - RECEITA
+          - DESPESA
+        categoriaId:
+          type: integer
+          format: int64
+        contaId:
+          type: integer
+          format: int64
+          nullable: true
+        cartaoId:
+          type: integer
+          format: int64
+          nullable: true
+    TransacaoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        descricao:
+          type: string
+        valor:
+          type: number
+          format: double
+        data:
+          type: string
+          format: date
+        tipo:
+          type: string
+        categoriaNome:
+          type: string
+    CategoriaRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Lazer
+        limiteGasto:
+          type: number
+          format: double
+          example: 500
+    CategoriaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        limiteGasto:
+          type: number
+          format: double
+    ContaRequest:
+      type: object
+      properties:
+        nomePersonalizado:
+          type: string
+          example: Conta Corrente Principal
+        tipo:
+          type: string
+          enum:
+          - CONTA_CORRENTE
+          - POUPANCA
+          - CARTEIRA
+    ContaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nomePersonalizado:
+          type: string
+        tipo:
+          type: string
+    CartaoCreditoRequest:
+      type: object
+      properties:
+        nomeApelido:
+          type: string
+          example: Cartão Principal
+        bandeira:
+          type: string
+          example: Visa
+        diaVencimento:
+          type: integer
+          example: 10
+    CartaoCreditoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nomeApelido:
+          type: string
+        bandeira:
+          type: string
+    FaturaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        mesReferencia:
+          type: string
+          example: 2025-10
+        valorTotal:
+          type: number
+          format: double
+        status:
+          type: string
+          enum:
+          - ABERTA
+          - FECHADA
+          - PAGA
+          - VENCIDA
+    FaturaDetalhadaResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        mesReferencia:
+          type: string
+          example: 2025-10
+        valorTotal:
+          type: number
+          format: double
+        status:
+          type: string
+        transacoes:
+          type: array
+          items:
+            $ref: "#/components/schemas/TransacaoResponse"
+    DashboardResponse:
+      type: object
+      properties:
+        saldoGeral:
+          type: number
+          format: double
+        totalReceitasMes:
+          type: number
+          format: double
+        totalDespesasMes:
+          type: number
+          format: double
+        limitesPorCategoria:
+          type: array
+          items:
+            $ref: "#/components/schemas/DashboardResponse_limitesPorCategoria"
+    DashboardResponse_limitesPorCategoria:
+      type: object
+      properties:
+        categoriaNome:
+          type: string
+        valorGasto:
+          type: number
+          format: double
+        valorLimite:
+          type: number
+          format: double
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
