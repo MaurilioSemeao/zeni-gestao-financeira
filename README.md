@@ -55,19 +55,19 @@ Para a concepção do projeto, foram utilizados diagramas que ajudam a visualiza
 
 O Lean Canvas abaixo resume o modelo de negócio do Zeni, identificando a proposta de valor, segmentos de clientes, canais, fontes de receita e outros blocos estratégicos.
 
-![Lean Canvas do projeto Zeni](documentacaoDoProjeto\imgUML\canvas.jpg)
+![Lean Canvas do projeto Zeni](./documentacaoDoProjeto/imgUML/canvas.jpg)
 
 ### 4.2. Diagrama de Casos de Uso
 
 O diagrama a seguir ilustra as principais interações dos atores (Usuário, Administrador) com as funcionalidades do sistema Zeni.
 
-![Diagrama de Casos de Uso do sistema Zeni](documentacaoDoProjeto\imgUML\CasoDeUso.svg)
+![Diagrama de Casos de Uso do sistema Zeni](./documentacaoDoProjeto\imgUML\CasoDeUso.svg)
 
 ### 4.3. Diagrama BPMN (Processo de Negócio)
 
 O diagrama BPMN detalha o fluxo do processo principal da aplicação financeira, desde o cadastro do usuário até o registro de transações e a visualização de relatórios.
 
-![Diagrama BPMN do processo da aplicação financeira](documentacaoDoProjeto\imgUML\bpmnPorcessoAplicacaoFinanceira.svg)
+![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto\imgUML\bpmnPorcessoAplicacaoFinanceira.svg)
 
 ## 5\. Arquitetura e Modelo de Dados
 
@@ -77,13 +77,13 @@ A arquitetura do sistema foi projetada para ser modular e escalável, separando 
 
 O diagrama abaixo ilustra a estrutura do banco de dados, com as principais entidades e seus relacionamentos.
 
-![Diagrama de Entidade-Relacionamento do sistema Zeni](documentacaoDoProjeto\imgUML\DER.svg)
+![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto\imgUML\DER.svg)
 
 ### 5.2. Diagrama de Classes
 
 O Diagrama de Classes detalha não apenas a estrutura de dados, mas também os comportamentos (métodos) de cada objeto do sistema, servindo como um guia para a implementação do código-fonte.
 
-![Diagrama de Classes do sistema Zeni](documentacaoDoProjeto\imgUML\DiagramaDeClasse.svg)
+![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto\imgUML\DiagramaDeClasse.svg)
 
 ## 6\. Backlog do Produto (MVP)
 
