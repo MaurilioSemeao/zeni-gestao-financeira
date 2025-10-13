@@ -67,7 +67,7 @@ O diagrama a seguir ilustra as principais interações dos atores (Usuário, Adm
 
 O diagrama BPMN detalha o fluxo do processo principal da aplicação financeira, desde o cadastro do usuário até o registro de transações e a visualização de relatórios.
 
-![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto/imgUML/imgUML/bpmnPorcessoAplicacaoFinanceira.svg)
+![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto/imgUML/bpmnPorcessoAplicacaoFinanceira.svg)
 
 ## 5\. Arquitetura e Modelo de Dados
 
