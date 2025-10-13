@@ -1,8 +1,6 @@
-Olá\! Peço desculpas pela formatação com a notação \`\`. Foi um erro na minha geração anterior.
+Ótima ideia\! Adicionar os diagramas de comportamento dinâmico (Sequência e Estado) ao `README.md` é o passo final para consolidar toda a documentação de modelagem do projeto. Isso enriquece a documentação, mostrando não apenas a estrutura, mas também como o sistema se comporta.
 
-Você está certíssimo em querer incluir todos os diagramas. Eles são fundamentais para documentar a concepção do projeto.
-
-Abaixo está a versão final e corrigida do seu `README.md`. Adicionei uma nova seção "4. Modelagem de Negócio e Processos" com os campos corretos para você anexar as imagens do Lean Canvas, do Diagrama de Casos de Uso e do BPMN. Basta substituir os caminhos de exemplo pelo caminho real onde as imagens estão no seu projeto.
+Abaixo está a versão atualizada do seu `README.md`, com uma nova seção dedicada a esses diagramas.
 
 -----
 
@@ -14,7 +12,7 @@ O projeto Zeni consiste no desenvolvimento de um aplicativo web de gestão finan
 
 ### 1.1. Justificativa
 
-Grande parte da população enfrenta dificuldades na administração de suas finanças pessoais, seja pela falta de hábitos de organização ou pela limitação de ferramentas acessíveis que conciliem facilidade de uso com funcionalidades objetivas. Muitos aplicativos existentes são complexos ou não focam na gestão integrada de cartões de crédito. O Zeni se justifica pela necessidade de uma solução que una simplicidade, design limpo e praticidade, atendendo ao público que deseja melhorar seu planejamento financeiro sem enfrentar barreiras de usabilidade.
+Grande parte da população enfrenta dificuldades na administração de suas finanças pessoais, seja pela falta de hábitos de organização ou pela limitação de ferramentas acessíveis que conciliem facilidade de uso com funcionalidades objetivas. O Zeni se justifica pela necessidade de uma solução que una simplicidade, design limpo e praticidade, atendendo ao público que deseja melhorar seu planejamento financeiro sem enfrentar barreiras de usabilidade.
 
 ## 2\. Autores
 
@@ -69,73 +67,84 @@ O diagrama BPMN detalha o fluxo do processo principal da aplicação financeira,
 
 ![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto/imgUML/bpmnPorcessoAplicacaoFinanceira.svg)
 
-## 5\. Arquitetura e Modelo de Dados
+## 5\. Modelagem Comportamental (Diagramas Dinâmicos)
 
-A arquitetura do sistema foi projetada para ser modular e escalável, separando as responsabilidades em diferentes entidades que se relacionam para cumprir os requisitos funcionais.
+Os diagramas a seguir detalham o comportamento dinâmico do sistema, mostrando a interação entre objetos e o ciclo de vida de entidades complexas.
 
-### 5.1. Diagrama de Entidade-Relacionamento (DER)
+### 5.1. Diagrama de Sequência
+
+Este diagrama ilustra a ordem das interações entre os componentes do sistema para realizar uma funcionalidade específica, como o registro de uma nova transação.
+
+![Diagrama de Sequência do registro de transação](documentacaoDoProjeto/imgUML/digSeqHU03m.svg)
+
+### 5.2. Diagrama de Estados
+
+O Diagrama de Estados modela o ciclo de vida de um objeto, definindo todos os seus estados possíveis e as regras que causam as transições entre eles, como o ciclo de vida da Fatura.
+
+![Diagrama de Estados do ciclo de vida da Fatura](documentacaoDoProjeto/imgUML/diagEstadoFatura.svg)
+
+## 6\. Arquitetura e Modelo de Dados
+
+A arquitetura do sistema foi projetada para ser modular e escalável, separando as responsabilidades em diferentes entidades.
+
+### 6.1. Diagrama de Entidade-Relacionamento (DER)
 
 O diagrama abaixo ilustra a estrutura do banco de dados, com as principais entidades e seus relacionamentos.
 
-![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DER.svg)
+`![Diagrama de Entidade-Relacionamento do sistema Zeni](documentacaoDoProjeto/imgUML/DER.svg)`
 
-### 5.2. Diagrama de Classes
+### 6.2. Diagrama de Classes
 
-O Diagrama de Classes detalha não apenas a estrutura de dados, mas também os comportamentos (métodos) de cada objeto do sistema, servindo como um guia para a implementação do código-fonte.
+O Diagrama de Classes detalha a estrutura estática dos objetos do sistema, incluindo seus atributos, métodos e associações.
 
-![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)
+`![Diagrama de Classes do sistema Zeni](documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)`
 
-## 6\. Backlog do Produto (MVP)
+## 7\. Backlog do Produto (MVP)
 
 O backlog a seguir detalha as funcionalidades do MVP, organizadas em Épicos e Histórias de Usuário, que guiarão o desenvolvimento.
 
 ### Épico 1: Gestão de Acesso e Perfil do Usuário
 
-  * **HU-01:** Como um novo visitante, eu quero poder me cadastrar no sistema fornecendo meu nome, e-mail и senha, para que eu possa começar a usar as funcionalidades de gestão financeira.
-  * **HU-02:** Como um usuário cadastrado, eu quero poder me autenticar no sistema usando meu e-mail и senha, para acessar minhas informações financeiras com segurança.
+  * **HU-01:** Como um novo visitante, eu quero poder me cadastrar no sistema fornecendo meu nome, e-mail e senha.
+  * **HU-02:** Como um usuário cadastrado, eu quero poder me autenticar no sistema usando meu e-mail e senha.
 
 ### Épico 2: Gerenciamento de Transações Financeiras
 
-  * **HU-03:** Como um usuário autenticado, eu quero poder registrar uma nova transação (receita ou despesa), informando descrição, valor, data и associando a uma categoria, para manter meu controle financeiro atualizado.
-  * **HU-04:** Como um usuário autenticado, eu quero poder criar, visualizar и editar minhas categorias personalizadas, para organizar minhas transações de acordo com meus hábitos de consumo.
+  * **HU-03:** Como um usuário autenticado, eu quero poder registrar uma nova transação (receita ou despesa).
+  * **HU-04:** Como um usuário autenticado, eu quero poder criar, visualizar e editar minhas categorias personalizadas.
 
 ### Épico 3: Gestão de Cartões de Crédito e Faturas
 
-  * **HU-05:** Como um usuário autenticado, eu quero poder cadastrar meus cartões de crédito, informando um apelido, bandeira и dia de vencimento, para centralizar a gestão deles na plataforma.
-  * **HU-06:** Como um usuário autenticado, ao registrar uma despesa, eu quero poder associá-la a um dos meus cartões de crédito cadastrados, para que ela seja incluída na fatura correspondente.
-  * **HU-07:** Como um usuário autenticado, eu quero poder visualizar a fatura consolidada de cada um dos meus cartões, com a lista de todas as despesas associadas и o valor total, para entender meus gastos do mês.
+  * **HU-05:** Como um usuário autenticado, eu quero poder cadastrar meus cartões de crédito.
+  * **HU-06:** Como um usuário autenticado, eu quero poder associar uma despesa a um dos meus cartões de crédito.
+  * **HU-07:** Como um usuário autenticado, eu quero poder visualizar a fatura consolidada de cada um dos meus cartões.
 
 ### Épico 4: Controle de Gastos e Análise Financeira
 
-  * **HU-08:** Como um usuário autenticado, eu quero poder definir um limite de gasto mensal para cada uma das minhas categorias, para controlar melhor meu orçamento.
-  * **HU-09:** Como um usuário autenticado, eu quero visualizar um dashboard interativo com gráficos que mostrem a distribuição das minhas despesas por categoria и a evolução das minhas receitas vs. despesas ao longo do tempo, para ter uma visão clara da minha saúde financeira.
-  * **HU-10:** Como um usuário autenticado, eu quero poder exportar um relatório das minhas transações de um período selecionado para o formato Excel, para realizar análises mais aprofundadas ou para arquivamento.
+  * **HU-08:** Como um usuário autenticado, eu quero poder definir um limite de gasto mensal para cada categoria.
+  * **HU-09:** Como um usuário autenticado, eu quero visualizar um dashboard interativo com gráficos.
+  * **HU-10:** Como um usuário autenticado, eu quero poder exportar um relatório das minhas transações para Excel.
 
 ### Épico 5: Funcionalidades de Administrador
 
-  * **HU-11:** Como um Administrador, eu quero poder gerenciar parcerias и os anúncios exibidos na versão gratuita do sistema, para controlar as fontes de receita.
+  * **HU-11:** Como um Administrador, eu quero poder gerenciar parcerias e anúncios no sistema.
 
-## 7\. Tecnologias Propostas
-
-Para o desenvolvimento do projeto, sugere-se a utilização de um ecossistema de tecnologias robusto e amplamente utilizado no mercado para aplicações web, como:
+## 8\. Tecnologias Propostas
 
   * **Backend:** Java com Framework Spring (Spring Boot, Spring Data JPA, Spring Security).
-  * **Frontend:** HTML5, CSS3 com um framework como Bootstrap ou Tailwind CSS, e JavaScript com um framework como React ou Angular.
+  * **Frontend:** HTML5, CSS3, JavaScript com um framework como React ou Angular.
   * **Banco de Dados:** PostgreSQL ou MySQL.
-  * **Servidor de Aplicação:** Servidor embarcado (Tomcat, via Spring Boot).
   * **Ferramentas de Build:** Maven ou Gradle.
   * **Controle de Versão:** Git.
 
-## 8\. Instruções para Instalação e Execução
-
-Para executar o projeto em um ambiente de desenvolvimento local, siga os passos abaixo:
+## 9\. Instruções para Instalação e Execução
 
 1.  **Pré-requisitos:**
 
       * Java JDK (versão 17 ou superior)
       * Maven ou Gradle
       * Git
-      * Uma instância de um banco de dados relacional (PostgreSQL/MySQL) rodando localmente.
+      * Instância de um banco de dados relacional (PostgreSQL/MySQL).
 
 2.  **Clone o Repositório:**
 
@@ -147,7 +156,7 @@ Para executar o projeto em um ambiente de desenvolvimento local, siga os passos 
 3.  **Configuração do Banco de Dados:**
 
       * Crie um banco de dados com o nome `zeni_db`.
-      * No arquivo `src/main/resources/application.properties`, configure a URL do banco de dados, o usuário e a senha.
+      * No arquivo `src/main/resources/application.properties`, configure a URL, o usuário e a senha.
 
 4.  **Build do Projeto:**
 
@@ -165,4 +174,4 @@ Para executar o projeto em um ambiente de desenvolvimento local, siga os passos 
 
 6.  **Acesso:**
 
-      * Após a inicialização, a aplicação estará disponível em `http://localhost:8080`.
+      * A aplicação estará disponível em `http://localhost:8080`.
