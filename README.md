@@ -1,9 +1,3 @@
-Ótima ideia\! Adicionar os diagramas de comportamento dinâmico (Sequência e Estado) ao `README.md` é o passo final para consolidar toda a documentação de modelagem do projeto. Isso enriquece a documentação, mostrando não apenas a estrutura, mas também como o sistema se comporta.
-
-Abaixo está a versão atualizada do seu `README.md`, com uma nova seção dedicada a esses diagramas.
-
------
-
 # Zeni - Sistema de Gestão Financeira Pessoal
 
 ## 1\. Introdução
@@ -18,7 +12,12 @@ Grande parte da população enfrenta dificuldades na administração de suas fin
 
   * Douglas Luiz Pereira
   * Ketllen Cristiny Almeida do Nascimento
-  * Maurilio Santos Semeão
+  * Maurilio Santos 
+  
+### Documentação da API (GitHub Pages)
+A documentação completa e interativa da API, gerada com ReDoc, está publicada e pode ser acessada publicamente através do link abaixo:
+
+**👉 [Zeni API Documentation (Redoc)](https://mauriliosemeao.github.io/zeni-gestao-financeira/)**
 
 ## 3\. Escopo do Projeto
 
@@ -198,15 +197,8 @@ O backlog a seguir detalha as funcionalidades do MVP, organizadas em Épicos e H
       * A aplicação estará disponível em `http://localhost:8080`.
 
 
-      ## 📘 Documentação da API - Zeni
+## 📖 Documentação da API
 
-Acesse a documentação interativa da API:
-👉 [Swagger UI Local](http://localhost:8080/swagger-ui.html)
+Acesse a documentação completa em:
 
-Ou visualize no SwaggerHub:
-👉 [Zeni API no SwaggerHub](https://app.swaggerhub.com/apis/mssemeao/Zeni/1.0.0)
-
-## 🚀 Zeni - API de Gestão Financeira
-
-Documentação interativa disponível em:
-👉 [Visualizar com Redoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/MaurilioSemeao/documentacaoDoProjeto/api/openapi.yaml)
+👉 [Zeni API Documentation (Redoc)](https://mauriliosemeao.github.io/zeni-gestao-financeira/)
