@@ -106,11 +106,19 @@ O diagrama abaixo ilustra a estrutura do banco de dados, com as principais entid
 
 ![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DER.svg)
 
+### --- Modeo Diagrama DER mais Descritivo ---
+
+![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DERdescritivo.svg)
+
 ### 6.2. Diagrama de Classes
 
 O Diagrama de Classes detalha a estrutura estática dos objetos do sistema, incluindo seus atributos, métodos e associações.
 
 ![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)
+
+### --- Modelo Diagrama Classes mais Limpo ---
+
+![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/UMLclassLc.svg)
 
 ## 7\. Backlog do Produto (MVP)
 
@@ -188,3 +196,17 @@ O backlog a seguir detalha as funcionalidades do MVP, organizadas em Épicos e H
 6.  **Acesso:**
 
       * A aplicação estará disponível em `http://localhost:8080`.
+
+
+      ## 📘 Documentação da API - Zeni
+
+Acesse a documentação interativa da API:
+👉 [Swagger UI Local](http://localhost:8080/swagger-ui.html)
+
+Ou visualize no SwaggerHub:
+👉 [Zeni API no SwaggerHub](https://app.swaggerhub.com/apis/mssemeao/Zeni/1.0.0)
+
+## 🚀 Zeni - API de Gestão Financeira
+
+Documentação interativa disponível em:
+👉 [Visualizar com Redoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/MaurilioSemeao/documentacaoDoProjeto/api/openapi.yaml)
