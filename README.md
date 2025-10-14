@@ -67,21 +67,34 @@ O diagrama BPMN detalha o fluxo do processo principal da aplicação financeira,
 
 ![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto/imgUML/bpmnPorcessoAplicacaoFinanceira.svg)
 
+### ---BPMN Sub Processo Notificação Automatizada ---
+
+![Diagrama BPMN do processo da aplicação financeira](./documentacaoDoProjeto/imgUML/BpmnSubPro.svg)
+
 ## 5\. Modelagem Comportamental (Diagramas Dinâmicos)
 
 Os diagramas a seguir detalham o comportamento dinâmico do sistema, mostrando a interação entre objetos e o ciclo de vida de entidades complexas.
 
-### 5.1. Diagrama de Sequência
+### 5.1. Diagramas de Sequência
+Estes diagramas ilustram a ordem das interações entre os componentes do sistema para realizar funcionalidades específicas.
 
-Este diagrama ilustra a ordem das interações entre os componentes do sistema para realizar uma funcionalidade específica, como o registro de uma nova transação.
+HU-03: Registrar Nova Transação
+![Diagrama de Sequência do registro de transação](./documentacaoDoProjeto/imgUML/digSeqHU03m.svg)
 
-![Diagrama de Sequência do registro de transação](documentacaoDoProjeto/imgUML/digSeqHU03m.svg)
+HU-04: Criar Categoria personalizada
+![Diagrama de Sequência do registro de transação](./documentacaoDoProjeto/imgUML/digSeqHU04m.svg)
+
+HU-06: Associar Despesa a Cartão de Crédito
+![Diagrama de Sequência da associação de despesa ao cartão](./documentacaoDoProjeto/imgUML/digSeqHU06m.svg)
+
+HU-09: Visualizar Dashboard
+![Diagrama de Sequência da visualização do dashboard](./documentacaoDoProjeto/imgUML/digSeqHU09m.svg)
 
 ### 5.2. Diagrama de Estados
 
 O Diagrama de Estados modela o ciclo de vida de um objeto, definindo todos os seus estados possíveis e as regras que causam as transições entre eles, como o ciclo de vida da Fatura.
 
-![Diagrama de Estados do ciclo de vida da Fatura](documentacaoDoProjeto/imgUML/diagEstadoFatura.svg)
+![Diagrama de Estados do ciclo de vida da Fatura](./documentacaoDoProjeto/imgUML/diagEstadoFatura.svg)
 
 ## 6\. Arquitetura e Modelo de Dados
 
@@ -91,13 +104,13 @@ A arquitetura do sistema foi projetada para ser modular e escalável, separando 
 
 O diagrama abaixo ilustra a estrutura do banco de dados, com as principais entidades e seus relacionamentos.
 
-`![Diagrama de Entidade-Relacionamento do sistema Zeni](documentacaoDoProjeto/imgUML/DER.svg)`
+![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DER.svg)
 
 ### 6.2. Diagrama de Classes
 
 O Diagrama de Classes detalha a estrutura estática dos objetos do sistema, incluindo seus atributos, métodos e associações.
 
-`![Diagrama de Classes do sistema Zeni](documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)`
+![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)
 
 ## 7\. Backlog do Produto (MVP)
 
@@ -132,9 +145,9 @@ O backlog a seguir detalha as funcionalidades do MVP, organizadas em Épicos e H
 ## 8\. Tecnologias Propostas
 
   * **Backend:** Java com Framework Spring (Spring Boot, Spring Data JPA, Spring Security).
-  * **Frontend:** HTML5, CSS3, JavaScript com um framework como React ou Angular.
-  * **Banco de Dados:** PostgreSQL ou MySQL.
-  * **Ferramentas de Build:** Maven ou Gradle.
+  * **Frontend:** HTML5, CSS3, JavaScript com um framework como Nextjs.
+  * **Banco de Dados:** PostgreSQL.
+  * **Ferramentas de Build:** Maven.
   * **Controle de Versão:** Git.
 
 ## 9\. Instruções para Instalação e Execução
@@ -142,9 +155,9 @@ O backlog a seguir detalha as funcionalidades do MVP, organizadas em Épicos e H
 1.  **Pré-requisitos:**
 
       * Java JDK (versão 17 ou superior)
-      * Maven ou Gradle
+      * Maven
       * Git
-      * Instância de um banco de dados relacional (PostgreSQL/MySQL).
+      * Instância de um banco de dados relacional (PostgreSQL).
 
 2.  **Clone o Repositório:**
 
