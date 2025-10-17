@@ -1,40 +1,24 @@
-package com.msdev.backend.entity;
-
+package com.msdev.backend.dto;
 
 import com.msdev.backend.enums.TipoUsuario;
-import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Entity
-@Table(name = "usuario")
-public class UsuarioEntity {
+public class UsuarioDTO {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String nome;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false)
     private String senha;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
-    public UsuarioEntity() {
+    public UsuarioDTO() {
     }
 
-    public UsuarioEntity(String nome, String email, String senhaCriptografada, TipoUsuario tipoUsuario) {
+    public UsuarioDTO(String nome, String email, String senha, TipoUsuario tipoUsuario) {
         this.nome = nome;
         this.email = email;
-        this.senha = senhaCriptografada;
+        this.senha = senha;
         this.tipoUsuario = tipoUsuario;
     }
 
@@ -81,7 +65,7 @@ public class UsuarioEntity {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UsuarioEntity that = (UsuarioEntity) o;
+        UsuarioDTO that = (UsuarioDTO) o;
         return Objects.equals(id, that.id);
     }
 
