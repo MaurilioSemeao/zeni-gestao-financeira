@@ -1,6 +1,8 @@
 package com.msdev.backend.dto;
 
+import com.msdev.backend.entity.UsuarioEntity;
 import com.msdev.backend.enums.TipoUsuario;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Objects;
 
@@ -15,11 +17,8 @@ public class UsuarioDTO {
     public UsuarioDTO() {
     }
 
-    public UsuarioDTO(String nome, String email, String senha, TipoUsuario tipoUsuario) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
+    public UsuarioDTO(UsuarioEntity usuario) {
+        BeanUtils.copyProperties(usuario, this, "id");
     }
 
     public Long getId() {
