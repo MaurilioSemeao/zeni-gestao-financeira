@@ -34,7 +34,7 @@ public class UsuarioEntity {
     }
 
     public UsuarioEntity(UsuarioDTO usuario) {
-        BeanUtils.copyProperties(usuario, this, "id");
+        BeanUtils.copyProperties(usuario, this);
     }
 
     public Long getId() {

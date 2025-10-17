@@ -1,5 +1,6 @@
 package com.msdev.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.msdev.backend.entity.UsuarioEntity;
 import com.msdev.backend.enums.TipoUsuario;
 import org.springframework.beans.BeanUtils;
@@ -18,9 +19,10 @@ public class UsuarioDTO {
     }
 
     public UsuarioDTO(UsuarioEntity usuario) {
-        BeanUtils.copyProperties(usuario, this, "id");
+        BeanUtils.copyProperties(usuario, this);
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Long getId() {
         return id;
     }
