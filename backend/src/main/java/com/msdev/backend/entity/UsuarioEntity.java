@@ -1,10 +1,8 @@
 package com.msdev.backend.entity;
 
 
-import com.msdev.backend.dto.UsuarioDTO;
 import com.msdev.backend.enums.TipoUsuario;
 import jakarta.persistence.*;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Objects;
 
@@ -33,8 +31,11 @@ public class UsuarioEntity {
     public UsuarioEntity() {
     }
 
-    public UsuarioEntity(UsuarioDTO usuario) {
-        BeanUtils.copyProperties(usuario, this);
+    public UsuarioEntity(String nome, String email, String senha, TipoUsuario tipoUsuario) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.tipoUsuario = tipoUsuario;
     }
 
     public Long getId() {

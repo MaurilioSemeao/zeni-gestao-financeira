@@ -1,9 +1,11 @@
 package com.msdev.backend.service;
 
 
-import com.msdev.backend.dto.UsuarioDTO;
+import com.msdev.backend.dto.request.UsuarioRequest;
+import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.entity.UsuarioEntity;
 import com.msdev.backend.repository.UsuarioRepository;
+import com.msdev.backend.utils.UsuarioMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,28 +19,29 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<UsuarioDTO> findALl(){
+    public List<UsuarioResponse> findALl(){
        List<UsuarioEntity> usuarios = usuarioRepository.findAll();
-        return  usuarios.stream().map(UsuarioDTO:: new).toList();
+        return  usuarios.stream().map(UsuarioMapper::toResponse).toList();
     }
 
-    public UsuarioDTO findById(Long id){
+    public UsuarioResponse findById(Long id){
         UsuarioEntity usuario = usuarioRepository.getReferenceById(id);
-        return new UsuarioDTO(usuario);
+        return UsuarioMapper.toResponse(usuario);
     }
 
-    public UsuarioDTO inset(UsuarioDTO usuario){
-        UsuarioEntity novoUsuario =  new UsuarioEntity(usuario);
-        return new UsuarioDTO(usuarioRepository.save(novoUsuario));
+    public UsuarioResponse inset(UsuarioRequest usuario){
+        UsuarioEntity novoUsuario =  UsuarioMapper.toEntity(usuario);
+
+        return UsuarioMapper.toResponse(usuarioRepository.save(novoUsuario));
     }
 
-    public UsuarioDTO update(Long id, UsuarioDTO usuarioAtualizado){
+    public UsuarioResponse update(Long id, UsuarioRequest usuarioAtualizado){
         UsuarioEntity usuario = usuarioRepository.getReferenceById(id);
-        UsuarioEntity atualizado = new UsuarioEntity(usuarioAtualizado);
+        UsuarioEntity atualizado = UsuarioMapper.toEntity(usuarioAtualizado);
 
         atualizaDados(usuario, atualizado);
 
-        return new UsuarioDTO(usuario);
+        return UsuarioMapper.toResponse(usuario);
     }
 
     public void delete(Long id){
