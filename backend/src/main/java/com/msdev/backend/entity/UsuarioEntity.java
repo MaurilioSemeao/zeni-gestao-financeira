@@ -4,7 +4,9 @@ package com.msdev.backend.entity;
 import com.msdev.backend.enums.TipoUsuario;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
@@ -28,14 +30,18 @@ public class UsuarioEntity {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
+    private Set<CartaoEntity> cartoes;
+
     public UsuarioEntity() {
+       this.cartoes = new HashSet<>();
     }
 
     public UsuarioEntity(String nome, String email, String senha, TipoUsuario tipoUsuario) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
+        this.setNome(nome);
+        this.setEmail(email);
+        this.setSenha(senha);
+        this.setTipoUsuario(tipoUsuario);
+        this.cartoes = new HashSet<>();
     }
 
     public Long getId() {
@@ -76,6 +82,14 @@ public class UsuarioEntity {
 
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public Set<CartaoEntity> getCartoes() {
+        return cartoes;
+    }
+
+    public void setCartao(CartaoEntity cartao) {
+        this.cartoes.add(cartao);
     }
 
     @Override
