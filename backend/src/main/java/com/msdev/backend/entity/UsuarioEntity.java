@@ -30,6 +30,11 @@ public class UsuarioEntity {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     private Set<CartaoEntity> cartoes;
 
     public UsuarioEntity() {
