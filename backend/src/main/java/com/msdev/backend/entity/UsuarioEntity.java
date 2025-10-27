@@ -2,6 +2,7 @@ package com.msdev.backend.entity;
 
 
 import com.msdev.backend.enums.TipoUsuario;
+import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -39,14 +40,15 @@ public class UsuarioEntity {
 
     public UsuarioEntity() {
        this.cartoes = new HashSet<>();
+       this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
     public UsuarioEntity(String nome, String email, String senha, TipoUsuario tipoUsuario) {
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
-        this.setTipoUsuario(tipoUsuario);
         this.cartoes = new HashSet<>();
+        this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
     public Long getId() {
@@ -62,6 +64,9 @@ public class UsuarioEntity {
     }
 
     public void setNome(String nome) {
+        if(nome == null){
+            throw new UsuarioInvalidoException("O nome não pode ser nulo");
+        }
         this.nome = nome;
     }
 
@@ -70,6 +75,9 @@ public class UsuarioEntity {
     }
 
     public void setEmail(String email) {
+        if (email == null){
+            throw new UsuarioInvalidoException("O email não pode ser nulo.");
+        }
         this.email = email;
     }
 
@@ -78,6 +86,12 @@ public class UsuarioEntity {
     }
 
     public void setSenha(String senha) {
+        if (senha == null){
+            throw new UsuarioInvalidoException("A senha não pode ser nulo.");
+        }
+        if(senha.length() < 8 ) {
+            throw new UsuarioInvalidoException("A senha deve conter 8 ou mais dígitos.");
+        }
         this.senha = senha;
     }
 

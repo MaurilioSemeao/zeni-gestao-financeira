@@ -17,6 +17,11 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, "Erro relacionado ao Cartão", ex.getMessage());
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Map<String, Object>> handleUsuarioException(BusinessException ex){
+        return buildResponse(HttpStatus.BAD_REQUEST, "Erro relacionado ao Usuário", ex.getMessage());
+    }
+
 
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String error, String message){
