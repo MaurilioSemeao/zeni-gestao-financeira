@@ -1,6 +1,7 @@
 package com.msdev.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.msdev.backend.exception.cartao.CataoInvalidoException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ public class CartaoEntity {
     private String apelido;
 
     @Column(nullable = false)
-    private Integer ultimosDigitos;
+    private String ultimosDigitos;
 
     @Column(nullable = false)
     private Integer quantidadeCompras;
@@ -36,7 +37,7 @@ public class CartaoEntity {
     public CartaoEntity() {
     }
 
-    public CartaoEntity( String apelido, Integer ultimosDigitos, UsuarioEntity usuario) {
+    public CartaoEntity( String apelido, String ultimosDigitos, UsuarioEntity usuario) {
         this.setApelido(apelido);
         this.setUltimosDigitos(ultimosDigitos);
         this.setQuantidadeCompras(0);
@@ -57,14 +58,20 @@ public class CartaoEntity {
     }
 
     public void setApelido(String apelido) {
+        if(ultimosDigitos == null ){
+            throw new CataoInvalidoException("Apelido não pode ser nulo.");
+        }
         this.apelido = apelido;
     }
 
-    public Integer getUltimosDigitos() {
+    public String getUltimosDigitos() {
         return ultimosDigitos;
     }
 
-    public void setUltimosDigitos(Integer ultimosDigitos) {
+    public void setUltimosDigitos(String ultimosDigitos) {
+        if(ultimosDigitos == null || ultimosDigitos.length() != 4){
+            throw new CataoInvalidoException("Os últimos dígitos do cartão devem conter exatamente 4 números.");
+        }
         this.ultimosDigitos = ultimosDigitos;
     }
 

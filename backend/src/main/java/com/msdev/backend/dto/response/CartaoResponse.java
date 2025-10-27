@@ -1,6 +1,6 @@
 package com.msdev.backend.dto.response;
 
-import jakarta.persistence.Column;
+import com.msdev.backend.exception.cartao.CataoInvalidoException;
 
 import java.math.BigDecimal;
 
@@ -8,14 +8,14 @@ public class CartaoResponse {
 
     private Long id;
     private String apelido;
-    private Integer ultimosDigitos;
+    private String ultimosDigitos;
     private Integer quantidadeCompras;
     private BigDecimal gastos;
 
     public CartaoResponse() {
     }
 
-    public CartaoResponse(Long id, String apelido, Integer ultimosDigitos, Integer quantidadeCompras, BigDecimal gastos) {
+    public CartaoResponse(Long id, String apelido, String ultimosDigitos, Integer quantidadeCompras, BigDecimal gastos) {
         this.setId(id);
         this.setApelido(apelido);
         this.setUltimosDigitos(ultimosDigitos);
@@ -39,11 +39,11 @@ public class CartaoResponse {
         this.apelido = apelido;
     }
 
-    public Integer getUltimosDigitos() {
+    public String getUltimosDigitos() {
         return ultimosDigitos;
     }
 
-    public void setUltimosDigitos(Integer ultimosDigitos) {
+    public void setUltimosDigitos(String ultimosDigitos) {
         this.ultimosDigitos = ultimosDigitos;
     }
 
