@@ -19,10 +19,7 @@ public class CartaoRequest {
     public CartaoRequest() {
     }
 
-    public CartaoRequest(String apelido, String ultimosDigitos) {
-        this.setApelido(apelido);
-        this.setUltimosDigitos(ultimosDigitos);
-    }
+
 
     public String getApelido() {
         return apelido;

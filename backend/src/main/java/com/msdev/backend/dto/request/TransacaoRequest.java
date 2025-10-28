@@ -36,15 +36,6 @@ public class TransacaoRequest {
     public TransacaoRequest() {
     }
 
-    public TransacaoRequest(String descricao, BigDecimal valor, TipoTransacao tipo, MeioPagamento meioPagamento,boolean previsao) {
-        this.setDescricao(descricao);
-        this.setValor(valor);
-        this.setTipo(tipo);
-        this.setMeioPagamento(meioPagamento);
-        this.setPrevisao(previsao);
-    }
-
-
     public String getDescricao() {
         return descricao;
     }

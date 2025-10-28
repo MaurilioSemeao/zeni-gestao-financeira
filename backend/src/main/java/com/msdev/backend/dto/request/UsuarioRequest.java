@@ -1,7 +1,5 @@
 package com.msdev.backend.dto.request;
 
-import com.msdev.backend.enums.TipoUsuario;
-import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,12 +18,6 @@ public class UsuarioRequest {
     private String senha;
 
     public UsuarioRequest() {
-    }
-
-    public UsuarioRequest( String nome, String email, String senha, TipoUsuario tipoUsuario) {
-        this.setNome(nome);
-        this.setEmail(email);
-        this.setSenha(senha);
     }
 
     public String getNome() {
