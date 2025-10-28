@@ -20,8 +20,6 @@ public class UsuarioMapper {
         entity.setNome(request.getNome());
         entity.setEmail(request.getEmail());
         entity.setSenha(request.getSenha());
-        entity.setTipoUsuario(request.getTipoUsuario());
-
         return entity;
     }
 

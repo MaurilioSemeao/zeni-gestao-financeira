@@ -1,6 +1,7 @@
 package com.msdev.backend.exception.handler;
 
 import com.msdev.backend.exception.BusinessException;
+import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,12 +13,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler
+    @ExceptionHandler(ClassCastException.class)
     public ResponseEntity<Map<String, Object>> handleCartaoException(BusinessException ex){
         return buildResponse(HttpStatus.BAD_REQUEST, "Erro relacionado ao Cartão", ex.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(UsuarioInvalidoException.class)
     public ResponseEntity<Map<String, Object>> handleUsuarioException(BusinessException ex){
         return buildResponse(HttpStatus.BAD_REQUEST, "Erro relacionado ao Usuário", ex.getMessage());
     }

@@ -5,7 +5,9 @@ import com.msdev.backend.exception.cartao.CataoInvalidoException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -34,7 +36,20 @@ public class CartaoEntity {
     @JsonBackReference
     private UsuarioEntity usuario;
 
+    @OneToMany(
+            mappedBy = "cartao",
+            cascade =  CascadeType.ALL,
+            orphanRemoval = true
+
+    )
+    private Set<TransacaoEntity> transacoes;
+
+
+
     public CartaoEntity() {
+        this.transacoes = new HashSet<>();
+        this.setQuantidadeCompras(0);
+        this.setGastos(BigDecimal.ZERO);
     }
 
     public CartaoEntity( String apelido, String ultimosDigitos, UsuarioEntity usuario) {
@@ -43,6 +58,7 @@ public class CartaoEntity {
         this.setQuantidadeCompras(0);
         this.setGastos(BigDecimal.ZERO);
         this.setUsuario(usuario);
+        this.transacoes = new HashSet<>();
     }
 
     public Long getId() {
@@ -97,6 +113,14 @@ public class CartaoEntity {
 
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
+    }
+
+    public Set<TransacaoEntity> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setTransacoes(TransacaoEntity transacao) {
+        this.transacoes.add(transacao);
     }
 
     @Override
