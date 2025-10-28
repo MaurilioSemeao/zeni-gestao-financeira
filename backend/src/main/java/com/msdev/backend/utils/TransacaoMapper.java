@@ -10,6 +10,7 @@ public class TransacaoMapper {
         TransacaoEntity entity = new TransacaoEntity();
         entity.setDescricao(request.getDescricao());
         entity.setValor(request.getValor());
+        entity.setTipo(request.getTipo());
         entity.setPrevisao(request.isPrevisao());
         entity.setMeioPagamento(request.getMeioPagamento());
         return  entity;

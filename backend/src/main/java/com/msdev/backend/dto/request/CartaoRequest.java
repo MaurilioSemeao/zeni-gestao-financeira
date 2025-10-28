@@ -2,10 +2,18 @@ package com.msdev.backend.dto.request;
 
 
 import com.msdev.backend.exception.cartao.CataoInvalidoException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class CartaoRequest {
 
+    @NotBlank(message = "O apelido é obrigatório")
     private String apelido;
+
+    @NotBlank(message = "Os últimos 4 dígitos são obrigatórios.")
+    @Size(min = 4, max = 4, message = "O campo deve conter exatamente 4 dígitos.")
+    @Pattern(regexp = "\\d{4}", message = "O campo deve conter apenas dígitos numéricos.")
     private String ultimosDigitos;
 
     public CartaoRequest() {
@@ -21,9 +29,6 @@ public class CartaoRequest {
     }
 
     public void setApelido(String apelido) {
-        if(apelido == null){
-            throw new CataoInvalidoException("Apelido não pode ser nulo.");
-        }
         this.apelido = apelido;
     }
 
@@ -32,9 +37,6 @@ public class CartaoRequest {
     }
 
     public void setUltimosDigitos(String ultimosDigitos) {
-        if(ultimosDigitos == null || ultimosDigitos.length() != 4){
-            throw new CataoInvalidoException("Os últimos dígitos do cartão devem conter exatamente 4 números. ");
-        }
         this.ultimosDigitos = ultimosDigitos;
     }
 }

@@ -4,9 +4,9 @@ package com.msdev.backend.controller;
 import com.msdev.backend.dto.request.TransacaoRequest;
 import com.msdev.backend.dto.response.TransacaoResponse;
 import com.msdev.backend.service.TransacaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -20,7 +20,7 @@ public class TransacaoController {
     private final TransacaoService transacaoService;
 
 
-    public TransacaoController(TransacaoService transacaoService){
+    public TransacaoController(TransacaoService transacaoService    ){
         this.transacaoService = transacaoService;
 
     }
@@ -38,7 +38,7 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<TransacaoResponse> create(@RequestBody TransacaoRequest request){
+    public ResponseEntity<TransacaoResponse> create(@Valid @RequestBody TransacaoRequest request){
         TransacaoResponse transacao = transacaoService.create(request);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

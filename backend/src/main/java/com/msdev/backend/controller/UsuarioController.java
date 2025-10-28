@@ -4,6 +4,7 @@ package com.msdev.backend.controller;
 import com.msdev.backend.dto.request.UsuarioRequest;
 import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,7 +35,7 @@ public class UsuarioController {
     }
 
     @PostMapping()
-    public ResponseEntity<UsuarioResponse> insert(@RequestBody UsuarioRequest usuario){
+    public ResponseEntity<UsuarioResponse> insert(@Valid @RequestBody UsuarioRequest usuario){
         UsuarioResponse novoUsuario = usuarioService.inset(usuario);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

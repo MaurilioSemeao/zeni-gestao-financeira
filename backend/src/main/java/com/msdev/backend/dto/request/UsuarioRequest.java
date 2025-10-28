@@ -2,11 +2,21 @@ package com.msdev.backend.dto.request;
 
 import com.msdev.backend.enums.TipoUsuario;
 import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class UsuarioRequest {
 
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
+
+    @NotBlank(message = "O e-mail é obrigatório")
+    @Email(message = "Formato de e-mail inválido")
     private String email;
+
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 8)
     private String senha;
 
     public UsuarioRequest() {
@@ -23,9 +33,6 @@ public class UsuarioRequest {
     }
 
     public void setNome(String nome) {
-        if(nome == null){
-            throw new UsuarioInvalidoException("O nome não pode ser nulo");
-        }
         this.nome = nome;
     }
 
@@ -34,9 +41,6 @@ public class UsuarioRequest {
     }
 
     public void setEmail(String email) {
-        if (email == null){
-            throw new UsuarioInvalidoException("O email não pode ser nulo.");
-        }
         this.email = email;
     }
 
@@ -45,12 +49,6 @@ public class UsuarioRequest {
     }
 
     public void setSenha(String senha) {
-        if (senha == null){
-            throw new UsuarioInvalidoException("A senha não pode ser nulo.");
-        }
-        if(senha.length() < 8 ) {
-            throw new UsuarioInvalidoException("A senha deve conter 8 ou mais dígitos.");
-        }
         this.senha = senha;
     }
 

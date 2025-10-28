@@ -4,6 +4,7 @@ package com.msdev.backend.controller;
 import com.msdev.backend.dto.request.CartaoRequest;
 import com.msdev.backend.dto.response.CartaoResponse;
 import com.msdev.backend.service.CartaoService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,7 +37,7 @@ public class CartaoController {
     }
 
     @PostMapping
-    public ResponseEntity<CartaoResponse> insert(@RequestBody CartaoRequest request){
+    public ResponseEntity<CartaoResponse> insert(@Valid @RequestBody CartaoRequest request){
         CartaoResponse cartao = cartaoService.insert(request);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
