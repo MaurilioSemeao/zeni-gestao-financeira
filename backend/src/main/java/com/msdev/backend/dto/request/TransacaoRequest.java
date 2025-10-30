@@ -26,6 +26,7 @@ public class TransacaoRequest {
 
 
     private Long cartaoId;
+    private Long contaId;
     private boolean previsao;
 
     @AssertTrue(message = "O ID do cartão é obrigatório quando o meio de pagamento for CARTAO.")
@@ -82,5 +83,13 @@ public class TransacaoRequest {
 
     public void setCartaoId(Long cartaoId) {
         this.cartaoId = cartaoId;
+    }
+
+    public Long getContaId() {
+        return contaId;
+    }
+
+    public void setContaId(Long contaId) {
+        this.contaId = contaId;
     }
 }

@@ -3,30 +3,16 @@ package com.msdev.backend.utils;
 import com.msdev.backend.dto.request.TransacaoRequest;
 import com.msdev.backend.dto.response.TransacaoResponse;
 import com.msdev.backend.entity.TransacaoEntity;
+import org.mapstruct.*;
 
-public class TransacaoMapper {
+@Mapper(componentModel = "spring")
+public interface TransacaoMapper {
 
-    public static TransacaoEntity toEntity(TransacaoRequest request){
-        TransacaoEntity entity = new TransacaoEntity();
-        entity.setDescricao(request.getDescricao());
-        entity.setValor(request.getValor());
-        entity.setTipo(request.getTipo());
-        entity.setPrevisao(request.isPrevisao());
-        entity.setMeioPagamento(request.getMeioPagamento());
-        return  entity;
-    }
+    @Mapping(target = "id", ignore = true)
+    TransacaoEntity toEntity(TransacaoRequest request);
 
-    public static TransacaoResponse toResponse(TransacaoEntity entity){
-        TransacaoResponse response = new TransacaoResponse();
-        response.setId(entity.getId());
-        response.setDescricao(entity.getDescricao());
-        response.setValor(entity.getValor());
-        response.setTipo(entity.getTipo());
-        response.setDataTransacao(entity.getDataTransacao());
-        response.setPrevisao(entity.isPrevisao());
+    TransacaoResponse toResponse(TransacaoEntity entity);
 
-        response.setMeioPagamento(entity.getMeioPagamento());
-
-        return response;
-    }
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void atualizaTransacoes(TransacaoRequest request, @MappingTarget TransacaoEntity entity);
 }
