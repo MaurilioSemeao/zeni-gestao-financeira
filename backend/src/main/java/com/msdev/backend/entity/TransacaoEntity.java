@@ -47,23 +47,30 @@ public class TransacaoEntity {
     @JsonBackReference
     private CartaoEntity cartao;
 
+    @ManyToOne
+    @JoinColumn(name = "conta_id", nullable = true)
+    @JsonBackReference
+    private ContaEntity conta;
+
+
+
     public TransacaoEntity() {
+        this.valor = BigDecimal.ZERO;
     }
 
     public TransacaoEntity(
-            String descricao, BigDecimal valor,
+            String descricao,
             TipoTransacao tipo, MeioPagamento meioPagamento,
             boolean previsao, LocalDateTime dataTransacao,
-            UsuarioEntity usuario, CartaoEntity cartao
+            UsuarioEntity usuario
     ) {
         this.setDescricao(descricao);
-        this.setValor(valor);
         this.setTipo(tipo);
         this.setMeioPagamento(meioPagamento);
         this.setUsuario(usuario);
-        this.setCartao(cartao);
         this.setPrevisao(previsao);
         this.setDataTransacao(dataTransacao);
+        this.valor = BigDecimal.ZERO;
     }
 
 
@@ -140,7 +147,13 @@ public class TransacaoEntity {
         this.cartao = cartao;
     }
 
+    public ContaEntity getConta() {
+        return conta;
+    }
 
+    public void setConta(ContaEntity conta) {
+        this.conta = conta;
+    }
 
     @Override
     public boolean equals(Object o) {

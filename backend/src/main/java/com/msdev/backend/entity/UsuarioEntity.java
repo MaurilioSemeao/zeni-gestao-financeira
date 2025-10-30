@@ -38,8 +38,16 @@ public class UsuarioEntity {
     )
     private Set<CartaoEntity> cartoes;
 
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private Set<ContaEntity> contas;
+
     public UsuarioEntity() {
        this.cartoes = new HashSet<>();
+       this.contas = new HashSet<>();
        this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -48,6 +56,7 @@ public class UsuarioEntity {
         this.setEmail(email);
         this.setSenha(senha);
         this.cartoes = new HashSet<>();
+        this.contas = new HashSet<>();
         this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -109,6 +118,15 @@ public class UsuarioEntity {
 
     public void setCartao(CartaoEntity cartao) {
         this.cartoes.add(cartao);
+    }
+
+
+    public Set<ContaEntity> getContas() {
+        return contas;
+    }
+
+    public void setConta(ContaEntity conta) {
+        this.contas.add(conta);
     }
 
     @Override
