@@ -5,7 +5,7 @@ import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.entity.UsuarioEntity;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "sprinng")
+@Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
     @Mapping(target = "id", ignore = true)

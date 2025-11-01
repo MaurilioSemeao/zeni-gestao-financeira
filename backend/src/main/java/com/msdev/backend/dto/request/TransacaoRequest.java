@@ -21,15 +21,16 @@ public class TransacaoRequest {
     @NotNull(message = "O tipo da transação é obrigatório (RECEITA ou DESPESA).")
     private TipoTransacao tipo;
 
-    @NotNull(message = "O meio de pagamento é obrigatório (PIX, CARTAO, CONTA, DINHEIRO, etc.).")
+    @NotNull(message = "O meio de pagamento é obrigatório (PIX, CARTÃO, CONTA, DINHEIRO, etc.).")
     private MeioPagamento meioPagamento;
 
 
     private Long cartaoId;
     private Long contaId;
+
     private boolean previsao;
 
-    @AssertTrue(message = "O ID do cartão é obrigatório quando o meio de pagamento for CARTAO.")
+    @AssertTrue(message = "O ID do cartão é obrigatório quando o meio de pagamento for CARTÃO.")
     public boolean isCartaoValido(){
         return meioPagamento !=MeioPagamento.CARTAO || cartaoId != null;
     }

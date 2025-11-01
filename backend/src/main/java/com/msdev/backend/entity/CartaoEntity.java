@@ -74,7 +74,7 @@ public class CartaoEntity {
     }
 
     public void setApelido(String apelido) {
-        if(ultimosDigitos == null ){
+        if(apelido == null ){
             throw new CataoInvalidoException("Apelido não pode ser nulo.");
         }
         this.apelido = apelido;
