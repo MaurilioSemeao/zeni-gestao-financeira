@@ -12,46 +12,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsuarioService {
+public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, UsuarioRequest, UsuarioResponse> {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper){
-        this.usuarioRepository = usuarioRepository;
-        this.usuarioMapper = usuarioMapper;
+    public UsuarioService(
+            UsuarioRepository usuarioRepository,
+            UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository1, UsuarioMapper usuarioMapper1){
+        super(usuarioRepository,usuarioMapper,"Usuário");
+
+        this.usuarioRepository = usuarioRepository1;
+        this.usuarioMapper = usuarioMapper1;
     }
 
-    public List<UsuarioResponse> findALl(){
-       List<UsuarioEntity> usuarios = usuarioRepository.findAll();
-        return  usuarios.stream().map(usuarioMapper::toResponse).toList();
-    }
 
-    public UsuarioResponse findById(Long id){
-        UsuarioEntity usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
-        return usuarioMapper.toResponse(usuario);
-    }
-
-    public UsuarioResponse inset(UsuarioRequest usuario){
-        UsuarioEntity novoUsuario =  usuarioMapper.toEntity(usuario);
-
-        return usuarioMapper.toResponse(usuarioRepository.save(novoUsuario));
-    }
-
-    public UsuarioResponse update(Long id, UsuarioRequest usuarioAtualizado){
-        UsuarioEntity usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
-
-        usuarioMapper.atualizaUsuario(usuarioAtualizado, usuario);
-        return usuarioMapper.toResponse(usuario);
-    }
-
-    public void delete(Long id){
-        UsuarioEntity usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
-        usuarioRepository.delete(usuario);
-    }
 
 
 }

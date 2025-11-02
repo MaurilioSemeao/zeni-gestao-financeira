@@ -24,7 +24,7 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> findAll(){
-        List<UsuarioResponse> lista = usuarioService.findALl();
+        List<UsuarioResponse> lista = usuarioService.findAll();
         return ResponseEntity.ok().body(lista);
     }
 
@@ -36,7 +36,7 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<UsuarioResponse> insert(@Valid @RequestBody UsuarioRequest usuario){
-        UsuarioResponse novoUsuario = usuarioService.inset(usuario);
+        UsuarioResponse novoUsuario = usuarioService.create(usuario);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
