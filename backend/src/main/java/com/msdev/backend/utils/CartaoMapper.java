@@ -7,13 +7,15 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface CartaoMapper extends BaseMapper<CartaoEntity,CartaoRequest, CartaoResponse> {
-
+    @Override
     @Mapping(target = "id", ignore = true)
     CartaoEntity toEntity(CartaoRequest request);
 
+    @Override
     CartaoResponse toResponse(CartaoEntity entity);
 
+    @Override
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void atualizaCartao(CartaoRequest request, @MappingTarget CartaoEntity entity);
+    void updateEntity(CartaoRequest request, @MappingTarget CartaoEntity entity);
 
 }

@@ -37,8 +37,8 @@ public class CartaoController {
     }
 
     @PostMapping
-    public ResponseEntity<CartaoResponse> insert(@Valid @RequestBody CartaoRequest request){
-        CartaoResponse cartao = cartaoService.insert(request);
+    public ResponseEntity<CartaoResponse> create(@Valid @RequestBody CartaoRequest request){
+        CartaoResponse cartao = cartaoService.create(request);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

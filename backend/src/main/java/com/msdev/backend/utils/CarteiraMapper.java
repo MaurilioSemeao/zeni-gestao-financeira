@@ -6,13 +6,16 @@ import com.msdev.backend.entity.CarteiraEntity;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
-public interface CarteiraMapper {
+public interface CarteiraMapper extends BaseMapper<CarteiraEntity,CarteiraRequest, CarteiraResponse> {
 
+    @Override
     @Mapping(target = "id", ignore = true)
     CarteiraEntity toEntity(CarteiraRequest request);
 
+    @Override
     CarteiraResponse toResponse(CarteiraEntity entity);
 
+    @Override
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void atualizaCarteira(CarteiraRequest request, @MappingTarget CarteiraEntity entity);
+    void updateEntity(CarteiraRequest request, @MappingTarget CarteiraEntity entity);
 }
