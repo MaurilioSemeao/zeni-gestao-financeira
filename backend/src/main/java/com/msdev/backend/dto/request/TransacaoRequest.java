@@ -27,6 +27,8 @@ public class TransacaoRequest {
 
     private Long cartaoId;
     private Long contaId;
+    private Long carteiraId;
+    private Long pixContaId;
 
     private boolean previsao;
 
@@ -92,5 +94,21 @@ public class TransacaoRequest {
 
     public void setContaId(Long contaId) {
         this.contaId = contaId;
+    }
+
+    public Long getCarteiraId() {
+        return carteiraId;
+    }
+
+    public void setCarteiraId(Long carteiraId) {
+        this.carteiraId = carteiraId;
+    }
+
+    public Long getPixContaId() {
+        return pixContaId;
+    }
+
+    public void setPixContaId(Long pixContaId) {
+        this.pixContaId = pixContaId;
     }
 }

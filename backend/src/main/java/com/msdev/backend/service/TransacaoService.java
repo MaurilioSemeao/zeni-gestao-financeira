@@ -2,6 +2,7 @@ package com.msdev.backend.service;
 
 import com.msdev.backend.dto.request.TransacaoRequest;
 import com.msdev.backend.dto.response.TransacaoResponse;
+import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.entity.CartaoEntity;
 import com.msdev.backend.entity.ContaEntity;
 import com.msdev.backend.entity.TransacaoEntity;
