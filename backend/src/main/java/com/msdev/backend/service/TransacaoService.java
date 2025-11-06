@@ -71,6 +71,7 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
                 entity.setConta(conta);
             }
             case CARTEIRA ->{
+
             }
 //            case PIX ->{
 //            }
