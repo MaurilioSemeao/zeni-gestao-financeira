@@ -16,10 +16,10 @@ import com.msdev.backend.utils.TransacaoMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Service
-public class TransacaoService {
+public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, TransacaoRequest, TransacaoResponse> {
 
     private final TransacaoRepository transacaoRepository;
     private final CartaoRepository cartaoRepository;
@@ -32,6 +32,7 @@ public class TransacaoService {
                             CartaoRepository cartaoRepository,
                             UsuarioRepository usuarioRepository,
                             TransacaoMapper transacaoMapper, ContaRepository contaRepository){
+        super(transacaoRepository, transacaoMapper, "Transação");
         this.transacaoRepository = transacaoRepository;
         this.cartaoRepository = cartaoRepository;
         this.usuarioRepository = usuarioRepository;
@@ -39,6 +40,7 @@ public class TransacaoService {
         this.contaRepository = contaRepository;
     }
 
+    @Override
     public TransacaoResponse create(TransacaoRequest request){
         TransacaoEntity entity = transacaoMapper.toEntity(request);
 
@@ -67,8 +69,8 @@ public class TransacaoService {
                         .orElseThrow(() -> new RecursoNaoEncontradoException("Conta não encontrada."));
                 entity.setConta(conta);
             }
-//            case CARTEIRA ->{
-//            }
+            case CARTEIRA ->{
+            }
 //            case PIX ->{
 //            }
 
@@ -77,38 +79,6 @@ public class TransacaoService {
 
         TransacaoEntity save = transacaoRepository.save(entity);
         return transacaoMapper.toResponse(save);
-    }
-
-
-    public List<TransacaoResponse> findAll(){
-        List<TransacaoEntity> entities = transacaoRepository.findAll();
-
-        return entities.stream()
-                .map(transacaoMapper::toResponse)
-                .toList();
-    }
-
-    public TransacaoResponse findById(Long id){
-        TransacaoEntity entity = transacaoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Transação não encontrada."));
-
-        return transacaoMapper.toResponse(entity);
-    }
-
-    public TransacaoResponse update(Long id, TransacaoRequest request){
-        TransacaoEntity entity = transacaoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Transação não encontrada."));
-
-        transacaoMapper.atualizaTransacoes(request, entity);
-        TransacaoEntity save = transacaoRepository.save(entity);
-        return transacaoMapper.toResponse(save);
-    }
-
-
-    public void delete(Long id){
-        TransacaoEntity entity = transacaoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Transação não encontrada pra deletar"));
-        transacaoRepository.delete(entity);
     }
 
 

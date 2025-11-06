@@ -6,13 +6,16 @@ import com.msdev.backend.entity.TransacaoEntity;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
-public interface TransacaoMapper {
+public interface TransacaoMapper extends BaseMapper<TransacaoEntity, TransacaoRequest, TransacaoResponse> {
 
+    @Override
     @Mapping(target = "id", ignore = true)
     TransacaoEntity toEntity(TransacaoRequest request);
 
+    @Override
     TransacaoResponse toResponse(TransacaoEntity entity);
 
+    @Override
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void atualizaTransacoes(TransacaoRequest request, @MappingTarget TransacaoEntity entity);
+    void updateEntity(TransacaoRequest request, @MappingTarget TransacaoEntity entity);
 }
