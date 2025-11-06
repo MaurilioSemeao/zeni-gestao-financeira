@@ -6,7 +6,7 @@ import com.msdev.backend.entity.CartaoEntity;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
-public interface CartaoMapper {
+public interface CartaoMapper extends BaseMapper<CartaoEntity,CartaoRequest, CartaoResponse> {
 
     @Mapping(target = "id", ignore = true)
     CartaoEntity toEntity(CartaoRequest request);

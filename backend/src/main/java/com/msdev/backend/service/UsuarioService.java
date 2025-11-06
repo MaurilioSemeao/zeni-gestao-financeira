@@ -17,13 +17,10 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(
-            UsuarioRepository usuarioRepository,
-            UsuarioMapper usuarioMapper, UsuarioRepository usuarioRepository1, UsuarioMapper usuarioMapper1){
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper){
         super(usuarioRepository,usuarioMapper,"Usuário");
-
-        this.usuarioRepository = usuarioRepository1;
-        this.usuarioMapper = usuarioMapper1;
+        this.usuarioRepository = usuarioRepository;
+        this.usuarioMapper = usuarioMapper;
     }
 
 
