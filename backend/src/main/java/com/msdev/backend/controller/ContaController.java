@@ -35,8 +35,8 @@ public class ContaController {
     }
 
     @PostMapping
-    public ResponseEntity<ContaResponse> createAccount(@RequestBody ContaRequest request){
-        ContaResponse conta = contaService.createAccount(request);
+    public ResponseEntity<ContaResponse> create(@RequestBody ContaRequest request){
+        ContaResponse conta = contaService.create(request);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
