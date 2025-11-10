@@ -16,8 +16,11 @@ public class CarteiraEntity {
     @Column(nullable = false)
     private String name;
 
-
     private BigDecimal saldo;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
+    private UsuarioEntity usuario;
 
     public CarteiraEntity() {
         this.saldo = BigDecimal.ZERO;

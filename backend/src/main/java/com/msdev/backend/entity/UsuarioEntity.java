@@ -1,6 +1,7 @@
 package com.msdev.backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.msdev.backend.enums.TipoUsuario;
 import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
 import jakarta.persistence.*;
@@ -40,10 +41,13 @@ public class UsuarioEntity {
 
     @OneToMany(
             mappedBy = "usuario",
-            cascade = CascadeType.ALL,
+               cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private Set<ContaEntity> contas;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CarteiraEntity carteira;
 
     public UsuarioEntity() {
        this.cartoes = new HashSet<>();

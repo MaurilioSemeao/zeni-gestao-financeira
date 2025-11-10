@@ -2,17 +2,10 @@ package com.msdev.backend.service;
 
 import com.msdev.backend.dto.request.TransacaoRequest;
 import com.msdev.backend.dto.response.TransacaoResponse;
-import com.msdev.backend.dto.response.UsuarioResponse;
-import com.msdev.backend.entity.CartaoEntity;
-import com.msdev.backend.entity.ContaEntity;
-import com.msdev.backend.entity.TransacaoEntity;
-import com.msdev.backend.entity.UsuarioEntity;
+import com.msdev.backend.entity.*;
 import com.msdev.backend.exception.RecursoNaoEncontradoException;
 import com.msdev.backend.exception.transacao.TransacaoInvalidaException;
-import com.msdev.backend.repository.CartaoRepository;
-import com.msdev.backend.repository.ContaRepository;
-import com.msdev.backend.repository.TransacaoRepository;
-import com.msdev.backend.repository.UsuarioRepository;
+import com.msdev.backend.repository.*;
 import com.msdev.backend.utils.TransacaoMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +21,19 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
 
     private final TransacaoMapper transacaoMapper;
     private final ContaRepository contaRepository;
+    private final CarteiraRepository carteiraRepository;
 
     public TransacaoService(TransacaoRepository transacaoRepository,
                             CartaoRepository cartaoRepository,
                             UsuarioRepository usuarioRepository,
-                            TransacaoMapper transacaoMapper, ContaRepository contaRepository){
+                            TransacaoMapper transacaoMapper, ContaRepository contaRepository, CarteiraRepository carteiraRepository){
         super(transacaoRepository, transacaoMapper, "Transação");
         this.transacaoRepository = transacaoRepository;
         this.cartaoRepository = cartaoRepository;
         this.usuarioRepository = usuarioRepository;
         this.transacaoMapper = transacaoMapper;
         this.contaRepository = contaRepository;
+        this.carteiraRepository = carteiraRepository;
     }
 
     @Override
@@ -53,7 +48,7 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
         entity.setDataTransacao(LocalDateTime.now());
 
         switch (request.getMeioPagamento()){
-            case CARTAO ->{
+            case CREDITO ->{
                 if(request.getCartaoId() == null){
                     throw new TransacaoInvalidaException("Cartão deve ser informado para transação.");
                 }
@@ -62,7 +57,7 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
                 entity.setCartao(cartao);
             }
 
-            case CONTA ->{
+            case DEBITO, PIX ->{
                 if(request.getContaId() == null){
                     throw new TransacaoInvalidaException("Conta deve ser informado para transação.");
                 }
@@ -70,12 +65,14 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
                         .orElseThrow(() -> new RecursoNaoEncontradoException("Conta não encontrada."));
                 entity.setConta(conta);
             }
-            case CARTEIRA ->{
-
+            case DINHEIRO ->{
+                if(request.getCarteiraId() == null){
+                    throw new TransacaoInvalidaException("Carteira deve ser informado para transação.");
+                }
+                CarteiraEntity carteira = carteiraRepository.findById(request.getCarteiraId())
+                        .orElseThrow(()-> new RecursoNaoEncontradoException("Carteira não encontrada."));
+                entity.setCar
             }
-//            case PIX ->{
-//            }
-
 
         }
 

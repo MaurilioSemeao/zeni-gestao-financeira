@@ -2,9 +2,10 @@ package com.msdev.backend.enums;
 
 public enum MeioPagamento {
 
-    CONTA(1),
-    CARTAO(2),
-    CARTEIRA(3),
+
+    DEBITO(1),
+    CREDITO(2),
+    DINHEIRO(3),
     PIX(4);
 
     private int code;
