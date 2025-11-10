@@ -38,6 +38,10 @@ public class TransacaoEntity {
     private LocalDateTime dataTransacao;
 
     @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private CategoriaEntity categoria;
+
+    @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     @JsonBackReference
     private UsuarioEntity usuario;
@@ -165,6 +169,14 @@ public class TransacaoEntity {
 
     public void setCarteira(CarteiraEntity carteira) {
         this.carteira = carteira;
+    }
+
+    public CategoriaEntity getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaEntity categoria) {
+        this.categoria = categoria;
     }
 
     @Override

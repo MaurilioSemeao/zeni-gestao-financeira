@@ -1,7 +1,6 @@
 package com.msdev.backend.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.msdev.backend.enums.TipoUsuario;
 import com.msdev.backend.exception.usuario.UsuarioInvalidoException;
 import jakarta.persistence.*;
@@ -49,9 +48,17 @@ public class UsuarioEntity {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private CarteiraEntity carteira;
 
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<CategoriaEntity> categorias;
+
     public UsuarioEntity() {
        this.cartoes = new HashSet<>();
        this.contas = new HashSet<>();
+       this.categorias = new HashSet<>();
        this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -61,6 +68,7 @@ public class UsuarioEntity {
         this.setSenha(senha);
         this.cartoes = new HashSet<>();
         this.contas = new HashSet<>();
+        this.categorias = new HashSet<>();
         this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -120,17 +128,37 @@ public class UsuarioEntity {
         return cartoes;
     }
 
-    public void setCartao(CartaoEntity cartao) {
+    public void addCartao(CartaoEntity cartao) {
+
         this.cartoes.add(cartao);
     }
-
 
     public Set<ContaEntity> getContas() {
         return contas;
     }
 
-    public void setConta(ContaEntity conta) {
+    public void addConta(ContaEntity conta) {
         this.contas.add(conta);
+    }
+
+    public CarteiraEntity getCarteira() {
+        return carteira;
+    }
+
+    public void setCarteira(CarteiraEntity carteira) {
+        this.carteira = carteira;
+    }
+
+    public Set<CategoriaEntity> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(Set<CategoriaEntity> categorias) {
+        this.categorias = categorias;
+    }
+
+    public void addCategoria(CategoriaEntity categoria) {
+        this.categorias.add(categoria);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.msdev.backend.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ public class CarteiraEntity {
 
     public CarteiraEntity() {
         this.saldo = BigDecimal.ZERO;
+        this.transacoes = new HashSet<>();
     }
 
 
@@ -64,7 +66,11 @@ public class CarteiraEntity {
         return transacoes;
     }
 
-    public void setTransacoes(TransacaoEntity transacao) {
+    public void setTransacoes(Set<TransacaoEntity> transacoes) {
+        this.transacoes = transacoes;
+    }
+
+    public void addTransacao(TransacaoEntity transacao){
         this.transacoes.add(transacao);
     }
 

@@ -86,7 +86,7 @@ public class ContaEntity {
         return transacoes;
     }
 
-    public void setTransacoes(TransacaoEntity transacao) {
+    public void addTransacoes(TransacaoEntity transacao) {
         this.transacoes.add(transacao);
     }
 
