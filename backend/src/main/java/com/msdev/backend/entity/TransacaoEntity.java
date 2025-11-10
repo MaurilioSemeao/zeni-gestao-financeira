@@ -52,6 +52,10 @@ public class TransacaoEntity {
     @JsonBackReference
     private ContaEntity conta;
 
+    @ManyToOne
+    @JoinColumn(name = "carteria_id", nullable = true)
+    @JsonBackReference
+    private CarteiraEntity carteira;
 
 
     public TransacaoEntity() {
@@ -153,6 +157,14 @@ public class TransacaoEntity {
 
     public void setConta(ContaEntity conta) {
         this.conta = conta;
+    }
+
+    public CarteiraEntity getCarteira() {
+        return carteira;
+    }
+
+    public void setCarteira(CarteiraEntity carteira) {
+        this.carteira = carteira;
     }
 
     @Override

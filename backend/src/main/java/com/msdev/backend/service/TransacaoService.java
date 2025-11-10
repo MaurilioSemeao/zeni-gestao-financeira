@@ -71,7 +71,7 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
                 }
                 CarteiraEntity carteira = carteiraRepository.findById(request.getCarteiraId())
                         .orElseThrow(()-> new RecursoNaoEncontradoException("Carteira não encontrada."));
-                entity.setCar
+                entity.setCarteira(carteira);
             }
 
         }

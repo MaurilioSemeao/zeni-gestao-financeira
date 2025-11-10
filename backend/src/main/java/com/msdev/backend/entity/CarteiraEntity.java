@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "carteiras")
@@ -21,6 +22,13 @@ public class CarteiraEntity {
     @OneToOne
     @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private UsuarioEntity usuario;
+
+    @OneToMany(
+            mappedBy = "carteira",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<TransacaoEntity> transacoes;
 
     public CarteiraEntity() {
         this.saldo = BigDecimal.ZERO;
@@ -50,6 +58,22 @@ public class CarteiraEntity {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public Set<TransacaoEntity> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setTransacoes(TransacaoEntity transacao) {
+        this.transacoes.add(transacao);
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     @Override
