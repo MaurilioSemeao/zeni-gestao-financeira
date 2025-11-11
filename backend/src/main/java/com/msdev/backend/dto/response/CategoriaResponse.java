@@ -7,7 +7,6 @@ public class CategoriaResponse {
     private Long id;
     private String nome;
     private boolean padrao;
-    private Set<TransacaoResponse> transacoes;
 
     public CategoriaResponse() {
     }
@@ -28,13 +27,6 @@ public class CategoriaResponse {
         this.padrao = padrao;
     }
 
-    public Set<TransacaoResponse> getTransacoes() {
-        return transacoes;
-    }
-
-    public void setTransacoes(Set<TransacaoResponse> transacoes) {
-        this.transacoes = transacoes;
-    }
 
     public Long getId() {
         return id;
