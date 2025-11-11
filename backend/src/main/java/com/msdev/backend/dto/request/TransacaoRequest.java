@@ -32,9 +32,17 @@ public class TransacaoRequest {
 
     private boolean previsao;
 
-    @AssertTrue(message = "O ID do cartão é obrigatório quando o meio de pagamento for CARTÃO.")
+    @AssertTrue(message = "O ID do cartão é obrigatório quando o meio de pagamento for CREDITO.")
     public boolean isCartaoValido(){
-        return meioPagamento !=MeioPagamento.CARTAO || cartaoId != null;
+        return meioPagamento !=MeioPagamento.CREDITO || cartaoId != null;
+    }
+
+    @AssertTrue(message = "O ID Da conta é obrigatório quando o meio de pagamento dor DEBITO ou PIX")
+    public boolean isContaValido(){
+        if(meioPagamento == MeioPagamento.DEBITO || meioPagamento == MeioPagamento.PIX){
+            return contaId != null;
+        }
+        return true;
     }
 
     public TransacaoRequest() {

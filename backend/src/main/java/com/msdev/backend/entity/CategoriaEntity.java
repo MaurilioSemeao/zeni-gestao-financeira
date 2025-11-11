@@ -15,8 +15,9 @@ public class CategoriaEntity {
     private  Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String nome;
 
+    @Column(nullable = false)
     private boolean padrao;
 
     @ManyToOne
@@ -34,8 +35,8 @@ public class CategoriaEntity {
         this.transacoes = new HashSet<>();
     }
 
-    public CategoriaEntity(String name, boolean padrao, UsuarioEntity usuario) {
-        this.name = name;
+    public CategoriaEntity(String nome, boolean padrao, UsuarioEntity usuario) {
+        this.nome = nome;
         this.padrao = padrao;
         this.usuario = usuario;
         this.transacoes = new HashSet<>();
@@ -50,11 +51,11 @@ public class CategoriaEntity {
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String nome) {
+        this.nome = nome;
     }
 
     public Set<TransacaoEntity> getTransacoes() {

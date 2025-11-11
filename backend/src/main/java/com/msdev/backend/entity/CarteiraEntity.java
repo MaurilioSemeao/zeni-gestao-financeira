@@ -32,6 +32,7 @@ public class CarteiraEntity {
     private Set<TransacaoEntity> transacoes;
 
     public CarteiraEntity() {
+        this.name = "Carteira";
         this.saldo = BigDecimal.ZERO;
         this.transacoes = new HashSet<>();
     }
