@@ -31,6 +31,13 @@ public class CategoriaEntity {
     )
     private Set<TransacaoEntity> transacoes;
 
+    @OneToMany(
+            mappedBy = "categoria",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<ParcelamentoEntity> parcelamentos;
+
     public CategoriaEntity() {
         this.transacoes = new HashSet<>();
     }
@@ -50,11 +57,11 @@ public class CategoriaEntity {
         this.id = id;
     }
 
-    public String getName() {
+    public String getNome() {
         return nome;
     }
 
-    public void setName(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
@@ -82,18 +89,24 @@ public class CategoriaEntity {
         this.usuario = usuario;
     }
 
+    public Set<ParcelamentoEntity> getParcelamentos() {
+        return parcelamentos;
+    }
 
+    public void addParcelamento(ParcelamentoEntity parcelamento) {
+        this.parcelamentos.add(parcelamento);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CategoriaEntity that = (CategoriaEntity) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(nome, that.nome);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(nome);
     }
 }
 

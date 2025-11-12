@@ -55,10 +55,19 @@ public class UsuarioEntity {
     )
     private Set<CategoriaEntity> categorias;
 
+
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<ParcelamentoEntity> parcelamentos;
+
     public UsuarioEntity() {
        this.cartoes = new HashSet<>();
        this.contas = new HashSet<>();
        this.categorias = new HashSet<>();
+       this.parcelamentos = new HashSet<>();
        this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -69,6 +78,7 @@ public class UsuarioEntity {
         this.cartoes = new HashSet<>();
         this.contas = new HashSet<>();
         this.categorias = new HashSet<>();
+        this.parcelamentos = new HashSet<>();
         this.tipoUsuario = TipoUsuario.PADRAO;
     }
 
@@ -159,6 +169,14 @@ public class UsuarioEntity {
 
     public void addCategoria(CategoriaEntity categoria) {
         this.categorias.add(categoria);
+    }
+
+    public Set<ParcelamentoEntity> getParcelamentos() {
+        return parcelamentos;
+    }
+
+    public void addParcelamento(ParcelamentoEntity parcelamento) {
+        this.parcelamentos.add(parcelamento);
     }
 
     @Override

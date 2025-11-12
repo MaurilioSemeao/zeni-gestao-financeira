@@ -40,11 +40,15 @@ public class CartaoEntity {
             mappedBy = "cartao",
             cascade =  CascadeType.ALL,
             orphanRemoval = true
-
     )
     private Set<TransacaoEntity> transacoes;
 
-
+    @OneToMany(
+            mappedBy = "cartao",
+            cascade =  CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<ParcelamentoEntity> parcelamentos;
 
     public CartaoEntity() {
         this.transacoes = new HashSet<>();
@@ -121,6 +125,14 @@ public class CartaoEntity {
 
     public void addTransacoes(TransacaoEntity transacao) {
         this.transacoes.add(transacao);
+    }
+
+    public Set<ParcelamentoEntity> getParcelamentos() {
+        return parcelamentos;
+    }
+
+    public void addParcelamento(ParcelamentoEntity parcelamento) {
+        this.parcelamentos.add(parcelamento);
     }
 
     @Override
