@@ -7,6 +7,7 @@ import com.msdev.backend.dto.response.AccessResponse;
 import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.security.service.AuthenticationService;
 import com.msdev.backend.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/newuser")
-    public ResponseEntity<UsuarioResponse> insetNewUser(@RequestBody UsuarioRequest request){
+    public ResponseEntity<UsuarioResponse> insetNewUser(@Valid @RequestBody UsuarioRequest request){
 
         UsuarioResponse newUser = usuarioService.create(request);
         URI uri = ServletUriComponentsBuilder

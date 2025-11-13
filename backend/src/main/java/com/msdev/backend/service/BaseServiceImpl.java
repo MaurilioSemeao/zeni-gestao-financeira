@@ -40,7 +40,7 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
         T entity = mapper.toEntity(request);
         beforeCreate(entity, request);
         T save = repository.save(entity);
-        beforeCreate(save, request);
+        afterCreate(save, request);
         return mapper.toResponse(save);
     }
 

@@ -90,7 +90,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getEmail() {
-        return email;
+        return this.nome;
     }
 
     public void setEmail(String email) {

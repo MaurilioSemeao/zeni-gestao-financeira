@@ -30,12 +30,17 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
 
     @Override
     public void beforeCreate(UsuarioEntity entity ,UsuarioRequest request){
-        UsuarioEntity usuario = usuarioMapper.toEntity(request);
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 
+       entity.setSenha(passwordEncoder.encode(entity.getSenha()));
+
+
+    }
+
+    @Override
+    public void afterCreate(UsuarioEntity save, UsuarioRequest request){
         CarteiraEntity carteira = new CarteiraEntity();
-        carteira.setUsuario(usuario);
-        usuario.setCarteira(carteira);
+        carteira.setUsuario(save);
+        save.setCarteira(carteira);
 
         Set<String> categoriasPadrao = Set.of(
                 "Alimentação",
@@ -49,10 +54,10 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
         );
 
         Set<CategoriaEntity> categorias = categoriasPadrao.stream()
-                .map(nome -> new CategoriaEntity(nome, true ,usuario))
+                .map(nome -> new CategoriaEntity(nome, true ,save))
                 .collect(Collectors.toSet());
 
-        usuario.setCategorias(categorias);
+        save.setCategorias(categorias);
     }
 
 

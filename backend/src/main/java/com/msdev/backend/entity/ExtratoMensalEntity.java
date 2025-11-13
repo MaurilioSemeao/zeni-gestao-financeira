@@ -1,5 +1,6 @@
 package com.msdev.backend.entity;
 
+import com.msdev.backend.enums.StatusExtratoMensal;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -19,6 +20,10 @@ public class ExtratoMensalEntity {
     private YearMonth mesReferencia;
 
     private BigDecimal saldoExtrato;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusExtratoMensal status;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -68,6 +73,14 @@ public class ExtratoMensalEntity {
         this.usuario = usuario;
     }
 
+    public StatusExtratoMensal getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusExtratoMensal status) {
+        this.status = status;
+    }
+
     public Set<TransacaoEntity> getTransacoes() {
         return transacoes;
     }
@@ -76,6 +89,20 @@ public class ExtratoMensalEntity {
         this.transacoes.add(transacao);
     }
 
+    public static  ExtratoMensalEntity criaExtratoDoMes(UsuarioEntity usuario, YearMonth mesReferencia){
+        if(usuario == null){
+            throw new IllegalArgumentException("Usuário não pode ser nulo para criar uma fatura");
+        }
+
+        ExtratoMensalEntity novoExtrato = new ExtratoMensalEntity();
+        novoExtrato.setUsuario(usuario);
+        novoExtrato.setMesReferencia(mesReferencia);
+
+        novoExtrato.setStatus(StatusExtratoMensal.ABERTA);
+        novoExtrato.setSaldoExtrato(BigDecimal.ZERO);
+
+        return novoExtrato;
+    }
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
