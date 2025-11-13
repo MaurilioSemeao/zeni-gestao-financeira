@@ -6,31 +6,32 @@ import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.entity.CarteiraEntity;
 import com.msdev.backend.entity.CategoriaEntity;
 import com.msdev.backend.entity.UsuarioEntity;
-import com.msdev.backend.exception.RecursoNaoEncontradoException;
 import com.msdev.backend.repository.UsuarioRepository;
 import com.msdev.backend.utils.UsuarioMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, UsuarioRequest, UsuarioResponse> {
 
+    private PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper){
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, PasswordEncoder passwordEncoder){
         super(usuarioRepository,usuarioMapper,"Usuário");
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void beforeCreate(UsuarioEntity entity ,UsuarioRequest request){
         UsuarioEntity usuario = usuarioMapper.toEntity(request);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 
         CarteiraEntity carteira = new CarteiraEntity();
         carteira.setUsuario(usuario);
