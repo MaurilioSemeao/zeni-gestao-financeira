@@ -29,8 +29,7 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
     }
 
     @Override
-    @Transactional
-    public UsuarioResponse create(UsuarioRequest request){
+    public void beforeCreate(UsuarioEntity entity ,UsuarioRequest request){
         UsuarioEntity usuario = usuarioMapper.toEntity(request);
 
         CarteiraEntity carteira = new CarteiraEntity();
@@ -53,9 +52,6 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
                 .collect(Collectors.toSet());
 
         usuario.setCategorias(categorias);
-
-        UsuarioEntity save = usuarioRepository.save(usuario);
-        return usuarioMapper.toResponse(save);
     }
 
 

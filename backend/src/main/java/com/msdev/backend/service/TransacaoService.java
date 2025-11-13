@@ -37,8 +37,7 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
     }
 
     @Override
-    public TransacaoResponse create(TransacaoRequest request){
-        TransacaoEntity entity = transacaoMapper.toEntity(request);
+    public void beforeCreate (TransacaoEntity entity, TransacaoRequest request){
 
         UsuarioEntity usuario = usuarioRepository.findById(1L)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
@@ -76,8 +75,6 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
 
         }
 
-        TransacaoEntity save = transacaoRepository.save(entity);
-        return transacaoMapper.toResponse(save);
     }
 
 

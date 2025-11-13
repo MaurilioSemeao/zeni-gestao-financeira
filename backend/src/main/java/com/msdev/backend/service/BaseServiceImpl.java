@@ -38,7 +38,9 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
     @Transactional
     public Res create(Req request){
         T entity = mapper.toEntity(request);
+        beforeCreate(entity, request);
         T save = repository.save(entity);
+        beforeCreate(save, request);
         return mapper.toResponse(save);
     }
 
@@ -58,5 +60,10 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
 
        repository.delete(entity);
     }
+
+    public void beforeCreate(T entity, Req request ){}
+
+    public void afterCreate(T entity, Req request){}
+
 
 }
