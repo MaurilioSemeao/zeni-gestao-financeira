@@ -47,6 +47,11 @@ public class TransacaoEntity {
     private UsuarioEntity usuario;
 
     @ManyToOne
+    @JoinColumn(name = "extrato_id", nullable = false)
+    @JsonBackReference
+    private ExtratoMensalEntity extrato;
+
+    @ManyToOne
     @JoinColumn(name = "cartao_id", nullable = true)
     @JsonBackReference
     private CartaoEntity cartao;
@@ -177,6 +182,14 @@ public class TransacaoEntity {
 
     public void setCategoria(CategoriaEntity categoria) {
         this.categoria = categoria;
+    }
+
+    public ExtratoMensalEntity getExtrato() {
+        return extrato;
+    }
+
+    public void setExtrato(ExtratoMensalEntity extrato) {
+        this.extrato = extrato;
     }
 
     @Override
