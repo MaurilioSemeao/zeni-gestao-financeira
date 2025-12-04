@@ -1,12 +1,16 @@
 package com.msdev.backend.dto.response;
 
+import com.msdev.backend.dto.request.CategoriaRequest;
 import com.msdev.backend.enums.MeioPagamento;
 import com.msdev.backend.enums.TipoTransacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TransacaoResponse {
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     private Long id;
     private String descricao;
@@ -14,10 +18,11 @@ public class TransacaoResponse {
     private TipoTransacao tipo;
     private MeioPagamento meioPagamento;
     private boolean previsao;
-    private LocalDateTime dataTransacao;
+    private String dataTransacao;
+
 
     private UsuarioResponse usuario;
-
+    private CategoriaResponse categoria;
     private CartaoResponse cartao;
 
     public TransacaoResponse() {
@@ -27,7 +32,7 @@ public class TransacaoResponse {
             String descricao, BigDecimal valor,
             TipoTransacao tipo, MeioPagamento meioPagamento,
             boolean previsao, LocalDateTime dataTransacao,
-            UsuarioResponse usuario, CartaoResponse cartao
+            UsuarioResponse usuario, CartaoResponse cartao, CategoriaResponse categoria
     ) {
         this.setDescricao(descricao);
         this.setValor(valor);
@@ -35,6 +40,7 @@ public class TransacaoResponse {
         this.setMeioPagamento(meioPagamento);
         this.setUsuario(usuario);
         this.setCartao(cartao);
+        this.setCategoria(categoria);
         this.setPrevisao(previsao);
         this.setDataTransacao(dataTransacao);
     }
@@ -87,12 +93,12 @@ public class TransacaoResponse {
         this.previsao = previsao;
     }
 
-    public LocalDateTime getDataTransacao() {
+    public String getDataTransacao() {
         return dataTransacao;
     }
 
     public void setDataTransacao(LocalDateTime dataTransacao) {
-        this.dataTransacao = dataTransacao;
+        this.dataTransacao = dataTransacao.format(dtf);
     }
 
     public UsuarioResponse getUsuario() {
@@ -109,5 +115,13 @@ public class TransacaoResponse {
 
     public void setCartao(CartaoResponse cartao) {
         this.cartao = cartao;
+    }
+
+    public CategoriaResponse getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaResponse categoria) {
+        this.categoria = categoria;
     }
 }

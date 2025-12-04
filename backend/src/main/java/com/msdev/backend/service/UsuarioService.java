@@ -6,8 +6,10 @@ import com.msdev.backend.dto.response.UsuarioResponse;
 import com.msdev.backend.entity.CarteiraEntity;
 import com.msdev.backend.entity.CategoriaEntity;
 import com.msdev.backend.entity.UsuarioEntity;
+import com.msdev.backend.exception.RecursoNaoEncontradoException;
 import com.msdev.backend.repository.UsuarioRepository;
 import com.msdev.backend.utils.UsuarioMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +62,15 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
         save.setCategorias(categorias);
     }
 
+    public UsuarioEntity getUsuarioLogado(){
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated()){
+            throw new RecursoNaoEncontradoException("Nenhum usuário autenticado encontrado.");
+        }
 
+        String email = authentication.getName();
+
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
+    }
 }

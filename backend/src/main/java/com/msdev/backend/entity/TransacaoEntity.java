@@ -39,6 +39,7 @@ public class TransacaoEntity {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
+    @JsonBackReference
     private CategoriaEntity categoria;
 
     @ManyToOne

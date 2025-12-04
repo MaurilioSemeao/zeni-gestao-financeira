@@ -25,6 +25,7 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
     @Transactional(readOnly = true)
     public List<Res> findAll(){
        List<T> entities = repository.findAll();
+       beforeFindAll(entities);
        return mapper.toResponseList(entities);
     }
 
@@ -57,7 +58,7 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
     public void delete(ID id){
        T entity = repository.findById(id)
                .orElseThrow(() -> new RecursoNaoEncontradoException(this.message + " não encontrado deletar."));
-
+        beforeDelete(entity);
        repository.delete(entity);
     }
 
@@ -65,5 +66,8 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
 
     public void afterCreate(T entity, Req request){}
 
+    public void beforeFindAll(List<T> entities){}
+
+    public void beforeDelete(T entity){}
 
 }

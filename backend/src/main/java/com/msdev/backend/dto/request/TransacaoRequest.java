@@ -2,10 +2,7 @@ package com.msdev.backend.dto.request;
 
 import com.msdev.backend.enums.MeioPagamento;
 import com.msdev.backend.enums.TipoTransacao;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
@@ -14,8 +11,8 @@ public class TransacaoRequest {
     @NotBlank(message = "A descrição é obrigatória")
     private String descricao;
 
-    @NotBlank(message = "O valor é obrigatório")
-    @DecimalMin(value = "0.01", message = "O valor deve ser maior que zero")
+    @NotNull(message = "O valor é obrigatório")
+    @Positive(message = "O valor deve ser maior que zero")
     private BigDecimal valor;
 
     @NotNull(message = "O tipo da transação é obrigatório (RECEITA ou DESPESA).")
@@ -25,10 +22,12 @@ public class TransacaoRequest {
     private MeioPagamento meioPagamento;
 
 
+    private Long categoriaId;
+
     private Long cartaoId;
     private Long contaId;
     private Long carteiraId;
-    private Long pixContaId;
+
 
     private boolean previsao;
 
@@ -112,11 +111,11 @@ public class TransacaoRequest {
         this.carteiraId = carteiraId;
     }
 
-    public Long getPixContaId() {
-        return pixContaId;
+    public Long getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setPixContaId(Long pixContaId) {
-        this.pixContaId = pixContaId;
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }
