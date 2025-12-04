@@ -1,18 +1,23 @@
 
 export declare namespace Zeni {
-    type User = {
+    type Usuario = {
         id: number;
-        username: string;
+        nome: string;
         email: string;
-        password: string;
+        senha: string;
     };
 
     type Transaction = {
         id: number;
-        description: string;
-        price: number;
-        data: string;
-        cardId: number;
+        descricao: string;
+        valor: number;
+        tipo: string;
+        meioPagamento: string;
+        dataTransacao: string;
+        categoriaId: number;
+        cartaoId: number | null;
+        contaId: number | null;
+
     };
 
     type Invoice = {
@@ -24,13 +29,17 @@ export declare namespace Zeni {
 
    type  Card ={
         id: number;
-        surname: string;
-        finalNumber: string;
-        expenses: number;
-        quantityOfPurchases: number;
+        apelido: string;
+        ultimosDigitos: string;
+        gastos: number;
+        quantidadeCompras: number;
         limitValue: number;
     }
 
+    type Category = {
+       id: number;
+       nome: string;
+    }
 
 
 

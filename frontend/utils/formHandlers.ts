@@ -6,10 +6,7 @@ import React from 'react';
 export function createFormHandlers<T>(
     setState: React.Dispatch<React.SetStateAction<T>>
 ) {
-    const onInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        name: keyof T
-    ) => {
+    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>, name: string) => {
         const value = e.target?.value ?? '';
         setState((prev) => ({ ...prev, [name]: value }));
     };

@@ -29,7 +29,8 @@ const Dashboard = () => {
         return <div>Carregando seu dashbiard...</div>
     }
 
-    const carOrder = [...cards].sort((a, b) => b.expenses - a.expenses)
+    const carOrder = [...cards].sort((a, b) => b.gastos - a.gastos)
+
 
     const formatCurrency = (value: number) => {
         return value?.toLocaleString('en-US', {
@@ -39,15 +40,15 @@ const Dashboard = () => {
     };
 
     const descriptionBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"descricao"} value={rowData.description} />);
+        return (<GenericBodyTemplate title={"descricao"} value={rowData.descricao} />);
     };
 
     const priceBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"price"} value={formatCurrency(rowData.price)} />);
+        return (<GenericBodyTemplate title={"price"} value={formatCurrency(rowData.valor)} />);
     };
 
     const dateBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"data"} value={rowData.data} />);
+        return (<GenericBodyTemplate title={"data"} value={rowData.dataTransacao} />);
     };
 
     return (
@@ -58,7 +59,7 @@ const Dashboard = () => {
                     <div className="flex flex-nowrap overflow-x-auto gap-3 ml-2 pb-2">
                         {carOrder
                             .map((cad: Zeni.Card) => {
-                            return <CardAccount key={cad.id} surname={cad.surname} finalNumber={cad.finalNumber} expenses={cad.expenses} quantityOfPurchases={cad.quantityOfPurchases} />;
+                            return <CardAccount key={cad.id} surname={cad.apelido} finalNumber={cad.ultimosDigitos} expenses={cad.gastos} quantityOfPurchases={cad.quantidadeCompras} />;
                         })}
                     </div>
                 :
@@ -74,15 +75,7 @@ const Dashboard = () => {
                                     <Column field="description" header="Description" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
                                     <Column field="price" header="Price" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '7em' }}></Column>
                                     <Column field="date" header="Date" sortable body={dateBodyTemplate} headerStyle={{ minWidth: '7.7rem' }}></Column>
-                                    <Column
-                                        header="View"
-                                        style={{ width: '10%' }}
-                                        body={() => (
-                                            <>
-                                                <Button icon="pi pi-search" text />
-                                            </>
-                                        )}
-                                    />
+
                                 </DataTable>
                             </div>
                         </div>

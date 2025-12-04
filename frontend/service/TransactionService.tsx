@@ -3,7 +3,7 @@ import  { BaseService, axiosInstance } from './BaseService';
 class TransactionService extends BaseService{
 
     constructor() {
-        super('/transacao');
+        super('/transacoes');
     }
 
     async getAllById(id: string){

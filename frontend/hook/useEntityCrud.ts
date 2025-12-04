@@ -28,7 +28,11 @@ export function useCrud<T extends { id: number }>(emptyEntity: T) {
     };
 
     const hideDeleteDialog = () => setDeleteEntityDialog(false);
+
+
     const hideDeleteEntitiesDialog = () => setDeleteEntitiesDialog(false);
+
+
 
 
     const saveEntity = async (service: BaseService) => {
@@ -80,18 +84,47 @@ export function useCrud<T extends { id: number }>(emptyEntity: T) {
         setDeleteEntityDialog(true);
     };
 
-    const deleteEntityById = () => {
-        const _entities = entities.filter((e) => e.id !== entity.id);
-        setEntities(_entities);
-        setDeleteEntityDialog(false);
-        setEntity(emptyEntity);
-        toast.current?.show({
-            severity: 'success',
-            summary: 'Removido',
-            detail: 'Registro excluído com sucesso',
-            life: 3000,
-        });
+    const deleteEntityById = async (service: BaseService) => {
+        setSubmitted(true);
+       console.log('deleteEntityById', entity);
+       try {
+           if(entity.id) {
+               await service.delete(entity.id);
+               toast.current?.show({
+                   severity: 'success',
+                   summary: 'Removido',
+                   detail: `Registro excluído com sucesso`,
+                   life: 3000,
+               });
+           }
+
+           setDeleteEntityDialog(false);
+           setEntity(emptyEntity);
+           setEntities([]);
+       }
+       catch (error) {
+           console.error('Erro ao Deletar registro:', error);
+           toast.current?.show({
+               severity: 'error',
+               summary: 'Erro',
+               detail: `Erro ao deletar Registro ${error}`,
+           })
+       }
+
     };
+
+    // const deleteEntityById = () => {
+    //     const _entities = entities.filter((e) => e.id !== entity.id);
+    //     setEntities(_entities);
+    //     setDeleteEntityDialog(false);
+    //     setEntity(emptyEntity);
+    //     toast.current?.show({
+    //         severity: 'success',
+    //         summary: 'Removido',
+    //         detail: 'Registro excluído com sucesso',
+    //         life: 3000,
+    //     });
+    // };
 
     const confirmDeleteSelected = () => {
         setDeleteEntitiesDialog(true);

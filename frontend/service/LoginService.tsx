@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 
 export class LoginService {
 
-   creatNewUser(user: Zeni.User){
+   creatNewUser(user: Zeni.Usuario){
          return axiosInstance.post(`/auth/newuser`, user)
    }
 

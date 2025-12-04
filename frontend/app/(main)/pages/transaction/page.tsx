@@ -19,6 +19,9 @@ import { transactionService } from '@/service/TransactionService';
 import {cartaoService} from '@/service/CartaoService';
 import { Dropdown } from 'primereact/dropdown';
 import { Zeni } from '@/types/zeni';
+import { RadioButton } from 'primereact/radiobutton';
+import { meiosPagamento } from '@/types/constats.';
+import { categoriaService } from '@/service/CategoriaService';
 
 
 
@@ -26,19 +29,28 @@ import { Zeni } from '@/types/zeni';
 const TansactionPage = () => {
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
-        description: '',
-        price: 0,
-        data: '',
-        cardId: 0,
+        descricao: '',
+        valor: 0,
+        tipo: 'DESPESA',
+        meioPagamento: '',
+        dataTransacao: '',
+        categoriaId: 0,
+        cartaoId: null,
+        contaId: null,
     };
 
     const emptyCard : Zeni.Card ={
         id: 0,
-        surname: '',
-        finalNumber: '',
-        expenses: 0,
-        quantityOfPurchases: 0,
+        apelido: '',
+        ultimosDigitos: '',
+        gastos: 0,
+        quantidadeCompras: 0,
         limitValue: 0
+    }
+
+    const emptyCategory : Zeni.Category ={
+        id: 0,
+        nome: ''
     }
 
 
@@ -60,6 +72,7 @@ const TansactionPage = () => {
 
         openNew,
         hideDialog,
+        hideDeleteDialog,
         hideDeleteEntitiesDialog,
         saveEntity,
         editEntity,
@@ -72,11 +85,15 @@ const TansactionPage = () => {
 
     } = useCrud<Zeni.Transaction>(emptyTransaction)
 
+
+
     const {onInputChange,onInputNumberChange} = createFormHandlers<Zeni.Transaction>(setEntity);
+
 
 
     const [refresh, setRefresh] = useState(false);
     const cards= useCrud<Zeni.Card>(emptyCard);
+    const category = useCrud<Zeni.Category>(emptyCategory);
 
 
 
@@ -84,9 +101,12 @@ const TansactionPage = () => {
         //ProductService.getProducts().then((data) => setProducts(data as any));
         (async function loadData(){
             const [transactionData] = await Promise.all([ transactionService.getAll()])
+            const [categoriaData] = await Promise.all([categoriaService.getAll()])
             const [carData] = await Promise.all([ cartaoService.getAll()])
+
             setEntities(transactionData);
             cards.setEntities(carData);
+            category.setEntities(categoriaData);
         }())
         if(entities.length === 0){
             setRefresh(true)
@@ -97,9 +117,26 @@ const TansactionPage = () => {
 
     const onSelectCardChange = (card: Zeni.Card) => {
         let _entity = {...entity}
-        _entity.cardId = card.id
+        _entity.cartaoId = card.id
         setEntity(_entity)
     }
+
+    const onSelectCategoryChange = (category: Zeni.Category) => {
+        let _entity = {...entity}
+        _entity.categoriaId = category.id
+        setEntity(_entity)
+    }
+
+    const onMeioPagamentoChange = (e: { value: any }) => {
+        const novoMeio = e.value;
+        let _entity = { ...entity };
+        _entity.meioPagamento = novoMeio;
+        _entity.cartaoId = null;
+        _entity.contaId = null;
+
+        setEntity(_entity);
+    };
+
 
     const leftToolbarTemplate = () => {
         return (
@@ -126,15 +163,23 @@ const TansactionPage = () => {
     };
 
     const descriptionBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={rowData.description} />);
+        return (<GenericBodyTemplate title={"Descricao"} value={rowData.descricao} />);
     };
 
     const priceBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={formatCurrency(rowData.price)} />);
+        return (<GenericBodyTemplate title={"Valor"} value={formatCurrency(rowData.valor)} />);
     };
 
     const dateBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={rowData.data} />);
+        return (<GenericBodyTemplate title={"Data"} value={rowData.dataTransacao} />);
+    };
+
+    const meioDePagamentoBodyTemplate = (rowData: Zeni.Transaction) => {
+        return (<GenericBodyTemplate title={"MeioDePagamento"} value={rowData.meioPagamento} />);
+    };
+
+    const categoriaBodyTemplate = (rowData: Zeni.Transaction) => {
+        return (<GenericBodyTemplate title={"Categoria"} value={rowData.categoria.nome} />);
     };
 
 
@@ -147,6 +192,9 @@ const TansactionPage = () => {
             </>
         );
     };
+
+
+
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -164,24 +212,30 @@ const TansactionPage = () => {
         saveEntity(transactionService).then(r => {} )
     }
 
+    const deleteById = () =>{
+        deleteEntityById(transactionService).then(r => {})
+    }
+
     const userDialogFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
             <Button label="Salvar" icon="pi pi-check" text onClick={saving} />
         </>
     );
-    const deleteUserDialogFooter = (
+    const deleteEntityDialogFooter = (
         <>
-            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntitiesDialog} />
-            <Button label="Sim" icon="pi pi-check" text onClick={deleteEntityById} />
+            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteDialog} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteById} />
         </>
     );
-    const deleteUsersDialogFooter = (
+
+    const deleteEntitiesDialogFooter = (
         <>
             <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntitiesDialog} />
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteSelectedEntities} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteSelectedEntities} />
         </>
     );
+
 
     return (
         <div className="grid crud-demo">
@@ -210,74 +264,134 @@ const TansactionPage = () => {
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
-                        <Column field="description" header="Description" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                        <Column field="date" header="Date" sortable body={dateBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="descricao" header="Descrição" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '1rem' }}></Column>
+                        <Column field="valor" header="Valor" body={priceBodyTemplate} sortable></Column>
+                        <Column field="data" header="Data" sortable body={dateBodyTemplate} headerStyle={{ minWidth: '1rem' }}></Column>
+                        <Column field="meioDePagamento" header="Meio de Pagamento" sortable body={meioDePagamentoBodyTemplate} headerStyle={{ minWidth: '2rem' }}></Column>
+                        <Column field="categoria" header="Categoria" sortable body={categoriaBodyTemplate} headerStyle={{ minWidth: '1rem' }}></Column>
+                        <Column body={actionBodyTemplate} headerStyle={{ minWidth: '3rem' }}></Column>
                     </DataTable>
 
-                    <Dialog visible={entityDialog} style={{ width: '450px' }} header="Detalhes Usuario" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
-
-                        <div className="field">
-                            {submitted && !entity.id && <small className="p-invalid">Name is required.</small>}
-                        </div>
+                    <Dialog visible={entityDialog} style={{ width: '450px' }} header="Detalhes da Transação" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                        <div className="field">{submitted && !entity.id && <small className="p-invalid">Name is required.</small>}</div>
                         <div className="field">
                             <label htmlFor="description">Descrição</label>
                             <InputText
                                 id="description"
-                                value={entity.description}
-                                onChange={(e) => onInputChange(e, 'description')}
+                                value={entity.descricao}
+                                onChange={(e) => onInputChange(e, 'descricao')}
                                 required
                                 autoFocus
-                                className={classNames({ 'p-invalid':submitted && !entity.description, })}
-                            />
+                                className={classNames({ 'p-invalid': submitted && !entity.descricao })} />
                         </div>
 
                         <div className="field col">
-                            <label htmlFor="price">Price</label>
+                            <label htmlFor="valor">Valor</label>
                             <InputNumber
-                                id="price"
-                                onValueChange={(e) => onInputNumberChange(e, 'price')}
-                                mode="currency"
-                                currency="BRL"
-                                locale="pt-BR"
+                                id="valor"
+                                onValueChange={(e) => onInputNumberChange(e, 'valor')}
+                                mode="currency" currency="BRL" locale="pt-BR"
                                 required
-                                autoFocus
-                                className={classNames({ 'p-invalid': submitted && !entity.price })}
-                            />
+                                className={classNames({ 'p-invalid': submitted && !entity.valor })} />
+                        </div>
+                        <div className="field col">
+                            <label className="mb-3">Tipo de Transação</label>
+
+                            <div className="formgrid grid">
+                                <div className="field-radiobutton col-12">
+                                    <RadioButton inputId="tipoDespesa" name="tipo" value="DESPESA" onChange={(e) => setEntity({ ...entity, tipo: e.value })} checked={entity.tipo === 'DESPESA'} />
+                                    <label htmlFor="tipoDespesa">Despesa</label>
+                                </div>
+
+                                <div className="field-radiobutton col-12">
+                                    <RadioButton inputId="tipoReceita" name="tipo" value="RECEITA" onChange={(e) => setEntity({ ...entity, tipo: e.value })} checked={entity.tipo === 'RECEITA'} />
+                                    <label htmlFor="tipoReceita">Receita</label>
+                                </div>
+                            </div>
+                            {submitted && !entity.tipo && <small className="p-invalid">Selecione o tipo.</small>}
                         </div>
 
-                        <div className="field">
-                            <label htmlFor="description">Cartao</label>
-                            <Dropdown
-                                id="card"
-                                value={cards.entities.find(c => c.id === entity.cardId)}
-                                options={cards.entities}
-                                onChange={(e) => onSelectCardChange(e.value)}
-                                optionLabel="surname"
-                                placeholder="Selecion um Cartao"
-                                className={classNames({ 'p-invalid': submitted && !entity.cardId })}
-                            />
-                            {submitted && !entity.cardId && <small className="p-invalid">Name is required.</small>}
-                        </div>
+                        <div className="formgrid grid">
+                            <div className="field col">
+                                <label htmlFor="description">Categoria de Gastos</label>
+                                <Dropdown
+                                    id="categoriaDeGastos"
+                                    value={category.entities.find((c)=> c.id === entity.categoriaId)}
+                                    options={category.entities}
+                                    onChange={(e) => onSelectCategoryChange(e.value)}
+                                    optionLabel="nome"
+                                    placeholder="Selecion um metodo de Pagamento"
+                                    className={classNames({ 'p-invalid': submitted && !entity.categoriaId })}
+                                />
+                                {submitted && !entity.categoriaId && <small className="p-invalid">Name is required.</small>}
+                            </div>
+                            </div>
 
+                        <div className="formgrid grid">
+                            <div className="field col">
+                                <label htmlFor="description">Metodo de Pagamento</label>
+                                <Dropdown
+                                    id="meioDePagamento"
+                                    value={entity.meioPagamento}
+                                    options={meiosPagamento}
+                                    onChange={(e) => setEntity({ ...entity, meioPagamento: e.value })}
+                                    optionLabel="label"
+                                    placeholder="Selecion um metodo de Pagamento"
+                                    className={classNames({ 'p-invalid': submitted && !entity.meioPagamento })}
+                                />
+                                {submitted && !entity.meioPagamento && <small className="p-invalid">Name is required.</small>}
+                            </div>
+
+                            {entity.meioPagamento === 'CREDITO' && (
+                                <div className="field col">
+                                    <label htmlFor="description">Cartao</label>
+                                    <Dropdown
+                                        id="card"
+                                        value={cards.entities.find((c) => c.id === entity.cartaoId)}
+                                        options={cards.entities}
+                                        onChange={(e) => onSelectCardChange(e.value)}
+                                        optionLabel="apelido"
+                                        placeholder="Selecion um Cartao"
+                                        className={classNames({ 'p-invalid': submitted && !entity.cartaoId })}
+                                    />
+                                    {submitted && !entity.cartaoId && <small className="p-invalid">Name is required.</small>}
+                                </div>
+                            )}
+
+                            {(entity.meioPagamento === 'DEBITO' || entity.meioPagamento === 'PIX') && (
+                                <div className="field col">
+                                    <label htmlFor="description">Conta</label>
+                                    <Dropdown
+                                        id="card"
+                                        value={cards.entities.find((c) => c.id === entity.contaId)}
+                                        options={cards.entities}
+                                        onChange={(e) => onSelectCardChange(e.value)}
+                                        optionLabel="apelido"
+                                        placeholder="Selecione uma Conta"
+                                        className={classNames({ 'p-invalid': submitted && !entity.cartaoId })}
+                                    />
+                                    {submitted && !entity.contaId && <small className="p-invalid">Name is required.</small>}
+                                </div>
+                            )}
+
+                        </div>
                     </Dialog>
 
-                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUserDialogFooter} onHide={hideDeleteEntitiesDialog}>
+                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntityDialogFooter} onHide={hideDeleteDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {entity && (
                                 <span>
-                                    Voce Realmente Deseja excluir o usuario <b>{entity.description}</b>?
+                                    Voce Realmente deseja excluir a transação <b>{entity.descricao}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteEntitiesDialog}>
+                    <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntitiesDialogFooter} onHide={hideDeleteEntitiesDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {entity && <span>Voce Realmente Deseja excluir o usuario ?</span>}
+                            {entity && <span>Você realmente deseja excluir as transações ?</span>}
                         </div>
                     </Dialog>
                 </div>

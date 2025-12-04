@@ -10,19 +10,20 @@ import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
 import { Toast } from 'primereact/toast';
 import { LoginService} from '@/service/LoginService';
+import { Zeni } from '@/types/zeni';
 
 const NewUserPage = () => {
 
-    let emptyUser: Zeni.User ={
+    let emptyUser: Zeni.Usuario ={
         id: 0,
-        username: '',
+        nome: '',
         email: '',
-        password: '',
+        senha: '',
     };
 
     const loginService = useMemo(() => new LoginService(), [])
 
-    const [user, setUser] = useState<Zeni.User>(emptyUser);
+    const [user, setUser] = useState<Zeni.Usuario>(emptyUser);
 
     const { layoutConfig } = useContext(LayoutContext);
     const router = useRouter();
@@ -87,11 +88,11 @@ const NewUserPage = () => {
                             </label>
                             <InputText
                                 id="nome1"
-                                value={user.username}
+                                value={user.nome}
                                 type="text"
                                 placeholder="Digite Seu nome"
                                 className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }}
-                                onChange={(e) => onInputChange(e, 'username')}
+                                onChange={(e) => onInputChange(e, 'nome')}
                             />
 
                             <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
@@ -111,11 +112,11 @@ const NewUserPage = () => {
                             </label>
                             <Password
                                 inputId="password1"
-                                value={user.password}
+                                value={user.senha}
                                 placeholder="Password"
                                 toggleMask className="w-full mb-5"
                                 inputClassName="w-full p-3 md:w-30rem"
-                                onChange={(e) => setUser(prev => ({ ...prev, password: e.target.value }))}
+                                onChange={(e) => setUser(prev => ({ ...prev, senha: e.target.value }))}
                             >
                             </Password>
 

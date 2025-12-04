@@ -26,10 +26,10 @@ import { Zeni } from '@/types/zeni';
 const TansactionPage = () => {
     const emptyCard : Zeni.Card ={
         id: 0,
-        surname: '',
-        finalNumber: '',
-        expenses: 0,
-        quantityOfPurchases: 0,
+        apelido: '',
+        ultimosDigitos: '',
+        gastos: 0,
+        quantidadeCompras: 0,
         limitValue: 0
     }
 
@@ -73,6 +73,7 @@ const TansactionPage = () => {
         (async function loadData(){
             const [cartaoData] = await Promise.all([ cartaoService.getAll()])
             setEntities(cartaoData)
+            console.log(cartaoData)
         }())
         if(entities.length === 0){
             setRefresh(true)
@@ -104,24 +105,19 @@ const TansactionPage = () => {
     };
 
     const surnameBodyTemplate = (rowData: Zeni.Card) => {
-        return (<GenericBodyTemplate title={"surname"} value={rowData.surname} />);
+        return (<GenericBodyTemplate title={"apelido"} value={rowData.apelido} />);
     };
 
     const quantityBodyTemplate = (rowData: Zeni.Card) => {
-        return (<GenericBodyTemplate title={"quantityOfPurchases"} value={rowData.quantityOfPurchases} />);
+        return (<GenericBodyTemplate title={"quantidadeCompras"} value={rowData.quantidadeCompras} />);
     };
 
     const expenseBodyTemplate = (rowData: Zeni.Card) => {
-        return (<GenericBodyTemplate title={"exmpenses"} value={formatCurrency(rowData.expenses)} />);
+        return (<GenericBodyTemplate title={"gastos"} value={formatCurrency(rowData.gastos)} />);
     };
-
-    const limitValueBodyTemplate = (rowData: Zeni.Card) => {
-        return (<GenericBodyTemplate title={"limitValue"} value={formatCurrency(rowData.limitValue)} />);
-    };
-
 
     const finalNumberBodyTemplate = (rowData: Zeni.Card) => {
-        return (<GenericBodyTemplate title={"finalNumber"} value={rowData.finalNumber} />);
+        return (<GenericBodyTemplate title={"ultimosDigitos"} value={rowData.ultimosDigitos} />);
     };
 
 
@@ -198,7 +194,7 @@ const TansactionPage = () => {
                         <Column field="surname" header="Apelido" sortable body={surnameBodyTemplate} headerStyle={{ minWidth: '12rem' }}></Column>
                         <Column field="expesne" header="Gastos" body={expenseBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="quantity" header="Compras Realizadas" sortable body={quantityBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="limitValue" header="Limite" sortable body={limitValueBodyTemplate} headerStyle={{ minWidth: '12rem' }}></Column>
+
                         <Column field="finalNumber" header="Digitos" sortable body={finalNumberBodyTemplate} headerStyle={{ minWidth: '4rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
@@ -210,40 +206,27 @@ const TansactionPage = () => {
                         </div>
 
                         <div className="field">
-                            <label htmlFor="surname">Apelido</label>
+                            <label htmlFor="apelido">Apelido</label>
                             <InputText
-                                id="surname"
-                                value={entity.surname}
-                                onChange={(e) => onInputChange(e, 'surname')}
+                                id="apelido"
+                                value={entity.apelido}
+                                onChange={(e) => onInputChange(e, 'apelido')}
                                 required
                                 autoFocus
-                                className={classNames({ 'p-invalid':submitted && !entity.surname, })}
+                                className={classNames({ 'p-invalid':submitted && !entity.apelido, })}
                             />
                         </div>
 
-                        <div className="field col">
-                            <label htmlFor="limitValue">Limite Do Cartão</label>
-                            <InputNumber
-                                id="limitValue"
-                                onValueChange={(e) => onInputNumberChange(e, 'limitValue')}
-                                mode="currency"
-                                currency="BRL"
-                                locale="pt-BR"
-                                required
-                                autoFocus
-                                className={classNames({ 'p-invalid': submitted && !entity.limitValue })}
-                            />
-                        </div>
 
                         <div className="field col">
-                            <label htmlFor="finalNumber">Ultimos 4 Digitos</label>
+                            <label htmlFor="ultimosDigitos">Ultimos 4 Digitos</label>
                             <InputText
-                                id="finalNumber"
-                                value={entity.finalNumber}
-                                onChange={(e) => onInputChange(e, 'finalNumber')}
+                                id="ultimosDigitos"
+                                value={entity.ultimosDigitos}
+                                onChange={(e) => onInputChange(e, 'ultimosDigitos')}
                                 required
                                 autoFocus
-                                className={classNames({ 'p-invalid': submitted && !entity.finalNumber })}
+                                className={classNames({ 'p-invalid': submitted && !entity.ultimosDigitos })}
                             />
                         </div>
 
@@ -255,7 +238,7 @@ const TansactionPage = () => {
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {entity && (
                                 <span>
-                                    Voce Realmente Deseja excluir o usuario <b>{entity.surname}</b>?
+                                    Voce Realmente Deseja excluir o usuario <b>{entity.apelido}</b>?
                                 </span>
                             )}
                         </div>

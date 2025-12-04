@@ -28,10 +28,10 @@ const Crud = () => {
 
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
-        description: '',
-        price: 0,
-        data: '',
-        cardId: 0,
+        descricao: '',
+        valor: 0,
+        dataTransacao: '',
+        cartaoId: 0,
     };
 
 
@@ -112,7 +112,7 @@ const Crud = () => {
         return (
             <GenericBodyTemplate
                 title={"Code"}
-                value={rowData.description}
+                value={rowData.descricao}
             />
         );
     };
@@ -121,7 +121,7 @@ const Crud = () => {
         return (
             <GenericBodyTemplate
                 title={"Code"}
-                value={formatCurrency(rowData.price)}
+                value={formatCurrency(rowData.valor)}
             />
         );
     };
@@ -132,7 +132,7 @@ const Crud = () => {
         return (
             <GenericBodyTemplate
                 title={"Code"}
-                value={rowData.data}
+                value={rowData.dataTransacao}
             />
         );
     };
@@ -222,21 +222,21 @@ const Crud = () => {
                         <div className="field">{submitted && !entity.id && <small className="p-invalid">Name is required.</small>}</div>
                         <div className="field">
                             <label htmlFor="description">Descrição</label>
-                            <InputText id="description" value={entity.description} onChange={(e) => onInputChange(e, 'description')} required autoFocus className={classNames({ 'p-invalid': submitted && !entity.description })} />
+                            <InputText id="description" value={entity.descricao} onChange={(e) => onInputChange(e, 'descricao')} required autoFocus className={classNames({ 'p-invalid': submitted && !entity.descricao })} />
                         </div>
 
                         <div className="field col">
                             <label htmlFor="price">Price</label>
                             <InputNumber
                                 id="price"
-                                value={entity.price}
-                                onValueChange={(e) => onInputNumberChange(e, 'price')}
+                                value={entity.valor}
+                                onValueChange={(e) => onInputNumberChange(e, 'valor')}
                                 mode="currency"
                                 currency="BRL"
                                 locale="pt-BR"
                                 required
                                 autoFocus
-                                className={classNames({ 'p-invalid': submitted && !entity.price })}
+                                className={classNames({ 'p-invalid': submitted && !entity.valor })}
                             />
                         </div>
                     </Dialog>
@@ -246,18 +246,18 @@ const Crud = () => {
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {entity && (
                                 <span>
-                                    Voce Realmente Deseja excluir o usuario <b>{entity.description}</b>?
+                                    Voce Realmente Deseja excluir o usuario <b>{entity.descricao}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteEntitiesDialog}>
-                        <div className="flex align-items-center justify-content-center">
-                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {entity && <span>Voce Realmente Deseja excluir o usuario ?</span>}
-                        </div>
-                    </Dialog>
+                    {/*<Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteEntitiesDialog}>*/}
+                    {/*    <div className="flex align-items-center justify-content-center">*/}
+                    {/*        <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />*/}
+                    {/*        {entity && <span>Voce Realmente Deseja excluir o usuario ?</span>}*/}
+                    {/*    </div>*/}
+                    {/*</Dialog>*/}
                 </div>
             </div>
         </div>

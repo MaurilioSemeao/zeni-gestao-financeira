@@ -1,6 +1,6 @@
 'use client'
 
-import { cartaoService} from '@/service/CartaoService';
+import {cartaoService} from '@/service/CartaoService';
 import {invoiceService} from '@/service/InvoiceService';
 import {transactionService} from '@/service/TransactionService';
 
@@ -8,7 +8,7 @@ import { Zeni } from '@/types/zeni';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 interface DashBoardContextType{
-    user: Zeni.User | null;
+    user: Zeni.Usuario | null;
     cards: Zeni.Card[];
     invoices: Zeni.Invoice[];
     transactions: Zeni.Transaction[];
@@ -19,7 +19,7 @@ interface DashBoardContextType{
 const DashBoardContext = createContext<DashBoardContextType | undefined>(undefined);
 
 export const DashboardProvider = ({ children }: {children: ReactNode}) => {
-    const [user, setUser] = useState<Zeni.User | null>(() =>{
+    const [user, setUser] = useState<Zeni.Usuario | null>(() =>{
         if(typeof window !== "undefined"){
             const savedUser = localStorage.getItem('USER_DATA');
            return savedUser ? JSON.parse(savedUser) : null;
@@ -37,14 +37,14 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
                 setLoading(true);
 
 
-                const [cardData, transactionData,invoiceData ] = await Promise.all([
+                const [cardData, transactionData] = await Promise.all([
                     cartaoService.getAll(),
                     transactionService.getAll(),
-                    invoiceService.getAll(),
+                   // invoiceService.getAll(),
                 ]);
 
                 setCards(cardData);
-                setInvoices(invoiceData);
+                //setInvoices(invoiceData);
                 setTransactions(transactionData);
 
 
@@ -54,8 +54,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
             finally {
                 setLoading(false);
             }
-        },[])
-
+        },[]);
 
     const value = {user, cards, invoices, transactions, loading, fetchData};
 

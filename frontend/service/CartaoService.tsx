@@ -4,7 +4,7 @@ import  { BaseService, axiosInstance } from './BaseService';
 class CartaoService extends BaseService{
 
     constructor() {
-        super('/cartao');
+        super('/cartoes');
     }
 
     getAllById(id: string){

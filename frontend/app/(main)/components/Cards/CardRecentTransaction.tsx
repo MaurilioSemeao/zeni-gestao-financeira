@@ -23,15 +23,15 @@ export const CardRecentTransaction = (iTransaction:Zeni.Transaction[])=> {
     };
 
     const descriptionBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={rowData.description} />);
+        return (<GenericBodyTemplate title={"Code"} value={rowData.descricao} />);
     };
 
     const priceBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={tCrud.formatCurrency(rowData.price)} />);
+        return (<GenericBodyTemplate title={"Code"} value={tCrud.formatCurrency(rowData.valor)} />);
     };
 
     const dateBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"Code"} value={rowData.data} />);
+        return (<GenericBodyTemplate title={"Code"} value={rowData.dataTransacao} />);
     };
 
     return (
