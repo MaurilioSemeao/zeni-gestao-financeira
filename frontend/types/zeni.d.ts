@@ -1,3 +1,4 @@
+import { number, string } from 'zod';
 
 export declare namespace Zeni {
     type Usuario = {
@@ -39,6 +40,13 @@ export declare namespace Zeni {
     type Category = {
        id: number;
        nome: string;
+    }
+
+    type ResumoCategoria ={
+       id: number;
+       nomeCategoria: string;
+       valorTotal: number;
+       porcentagem: number;
     }
 
 

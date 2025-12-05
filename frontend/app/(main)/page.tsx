@@ -19,7 +19,8 @@ import Transaction = Zeni.Transaction;
 
 const Dashboard = () => {
 
-    const {user,loading,cards,transactions,invoices,fetchData} = useDashboard()
+    const {user, cards, invoices, transactions, resumoCategoria, loading, fetchData} = useDashboard();
+
 
     useEffect(()=>{
         fetchData().then(r => {});
@@ -80,7 +81,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="col-12 xl:col-6">
-                            <CardTipoDeGasto />
+                            <CardTipoDeGasto dados={resumoCategoria}/>
                         </div>
                     </div>
                 </div>

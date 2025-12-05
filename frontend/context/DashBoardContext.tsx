@@ -3,6 +3,7 @@
 import {cartaoService} from '@/service/CartaoService';
 import {invoiceService} from '@/service/InvoiceService';
 import {transactionService} from '@/service/TransactionService';
+import {dashBoradService} from '@/service/DashBoardService'
 
 import { Zeni } from '@/types/zeni';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
     const [cards, setCards] = useState<Zeni.Card[]>([]);
     const [invoices, setInvoices] = useState<Zeni.Invoice[]>([]);
     const [transactions, setTransactions] = useState<Zeni.Transaction[] >([]);
+    const [resumoCategoria, setResumoCategoria] = useState<Zeni.ResumoCategoria[]>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchData = useCallback(async () =>{
@@ -37,15 +39,17 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
                 setLoading(true);
 
 
-                const [cardData, transactionData] = await Promise.all([
+                const [cardData, transactionData, resumoCategoria] = await Promise.all([
                     cartaoService.getAll(),
                     transactionService.getAll(),
+                    dashBoradService.getResumoCategoria()
                    // invoiceService.getAll(),
                 ]);
 
                 setCards(cardData);
                 //setInvoices(invoiceData);
                 setTransactions(transactionData);
+                setResumoCategoria(resumoCategoria);
 
 
             }catch(error){
@@ -56,7 +60,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
             }
         },[]);
 
-    const value = {user, cards, invoices, transactions, loading, fetchData};
+    const value = {user, cards, invoices, transactions, resumoCategoria, loading, fetchData};
 
     return(
         <DashBoardContext.Provider value={value}>

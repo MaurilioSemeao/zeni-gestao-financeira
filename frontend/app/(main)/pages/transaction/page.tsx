@@ -17,6 +17,7 @@ import { RightToolbarTemplate } from '@/app/(main)/components/Templates/RightToo
 import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBodyTemplate';
 import { transactionService } from '@/service/TransactionService';
 import {cartaoService} from '@/service/CartaoService';
+import {dashBoradService} from '@/service/DashBoardService'
 import { Dropdown } from 'primereact/dropdown';
 import { Zeni } from '@/types/zeni';
 import { RadioButton } from 'primereact/radiobutton';
@@ -51,6 +52,13 @@ const TansactionPage = () => {
     const emptyCategory : Zeni.Category ={
         id: 0,
         nome: ''
+    }
+
+    const emptyResumoCategoria : Zeni.ResumoCategoria ={
+        id: 0,
+        nomeCategoria: '',
+        valorTotal: 0,
+        porcentagem: 0
     }
 
 
@@ -94,6 +102,8 @@ const TansactionPage = () => {
     const [refresh, setRefresh] = useState(false);
     const cards= useCrud<Zeni.Card>(emptyCard);
     const category = useCrud<Zeni.Category>(emptyCategory);
+
+    const resumoCategoria = useCrud<Zeni.ResumoCategoria>(emptyResumoCategoria)
 
 
 
