@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TransferQueue;
 
 @RestController
 @CrossOrigin
@@ -35,6 +36,12 @@ public class TransacaoController {
     public ResponseEntity<TransacaoResponse> findById(@PathVariable Long id){
         TransacaoResponse transacao = transacaoService.findById(id);
         return ResponseEntity.ok().body(transacao);
+    }
+
+    @GetMapping("/extratomensal/{id}")
+    public ResponseEntity<List<TransacaoResponse>> fildAllById(@PathVariable Long id){
+        List<TransacaoResponse> transacoes = transacaoService.findByExtratoMensalByUsuarioId(id);
+        return ResponseEntity.ok().body(transacoes);
     }
 
     @PostMapping

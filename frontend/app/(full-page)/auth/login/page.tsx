@@ -82,7 +82,7 @@ const LoginPage = () => {
                                 </a>
 
                                 <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
-                                    Forgot password?
+                                    Esqueceu sua senha?
                                 </a>
 
                             </div>

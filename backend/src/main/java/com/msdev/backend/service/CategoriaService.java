@@ -29,9 +29,9 @@ public class CategoriaService extends BaseServiceImpl<CategoriaEntity, Long, Cat
     }
 
     @Override
-    public void beforeFindAll(List<CategoriaEntity> entities) {
+    protected List<CategoriaEntity> fetchAllEntities(){
         UsuarioEntity usuarioLogado = authenticationService.getLoggedIUser();
-
-        entities = categoriaRepository.findAllByUsuarioId(usuarioLogado.getId());
+        return  categoriaRepository.findAllByUsuarioId(usuarioLogado.getId());
     }
+
 }

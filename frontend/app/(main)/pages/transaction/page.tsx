@@ -28,6 +28,11 @@ import { categoriaService } from '@/service/CategoriaService';
 
 
 const TansactionPage = () => {
+    const emptyCategory : Zeni.Category ={
+        id: 0,
+        nome: ''
+    }
+
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
         descricao: '',
@@ -38,6 +43,7 @@ const TansactionPage = () => {
         categoriaId: 0,
         cartaoId: null,
         contaId: null,
+        categoria: emptyCategory
     };
 
     const emptyCard : Zeni.Card ={
@@ -49,10 +55,7 @@ const TansactionPage = () => {
         limitValue: 0
     }
 
-    const emptyCategory : Zeni.Category ={
-        id: 0,
-        nome: ''
-    }
+
 
     const emptyResumoCategoria : Zeni.ResumoCategoria ={
         id: 0,
@@ -122,7 +125,7 @@ const TansactionPage = () => {
             setRefresh(true)
         }
 
-    }, [cards.setEntities, entities.length, setEntities, setRefresh, ]);
+    }, [cards, cards.setEntities, category, entities.length, setEntities, setRefresh]);
 
 
     const onSelectCardChange = (card: Zeni.Card) => {
@@ -189,6 +192,7 @@ const TansactionPage = () => {
     };
 
     const categoriaBodyTemplate = (rowData: Zeni.Transaction) => {
+        // @ts-ignore
         return (<GenericBodyTemplate title={"Categoria"} value={rowData.categoria.nome} />);
     };
 

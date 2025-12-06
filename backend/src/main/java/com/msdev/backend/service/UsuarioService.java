@@ -51,7 +51,6 @@ public class UsuarioService extends BaseServiceImpl<UsuarioEntity, Long, Usuario
                 "Saúde",
                 "Lazer",
                 "Educação",
-                "Salário",
                 "Outros"
         );
 
