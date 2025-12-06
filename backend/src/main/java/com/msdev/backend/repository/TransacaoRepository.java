@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TransacaoRepository extends JpaRepository<TransacaoEntity, Long> {
+    List<TransacaoEntity> findAllByUsuarioId (Long id);
+
+    List<TransacaoEntity> findByExtrato_Usuario_IdAndExtrato_Id(Long usuarioId, Long extratoMensalId);
 
     @Query("SELECT new com.msdev.backend.dto.response.ResumoCategoriaResponse(" +
             "   t.categoria.nome, SUM(t.valor), CAST(0.0 as double)) " + // 0.0 é placeholder da porcentagem

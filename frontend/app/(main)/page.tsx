@@ -1,25 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ChartData, ChartOptions } from 'chart.js';
+import React, { useEffect } from 'react';
 import { CardAccount } from '@/app/(main)/components/Cards/CardAccount';
 import { CardTipoDeGasto } from '@/app/(main)/components/Cards/CardTiposDeGasto';
 import { CardGrafic } from '@/app/(main)/components/Cards/CardGrafic';
-import { useCrud } from '@/hook/useEntityCrud';
-import { cartaoService } from '@/service/CartaoService';
-
 import {useDashboard} from '@/context/DashBoardContext';
 import { Zeni } from '@/types/zeni';
 import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBodyTemplate';
-import Transaction = Zeni.Transaction;
 
 
 const Dashboard = () => {
 
-    const {user, cards, invoices, transactions, resumoCategoria, loading, fetchData} = useDashboard();
+    const {cards, transactions, resumoCategoria, loading, fetchData} = useDashboard();
 
 
     useEffect(()=>{
@@ -58,6 +52,7 @@ const Dashboard = () => {
 
                 {cards.length > 0 ?
                     <div className="flex flex-nowrap overflow-x-auto gap-3 ml-2 pb-2">
+
                         {carOrder
                             .map((cad: Zeni.Card) => {
                             return <CardAccount key={cad.id} surname={cad.apelido} finalNumber={cad.ultimosDigitos} expenses={cad.gastos} quantityOfPurchases={cad.quantidadeCompras} />;
@@ -72,10 +67,10 @@ const Dashboard = () => {
                         <div className="col-12 xl:col-6">
                             <div className="card h-full">
                                 <h5>Ultimas compras</h5>
-                                <DataTable value={transactions} rows={4} paginator responsiveLayout="scroll" sortField="id" sortOrder={-1}>
-                                    <Column field="description" header="Description" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
-                                    <Column field="price" header="Price" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '7em' }}></Column>
-                                    <Column field="date" header="Date" sortable body={dateBodyTemplate} headerStyle={{ minWidth: '7.7rem' }}></Column>
+                                <DataTable value={transactions} rows={4} paginator sortField="id" sortOrder={-1}>
+                                    <Column field="Descricao" header="Descrição" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
+                                    <Column field="valor" header="Valor" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '7em' }}></Column>
+                                    <Column field="data" header="Data Hora" sortable body={dateBodyTemplate} headerStyle={{ minWidth: '7.7rem' }}></Column>
 
                                 </DataTable>
                             </div>

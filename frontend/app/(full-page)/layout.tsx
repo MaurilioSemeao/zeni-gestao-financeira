@@ -7,15 +7,14 @@ interface SimpleLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: 'PrimeReact Sakai',
-    description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.'
+    title: 'Zeni - Gestão Financeira',
+    description: 'Sistema de controle financeiro pessoal.'
 };
 
 export default function SimpleLayout({ children }: SimpleLayoutProps) {
     return (
         <React.Fragment>
             {children}
-            <AppConfig simple />
         </React.Fragment>
     );
 }

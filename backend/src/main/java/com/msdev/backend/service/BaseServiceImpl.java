@@ -24,8 +24,7 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
 
     @Transactional(readOnly = true)
     public List<Res> findAll(){
-       List<T> entities = repository.findAll();
-       beforeFindAll(entities);
+       List<T> entities = fetchAllEntities();
        return mapper.toResponseList(entities);
     }
 
@@ -62,11 +61,13 @@ public abstract class BaseServiceImpl<T, ID, Req, Res> {
        repository.delete(entity);
     }
 
+    protected List<T>fetchAllEntities(){
+        return repository.findAll();
+    }
+
     public void beforeCreate(T entity, Req request ){}
 
     public void afterCreate(T entity, Req request){}
-
-    public void beforeFindAll(List<T> entities){}
 
     public void beforeDelete(T entity){}
 

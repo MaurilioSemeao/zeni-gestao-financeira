@@ -4,6 +4,7 @@ export declare namespace Zeni {
     type Usuario = {
         id: number;
         nome: string;
+        username: string;
         email: string;
         senha: string;
     };
@@ -18,12 +19,13 @@ export declare namespace Zeni {
         categoriaId: number;
         cartaoId: number | null;
         contaId: number | null;
+        categoria: Category | null;
 
     };
 
     type Invoice = {
         id: number;
-        valorTotal: number;
+        saldoExtrato: number;
         status: string;
         mesReferencia: string;
     };
