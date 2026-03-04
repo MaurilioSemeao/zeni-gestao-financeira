@@ -10,9 +10,8 @@ Grande parte da população enfrenta dificuldades na administração de suas fin
 
 ## 2\. Autores
 
-  * Douglas Luiz Pereira
-  * Ketllen Cristiny Almeida do Nascimento
-  * Maurilio Santos 
+  * Maurilio Santos
+  * Hana Márcia
   
 ### Documentação da API (GitHub Pages)
 A documentação completa e interativa da API, gerada com ReDoc, está publicada e pode ser acessada publicamente através do link abaixo:
