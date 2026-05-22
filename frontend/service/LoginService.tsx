@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Zeni } from '@/types/zeni';
 
 export const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_URL_API
@@ -18,3 +17,4 @@ export class LoginService {
 
 
 }
+

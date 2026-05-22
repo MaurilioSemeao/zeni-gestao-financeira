@@ -1,6 +1,4 @@
-import { number, string } from 'zod';
-
-export declare namespace Zeni {
+declare namespace Zeni {
     type Usuario = {
         id: number;
         nome: string;

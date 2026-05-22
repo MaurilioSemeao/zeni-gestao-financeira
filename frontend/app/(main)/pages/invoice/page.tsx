@@ -9,7 +9,6 @@ import { DataView } from 'primereact/dataview';
 import { Tag } from 'primereact/tag';
 import { Rating } from 'primereact/rating';
 import Link from 'next/link';
-import {Zeni} from '@/types/zeni';
 
 
 
@@ -157,3 +156,4 @@ const Crud = () => {
 
 
 export default Crud;
+

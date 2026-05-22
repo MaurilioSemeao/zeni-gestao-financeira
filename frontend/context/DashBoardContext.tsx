@@ -5,7 +5,6 @@ import {invoiceService} from '@/service/InvoiceService';
 import {transactionService} from '@/service/TransactionService';
 import {dashBoradService} from '@/service/DashBoardService'
 
-import { Zeni } from '@/types/zeni';
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 interface DashBoardContextType{
@@ -13,6 +12,7 @@ interface DashBoardContextType{
     cards: Zeni.Card[];
     invoices: Zeni.Invoice[];
     transactions: Zeni.Transaction[];
+    resumoCategoria: Zeni.ResumoCategoria[];
     loading: boolean;
     fetchData: () => Promise<void>;
 }
@@ -77,3 +77,4 @@ export const useDashboard = () => {
     }
     return context;
 }
+
