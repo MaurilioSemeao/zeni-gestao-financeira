@@ -11,6 +11,8 @@ public class ParcelamentoResponse {
     private BigDecimal valor;
     private Integer totalParcelas;
     private LocalDate dataCompra;
+    private CategoriaResponse categoria;
+    private CartaoResponse cartao;
     private boolean ativo;
 
     public ParcelamentoResponse() {
@@ -62,5 +64,21 @@ public class ParcelamentoResponse {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public CategoriaResponse getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaResponse categoria) {
+        this.categoria = categoria;
+    }
+
+    public CartaoResponse getCartao() {
+        return cartao;
+    }
+
+    public void setCartao(CartaoResponse cartao) {
+        this.cartao = cartao;
     }
 }

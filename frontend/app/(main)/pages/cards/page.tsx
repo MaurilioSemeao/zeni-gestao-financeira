@@ -18,7 +18,6 @@ import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBo
 
 import { cartaoService } from '@/service/CartaoService';
 import { transactionService } from '@/service/TransactionService';
-import { Zeni } from '@/types/zeni';
 
 
 
@@ -52,6 +51,7 @@ const TansactionPage = () => {
 
         openNew,
         hideDialog,
+        hideDeleteDialog,
         hideDeleteEntitiesDialog,
         saveEntity,
         editEntity,
@@ -69,7 +69,6 @@ const TansactionPage = () => {
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        //ProductService.getProducts().then((data) => setProducts(data as any));
         (async function loadData(){
             const [cartaoData] = await Promise.all([ cartaoService.getAll()])
             setEntities(cartaoData)
@@ -79,7 +78,7 @@ const TansactionPage = () => {
             setRefresh(true)
         }
 
-    }, [entities.length, setEntities, setRefresh]);
+    }, [entities.length, setEntities, setRefresh, refresh]);
 
 
     const leftToolbarTemplate = () => {
@@ -147,16 +146,20 @@ const TansactionPage = () => {
         saveEntity(cartaoService).then(r => {} )
     }
 
+    const deleteById = () =>{
+        deleteEntityById(transactionService).then(r => {})
+    }
+
     const userDialogFooter = (
         <>
             <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
             <Button label="Salvar" icon="pi pi-check" text onClick={saving} />
         </>
     );
-    const deleteUserDialogFooter = (
+    const deleteEntityDialogFooter = (
         <>
             <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntitiesDialog} />
-            <Button label="Sim" icon="pi pi-check" text onClick={deleteEntityById} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteById} />
         </>
     );
     const deleteUsersDialogFooter = (
@@ -188,7 +191,7 @@ const TansactionPage = () => {
                         globalFilter={globalFilter}
                         emptyMessage="No products found."
                         header={header}
-                        responsiveLayout="scroll"
+
                     >
                         <Column selectionMode="multiple" headerStyle={{width: '4rem' }}></Column>
                         <Column field="surname" header="Apelido" sortable body={surnameBodyTemplate} headerStyle={{ minWidth: '12rem' }}></Column>
@@ -225,7 +228,6 @@ const TansactionPage = () => {
                                 value={entity.ultimosDigitos}
                                 onChange={(e) => onInputChange(e, 'ultimosDigitos')}
                                 required
-                                autoFocus
                                 className={classNames({ 'p-invalid': submitted && !entity.ultimosDigitos })}
                             />
                         </div>
@@ -233,12 +235,12 @@ const TansactionPage = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUserDialogFooter} onHide={hideDeleteEntitiesDialog}>
+                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntityDialogFooter} onHide={hideDeleteDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {entity && (
                                 <span>
-                                    Voce Realmente Deseja excluir o usuario <b>{entity.apelido}</b>?
+                                    Voce Realmente Deseja excluir o cartão <b>{entity.apelido}</b>?
                                 </span>
                             )}
                         </div>
@@ -247,7 +249,7 @@ const TansactionPage = () => {
                     <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteEntitiesDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {entity && <span>Voce Realmente Deseja excluir o usuario ?</span>}
+                            {entity && <span>Voce Realmente Deseja excluir os cartões ?</span>}
                         </div>
                     </Dialog>
                 </div>
@@ -258,3 +260,4 @@ const TansactionPage = () => {
 
 
 export default TansactionPage;
+

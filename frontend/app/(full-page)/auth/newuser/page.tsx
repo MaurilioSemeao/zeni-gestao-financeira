@@ -10,13 +10,13 @@ import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
 import { Toast } from 'primereact/toast';
 import { LoginService} from '@/service/LoginService';
-import { Zeni } from '@/types/zeni';
 
 const NewUserPage = () => {
 
     let emptyUser: Zeni.Usuario ={
         id: 0,
         nome: '',
+        username: '',
         email: '',
         senha: '',
     };
@@ -141,3 +141,4 @@ const NewUserPage = () => {
 };
 
 export default NewUserPage;
+

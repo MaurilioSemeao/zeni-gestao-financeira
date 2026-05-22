@@ -1,5 +1,7 @@
 package com.msdev.backend.dto.response;
 
+import com.msdev.backend.enums.StatusExtratoMensal;
+
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
@@ -9,8 +11,16 @@ public class ExtratoMensalResponse {
     private YearMonth mesReferencia;
     private BigDecimal saldoExtrato;
     private UsuarioResponse usuario;
+    private StatusExtratoMensal status;
 
     public ExtratoMensalResponse() {
+    }
+
+    public ExtratoMensalResponse(YearMonth mesReferencia, BigDecimal saldoExtrato, UsuarioResponse usuario, StatusExtratoMensal status) {
+        this.mesReferencia = mesReferencia;
+        this.saldoExtrato = saldoExtrato;
+        this.usuario = usuario;
+        this.status = status;
     }
 
     public Long getId() {
@@ -43,5 +53,13 @@ public class ExtratoMensalResponse {
 
     public void setUsuario(UsuarioResponse usuario) {
         this.usuario = usuario;
+    }
+
+    public StatusExtratoMensal getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusExtratoMensal status) {
+        this.status = status;
     }
 }

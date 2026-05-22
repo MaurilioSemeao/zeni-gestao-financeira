@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.util.List;
 
 
 @Service
@@ -48,6 +49,12 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
         this.extratoMensalRepository = extratoMensalRepository;
         this.categoriaRepository = categoriaRepository;
         this.applicationArguments = applicationArguments;
+    }
+
+    @Override
+    protected List<TransacaoEntity> fetchAllEntities(){
+        UsuarioEntity usuario = authenticationService.getLoggedIUser();
+        return  transacaoRepository.findAllByUsuarioId(usuario.getId());
     }
 
     @Override
@@ -109,15 +116,37 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
 
         }
 
+        BigDecimal novoValor = extrato.getSaldoExtrato().add(entity.getValor());
+        extrato.setSaldoExtrato(novoValor);
+
         extratoMensalRepository.save(extrato);
-
-
 
     }
 
 
     @Override
     public void beforeDelete(TransacaoEntity entity) {
+
+        UsuarioEntity usuarioLogado = authenticationService.getLoggedIUser();
+
+        UsuarioEntity usuario = usuarioRepository.findById(usuarioLogado.getId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
+
+        YearMonth mesReferencia = YearMonth.now();
+        ExtratoMensalEntity extrato = extratoMensalRepository.findByUsuarioIdAndMesReferencia(usuario.getId(), mesReferencia)
+                .orElseGet(
+                        () ->{
+                            ExtratoMensalEntity novoExtrato = ExtratoMensalEntity.criaExtratoDoMes(usuario, mesReferencia);
+                            return extratoMensalRepository.save(novoExtrato);
+                        }
+                );
+        if(extrato.getStatus() == StatusExtratoMensal.FECHADA){
+            throw new BusinessException("Não é possível remover transação de uma extrato fechado");
+        }
+
+        BigDecimal novoValorExtrato = extrato.getSaldoExtrato().subtract(entity.getValor());
+        extrato.setSaldoExtrato(novoValorExtrato);
+
         switch (entity.getMeioPagamento()){
             case CREDITO ->{
                 CartaoEntity cartao = entity.getCartao();
@@ -134,6 +163,13 @@ public class TransacaoService extends BaseServiceImpl<TransacaoEntity, Long, Tra
             }
 
         }
+    }
+
+    public List<TransacaoResponse> findByExtratoMensalByUsuarioId(Long extratoId){
+        UsuarioEntity usuarioLogado = authenticationService.getLoggedIUser();
+        List<TransacaoEntity> transacoes = transacaoRepository.findByExtrato_Usuario_IdAndExtrato_Id(usuarioLogado.getId(), extratoId);
+        return transacaoMapper.toResponseList(transacoes);
+
     }
 
 

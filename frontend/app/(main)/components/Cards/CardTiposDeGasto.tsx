@@ -1,7 +1,4 @@
 import React from 'react';
-import { Zeni } from '@/types/zeni';
-
-
 
 interface CardTipoDeGastoProps {
     dados: Zeni.ResumoCategoria[];
@@ -66,3 +63,4 @@ export const CardTipoDeGasto = ({dados}:CardTipoDeGastoProps) =>{
 
     )
 }
+
