@@ -18,7 +18,7 @@ import { RightToolbarTemplate } from '@/app/(main)/components/Templates/RightToo
 import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBodyTemplate';
 import { transactionService } from '@/service/TransactionService';
 import { useParams, useSearchParams } from 'next/navigation';
-import { Zeni } from '@/types/zeni';
+
 
 
 

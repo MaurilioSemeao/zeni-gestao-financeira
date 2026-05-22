@@ -9,9 +9,15 @@ import { useCrud } from '@/hook/useEntityCrud';
 export const CardRecentTransaction = (iTransaction:Zeni.Transaction[])=> {
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
-        description: '',
-        price: 0,
-        data: ''
+        descricao: '',
+        valor: 0,
+        tipo: '',
+        meioPagamento: '',
+        dataTransacao: '',
+        categoriaId: 0,
+        cartaoId: null,
+        contaId: null,
+        categoria: null
     };
 
    const tCrud = useCrud<Zeni.Transaction>(emptyTransaction)

@@ -18,7 +18,6 @@ import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBo
 
 import { cartaoService } from '@/service/CartaoService';
 import { transactionService } from '@/service/TransactionService';
-import { Zeni } from '@/types/zeni';
 
 
 
@@ -261,3 +260,4 @@ const TansactionPage = () => {
 
 
 export default TansactionPage;
+

@@ -7,7 +7,6 @@ import { CardAccount } from '@/app/(main)/components/Cards/CardAccount';
 import { CardTipoDeGasto } from '@/app/(main)/components/Cards/CardTiposDeGasto';
 import { CardGrafic } from '@/app/(main)/components/Cards/CardGrafic';
 import {useDashboard} from '@/context/DashBoardContext';
-import { Zeni } from '@/types/zeni';
 import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBodyTemplate';
 
 
@@ -90,3 +89,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

@@ -496,3 +496,5 @@
 //
 //
 // export default Crud;
+
+export default function Page() { return null; }

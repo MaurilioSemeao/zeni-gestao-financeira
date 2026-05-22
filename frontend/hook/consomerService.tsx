@@ -2,7 +2,7 @@
 'use client'
 import { useCrud } from '@/hook/useEntityCrud';
 import { useEffect, useMemo } from 'react';
-import { TransactionService } from '@/service/TransactionService';
+import { transactionService } from '@/service/TransactionService';
 
 
 
@@ -10,9 +10,15 @@ export const useGetService =() =>{
 
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
-        description: '',
-        price: 0,
-        data: ''
+        descricao: '',
+        valor: 0,
+        tipo: '',
+        meioPagamento: '',
+        dataTransacao: '',
+        categoriaId: 0,
+        cartaoId: null,
+        contaId: null,
+        categoria: null
     };
 
 
@@ -48,7 +54,7 @@ export const useGetService =() =>{
     } = useCrud<Zeni.Transaction>(emptyTransaction)
 
 
-    const transactionService =useMemo(() => new TransactionService(),[])
+
 
 
     useEffect(() => {

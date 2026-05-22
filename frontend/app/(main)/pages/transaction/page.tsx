@@ -19,7 +19,6 @@ import { transactionService } from '@/service/TransactionService';
 import {cartaoService} from '@/service/CartaoService';
 import {dashBoradService} from '@/service/DashBoardService'
 import { Dropdown } from 'primereact/dropdown';
-import { Zeni } from '@/types/zeni';
 import { RadioButton } from 'primereact/radiobutton';
 import { meiosPagamento } from '@/types/constats.';
 import { categoriaService } from '@/service/CategoriaService';
@@ -416,3 +415,4 @@ const TansactionPage = () => {
 
 
 export default TansactionPage;
+

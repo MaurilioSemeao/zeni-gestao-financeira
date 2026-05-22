@@ -28,7 +28,7 @@ const LoginPage = () => {
             localStorage.setItem('TOKEN_APPLICATION', response.data.token);
             const {token, ...userData}  = response.data;
             localStorage.setItem('USER_DATA', JSON.stringify(userData));
-            window.location.reload();
+            window.location.href = '/';
         }).catch((error) =>{
             toast.current?.show({
                 severity: 'error',

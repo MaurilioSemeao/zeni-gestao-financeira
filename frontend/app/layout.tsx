@@ -16,8 +16,10 @@ interface RootLayoutProps {
 }
 
 const checkAuth = () =>{
-    if(localStorage.getItem('TOKEN_APPLICATION') != undefined){
-        return true;
+    if(typeof window !== "undefined"){
+        if(localStorage.getItem('TOKEN_APPLICATION') != undefined){
+            return true;
+        }
     }
     return false;
 }
