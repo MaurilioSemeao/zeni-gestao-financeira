@@ -7,6 +7,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: zeni
+    ports:
+      - "127.0.0.1:5433:5432"
     volumes:
       - zeni_pg_data:/var/lib/postgresql/data
 
