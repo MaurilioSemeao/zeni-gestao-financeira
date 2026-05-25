@@ -9,11 +9,11 @@ servers:
 - url: http://localhost:8080
   description: Servidor de Desenvolvimento Local
 paths:
-  /auth/cadastrar:
+  /auth/newuser:
     post:
       tags:
       - Autenticação
-      summary: (HU-01) Cria uma nova conta de usuário
+      summary: Cria uma nova conta de usuário
       requestBody:
         content:
           application/json:
@@ -27,15 +27,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UsuarioResponse"
-        "400":
-          description: "Dados de cadastro inválidos (ex. e-mail em formato incorreto, senha fraca)."
-        "409":
-          description: Conflito. O e-mail fornecido já está em uso.
   /auth/login:
     post:
       tags:
       - Autenticação
-      summary: (HU-02) Autentica um usuário
+      summary: Autentica um usuário
       requestBody:
         content:
           application/json:
@@ -51,87 +47,60 @@ paths:
                 $ref: "#/components/schemas/LoginResponse"
         "401":
           description: Não autorizado. Credenciais inválidas.
-  /usuarios/me:
+  /usuario:
     get:
       tags:
       - Usuários
-      summary: Retorna o perfil do usuário logado
+      summary: Lista todos os usuários
       responses:
         "200":
-          description: Perfil do usuário retornado com sucesso.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UsuarioResponse"
-      security:
-      - bearerAuth: []
-  /transacoes:
-    get:
-      tags:
-      - Transações
-      summary: Lista as transações do usuário
-      responses:
-        "200":
-          description: Lista de transações retornada com sucesso.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/TransacaoResponse"
+          description: Sucesso
       security:
       - bearerAuth: []
     post:
       tags:
-      - Transações
-      summary: (HU-03) Registra uma nova transação
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TransacaoRequest"
-        required: true
+      - Usuários
+      summary: Cria um novo usuário
       responses:
         "201":
-          description: Transação criada com sucesso.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TransacaoResponse"
+          description: Criado
       security:
       - bearerAuth: []
-  /transacoes/{id}:
-    put:
+  /usuario/{id}:
+    get:
       tags:
-      - Transações
-      summary: Atualiza uma transação
+      - Usuários
+      summary: Retorna um usuário
       parameters:
       - name: id
         in: path
         required: true
         schema:
           type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TransacaoRequest"
-        required: true
       responses:
         "200":
-          description: Transação atualizada com sucesso.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TransacaoResponse"
-        "404":
-          description: Transação não encontrada.
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Usuários
+      summary: Atualiza um usuário
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
       security:
       - bearerAuth: []
     delete:
       tags:
-      - Transações
-      summary: Exclui uma transação
+      - Usuários
+      summary: Exclui um usuário
       parameters:
       - name: id
         in: path
@@ -140,19 +109,82 @@ paths:
           type: integer
       responses:
         "204":
-          description: Transação excluída com sucesso.
-        "404":
-          description: Transação não encontrada.
+          description: Sucesso
       security:
       - bearerAuth: []
-  /categorias:
+  /carteiras:
+    get:
+      tags:
+      - Carteiras
+      summary: Lista as carteiras
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Carteiras
+      summary: Cria uma nova carteira
+      responses:
+        "201":
+          description: Criado
+      security:
+      - bearerAuth: []
+  /carteiras/{id}:
+    get:
+      tags:
+      - Carteiras
+      summary: Retorna uma carteira
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Carteiras
+      summary: Atualiza uma carteira
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Carteiras
+      summary: Exclui uma carteira
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+  /categoria:
     get:
       tags:
       - Categorias
       summary: Lista as categorias do usuário
       responses:
         "200":
-          description: Lista de categorias retornada com sucesso.
+          description: Sucesso
           content:
             application/json:
               schema:
@@ -164,7 +196,7 @@ paths:
     post:
       tags:
       - Categorias
-      summary: (HU-04) Cria uma nova categoria
+      summary: Cria uma nova categoria
       requestBody:
         content:
           application/json:
@@ -173,18 +205,33 @@ paths:
         required: true
       responses:
         "201":
-          description: Categoria criada com sucesso.
+          description: Categoria criada
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CategoriaResponse"
       security:
       - bearerAuth: []
-  /categorias/{id}:
+  /categoria/{id}:
+    get:
+      tags:
+      - Categorias
+      summary: Retorna uma categoria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
     put:
       tags:
       - Categorias
-      summary: (HU-08) Atualiza uma categoria
+      summary: Atualiza uma categoria
       parameters:
       - name: id
         in: path
@@ -199,13 +246,11 @@ paths:
         required: true
       responses:
         "200":
-          description: Categoria atualizada com sucesso.
+          description: Categoria atualizada
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CategoriaResponse"
-        "404":
-          description: Categoria não encontrada.
       security:
       - bearerAuth: []
     delete:
@@ -220,9 +265,7 @@ paths:
           type: integer
       responses:
         "204":
-          description: Categoria excluída com sucesso.
-        "404":
-          description: Categoria não encontrada.
+          description: Categoria excluída
       security:
       - bearerAuth: []
   /contas:
@@ -232,7 +275,7 @@ paths:
       summary: Lista as contas do usuário
       responses:
         "200":
-          description: Lista de contas retornada com sucesso.
+          description: Lista de contas retornada
           content:
             application/json:
               schema:
@@ -253,11 +296,57 @@ paths:
         required: true
       responses:
         "201":
-          description: Conta criada com sucesso.
+          description: Conta criada com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContaResponse"
+      security:
+      - bearerAuth: []
+  /contas/{id}:
+    get:
+      tags:
+      - Contas
+      summary: Retorna uma conta
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Contas
+      summary: Atualiza uma conta
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Contas
+      summary: Exclui uma conta
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Sucesso
       security:
       - bearerAuth: []
   /cartoes:
@@ -267,7 +356,7 @@ paths:
       summary: Lista os cartões de crédito do usuário
       responses:
         "200":
-          description: Lista de cartões retornada com sucesso.
+          description: Lista de cartões retornada
           content:
             application/json:
               schema:
@@ -279,7 +368,7 @@ paths:
     post:
       tags:
       - Cartões de Crédito
-      summary: (HU-05) Cadastra um novo cartão de crédito
+      summary: Cadastra um novo cartão de crédito
       requestBody:
         content:
           application/json:
@@ -288,123 +377,239 @@ paths:
         required: true
       responses:
         "201":
-          description: Cartão criado com sucesso.
+          description: Cartão criado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CartaoCreditoResponse"
       security:
       - bearerAuth: []
-  /cartoes/{cartaoId}/faturas:
+  /cartoes/{id}:
     get:
       tags:
-      - Faturas
-      summary: (HU-07) Lista as faturas de um cartão
+      - Cartões de Crédito
+      summary: Retorna um cartão
       parameters:
-      - name: cartaoId
+      - name: id
         in: path
         required: true
         schema:
           type: integer
       responses:
         "200":
-          description: Faturas retornadas com sucesso.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/FaturaResponse"
+          description: Sucesso
       security:
       - bearerAuth: []
-  /faturas/{faturaId}:
-    get:
+    put:
       tags:
-      - Faturas
-      summary: Detalha uma fatura específica
+      - Cartões de Crédito
+      summary: Atualiza um cartão
       parameters:
-      - name: faturaId
+      - name: id
         in: path
         required: true
         schema:
           type: integer
       responses:
         "200":
-          description: Detalhes da fatura retornados com sucesso.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/FaturaDetalhadaResponse"
-        "404":
-          description: Fatura não encontrada.
+          description: Sucesso
       security:
       - bearerAuth: []
-  /faturas/{faturaId}/pagar:
-    patch:
+    delete:
       tags:
-      - Faturas
-      summary: Marca uma fatura como paga
+      - Cartões de Crédito
+      summary: Exclui um cartão
       parameters:
-      - name: faturaId
+      - name: id
         in: path
         required: true
         schema:
           type: integer
       responses:
         "204":
-          description: Fatura marcada como paga com sucesso.
-        "400":
-          description: Ação não permitida (ex. fatura ainda está aberta).
-        "404":
-          description: Fatura não encontrada.
+          description: Sucesso
       security:
       - bearerAuth: []
-  /dashboard:
+  /extratomensal:
     get:
       tags:
-      - Dashboard & Relatórios
-      summary: (HU-09) Retorna dados para o dashboard
+      - Extrato Mensal
+      summary: Lista os extratos
       responses:
         "200":
-          description: Dados do dashboard retornados com sucesso.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DashboardResponse"
-      security:
-      - bearerAuth: []
-  /relatorios/exportar:
-    get:
-      tags:
-      - Dashboard & Relatórios
-      summary: (HU-10) Exporta relatório de transações
-      responses:
-        "200":
-          description: Arquivo Excel gerado com sucesso.
-          content:
-            application/vnd.ms-excel:
-              schema:
-                type: string
-                format: binary
-      security:
-      - bearerAuth: []
-  /admin/parcerias:
-    get:
-      tags:
-      - Admin
-      summary: (Admin) Lista todas as parcerias
-      responses:
-        "200":
-          description: Lista de parcerias retornada.
+          description: Sucesso
       security:
       - bearerAuth: []
     post:
       tags:
-      - Admin
-      summary: "(HU-11, Admin) Cria uma nova parceria"
+      - Extrato Mensal
+      summary: Cria extrato
       responses:
         "201":
-          description: Parceria criada com sucesso.
+          description: Criado
+      security:
+      - bearerAuth: []
+  /extratomensal/{id}:
+    get:
+      tags:
+      - Extrato Mensal
+      summary: Retorna um extrato
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Extrato Mensal
+      summary: Atualiza extrato
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Extrato Mensal
+      summary: Exclui extrato
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+  /transacoes:
+    get:
+      tags:
+      - Transações
+      summary: Lista as transações
+      responses:
+        "200":
+          description: Lista retornada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransacaoResponse"
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Transações
+      summary: Registra uma nova transação
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransacaoRequest"
+        required: true
+      responses:
+        "201":
+          description: Transação criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransacaoResponse"
+      security:
+      - bearerAuth: []
+  /transacoes/{id}:
+    get:
+      tags:
+      - Transações
+      summary: Retorna uma transacao
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+    put:
+      tags:
+      - Transações
+      summary: Atualiza uma transação
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransacaoRequest"
+        required: true
+      responses:
+        "200":
+          description: Transação atualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransacaoResponse"
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - Transações
+      summary: Exclui uma transação
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Transação excluída
+      security:
+      - bearerAuth: []
+  /transacoes/extratomensal/{id}:
+    get:
+      tags:
+      - Transações
+      summary: Retorna transacoes por extrato
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Sucesso
+      security:
+      - bearerAuth: []
+  /dashboard/resumoCategoria:
+    get:
+      tags:
+      - Dashboard & Relatórios
+      summary: Retorna dados para o dashboard
+      responses:
+        "200":
+          description: Sucesso
       security:
       - bearerAuth: []
 components:
