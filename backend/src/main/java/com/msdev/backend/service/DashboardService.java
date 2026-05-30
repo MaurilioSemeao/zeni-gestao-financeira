@@ -30,13 +30,32 @@ public class DashboardService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<ResumoCategoriaResponse> getGastosPorCategoria(){
+    public List<ResumoCategoriaResponse> getGastosPorCategoria(String periodo){
         UsuarioEntity usuario = authenticationService.getLoggedIUser();
 
         LocalDate hoje = LocalDate.now();
+        LocalDateTime dataInicio;
+        LocalDateTime dataFim;
 
-        LocalDateTime dataInicio = hoje.withDayOfMonth(1).atStartOfDay();
-        LocalDateTime dataFim = hoje.withDayOfMonth(hoje.lengthOfMonth()).atTime(LocalTime.MAX);
+        switch (periodo != null ? periodo.toUpperCase() : "MENSAL") {
+            case "SEMANAL":
+                dataInicio = hoje.minusDays(7).atStartOfDay();
+                dataFim = hoje.atTime(LocalTime.MAX);
+                break;
+            case "ANUAL":
+                dataInicio = hoje.withDayOfYear(1).atStartOfDay();
+                dataFim = hoje.withDayOfYear(hoje.lengthOfYear()).atTime(LocalTime.MAX);
+                break;
+            case "GERAL":
+                dataInicio = LocalDateTime.of(2000, 1, 1, 0, 0);
+                dataFim = hoje.plusYears(100).atTime(LocalTime.MAX);
+                break;
+            case "MENSAL":
+            default:
+                dataInicio = hoje.withDayOfMonth(1).atStartOfDay();
+                dataFim = hoje.withDayOfMonth(hoje.lengthOfMonth()).atTime(LocalTime.MAX);
+                break;
+        }
 
         List<ResumoCategoriaResponse> lista = transacaoRepository.findGastosPorCategoria(usuario.getId(), dataInicio, dataFim);
 

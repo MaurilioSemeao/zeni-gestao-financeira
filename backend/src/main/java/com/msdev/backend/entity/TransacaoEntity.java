@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Transacoes")
+@Table(name = "Transacoes", indexes = {
+    @Index(name = "idx_dashboard_gastos", columnList = "usuario_id, tipo, data_transacao")
+})
 public class TransacaoEntity {
 
     @Id

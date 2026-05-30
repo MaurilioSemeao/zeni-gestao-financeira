@@ -15,6 +15,8 @@ interface DashBoardContextType{
     resumoCategoria: Zeni.ResumoCategoria[];
     loading: boolean;
     fetchData: () => Promise<void>;
+    periodoCategoria: string;
+    changePeriodoCategoria: (novoPeriodo: string) => Promise<void>;
 }
 
 const DashBoardContext = createContext<DashBoardContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
     const [invoices, setInvoices] = useState<Zeni.Invoice[]>([]);
     const [transactions, setTransactions] = useState<Zeni.Transaction[] >([]);
     const [resumoCategoria, setResumoCategoria] = useState<Zeni.ResumoCategoria[]>([]);
+    const [periodoCategoria, setPeriodoCategoria] = useState<string>("MENSAL");
     const [loading, setLoading] = useState(true);
 
     const fetchData = useCallback(async () =>{
@@ -42,7 +45,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
                 const [cardData, transactionData, resumoCategoria] = await Promise.all([
                     cartaoService.getAll(),
                     transactionService.getAll(),
-                    dashBoradService.getResumoCategoria()
+                    dashBoradService.getResumoCategoria(periodoCategoria)
                    // invoiceService.getAll(),
                 ]);
 
@@ -60,7 +63,17 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
             }
         },[]);
 
-    const value = {user, cards, invoices, transactions, resumoCategoria, loading, fetchData};
+    const changePeriodoCategoria = useCallback(async (novoPeriodo: string) => {
+        setPeriodoCategoria(novoPeriodo);
+        try {
+            const data = await dashBoradService.getResumoCategoria(novoPeriodo);
+            setResumoCategoria(data);
+        } catch(error) {
+            console.log("Erro ao atualizar periodo", error);
+        }
+    }, []);
+
+    const value = {user, cards, invoices, transactions, resumoCategoria, loading, fetchData, periodoCategoria, changePeriodoCategoria};
 
     return(
         <DashBoardContext.Provider value={value}>

@@ -1,10 +1,14 @@
 import React from 'react';
+import { useDashboard } from '@/context/DashBoardContext';
+import { Button } from 'primereact/button';
 
 interface CardTipoDeGastoProps {
     dados: Zeni.ResumoCategoria[];
 }
 
 export const CardTipoDeGasto = ({dados}:CardTipoDeGastoProps) =>{
+    const { periodoCategoria, changePeriodoCategoria } = useDashboard();
+
 
     const PALETA_CORES = [
         { bg: 'bg-blue-500', text: 'text-blue-500' },
@@ -31,10 +35,13 @@ export const CardTipoDeGasto = ({dados}:CardTipoDeGastoProps) =>{
     return (
 
         <div className="card h-full">
-            <div className="flex justify-content-between align-items-center mb-5">
+            <div className="flex flex-column mb-5">
                 <h5>Gastos Por Categoria</h5>
-                <div>
-
+                <div className="flex gap-2 mt-2">
+                    <Button label="Geral" onClick={() => changePeriodoCategoria('GERAL')} className={periodoCategoria === 'GERAL' ? 'p-button-sm' : 'p-button-sm p-button-outlined'} />
+                    <Button label="Semanal" onClick={() => changePeriodoCategoria('SEMANAL')} className={periodoCategoria === 'SEMANAL' ? 'p-button-sm' : 'p-button-sm p-button-outlined'} />
+                    <Button label="Mensal" onClick={() => changePeriodoCategoria('MENSAL')} className={periodoCategoria === 'MENSAL' ? 'p-button-sm' : 'p-button-sm p-button-outlined'} />
+                    <Button label="Anual" onClick={() => changePeriodoCategoria('ANUAL')} className={periodoCategoria === 'ANUAL' ? 'p-button-sm' : 'p-button-sm p-button-outlined'} />
                 </div>
             </div>
 

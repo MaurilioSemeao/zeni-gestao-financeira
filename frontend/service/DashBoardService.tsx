@@ -6,9 +6,9 @@ export class DashBoardService extends BaseService{
         super('/dashboard');
     }
 
-    async getResumoCategoria(){
+    async getResumoCategoria(periodo: string = "MENSAL"){
         try{
-            const response = await axiosInstance.get('/dashboard/resumoCategoria');
+            const response = await axiosInstance.get(`/dashboard/resumoCategoria?periodo=${periodo}`);
             return response.data;
         }
         catch(error){
