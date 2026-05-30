@@ -81,9 +81,9 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className="col-12 xl:col-6">
+            {/* <div className="col-12 xl:col-6">
                 <CardGrafic />
-            </div>
+            </div> */}
         </div>
     );
 };
