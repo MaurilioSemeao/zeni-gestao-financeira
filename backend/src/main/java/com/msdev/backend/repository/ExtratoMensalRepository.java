@@ -16,4 +16,6 @@ public interface ExtratoMensalRepository extends JpaRepository<ExtratoMensalEnti
     Optional<ExtratoMensalEntity> findByUsuarioIdAndMesReferencia(Long usuarioId, YearMonth mesReferencia);
 
     List<ExtratoMensalEntity> findAllByMesReferenciaAndStatus(YearMonth mesReferencia, StatusExtratoMensal status);
+
+    List<ExtratoMensalEntity> findAllByMesReferenciaLessThanEqualAndStatus(YearMonth mesReferencia, StatusExtratoMensal status);
 }

@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.List;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 @Service
 public class AgendadorFinanceiroService {
@@ -23,15 +25,22 @@ public class AgendadorFinanceiroService {
         this.extratoMensalRepositor = extratoMensalRepositor;
     }
 
+    @EventListener(ApplicationReadyEvent.class)
+    @Transactional
+    public void verificarExtratosAbertosNoStartup() {
+        logger.info("Verificando extratos esquecidos durante a inicialização da aplicação...");
+        fecharExtratoDoMesAnterior();
+    }
+
     @Scheduled(cron = "0 1 0 1 * ?")
     @Transactional
     public void fecharExtratoDoMesAnterior(){
         YearMonth mesAnterior = YearMonth.now().minusMonths(1);
 
-        logger.info("iniciando tarefa agendada: Fechando extratos para o mes {}", mesAnterior);
+        logger.info("iniciando tarefa agendada/reconciliação: Fechando extratos para o mes {} e anteriores", mesAnterior);
 
         List<ExtratoMensalEntity> extratosParaFechar =
-                extratoMensalRepositor.findAllByMesReferenciaAndStatus(mesAnterior, StatusExtratoMensal.ABERTA);
+                extratoMensalRepositor.findAllByMesReferenciaLessThanEqualAndStatus(mesAnterior, StatusExtratoMensal.ABERTA);
 
         if(extratosParaFechar.isEmpty()){
             logger.info("Nenhum extrato em aberto encontrado para {}. Tarefa concluída", mesAnterior);
