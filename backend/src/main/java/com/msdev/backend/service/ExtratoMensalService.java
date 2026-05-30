@@ -31,6 +31,6 @@ public class ExtratoMensalService extends BaseServiceImpl<ExtratoMensalEntity, L
     @Override
     protected List<ExtratoMensalEntity> fetchAllEntities(){
         UsuarioEntity usuario = authenticationService.getLoggedIUser();
-        return  extratoMensalRepository.findAllByUsuarioId(usuario.getId());
+        return  extratoMensalRepository.findAllByUsuarioIdOrderByMesReferenciaDesc(usuario.getId());
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ExtratoMensalRepository extends JpaRepository<ExtratoMensalEntity, Long> {
 
-    List<ExtratoMensalEntity> findAllByUsuarioId (Long id);
+    List<ExtratoMensalEntity> findAllByUsuarioIdOrderByMesReferenciaDesc(Long id);
 
     Optional<ExtratoMensalEntity> findByUsuarioIdAndMesReferencia(Long usuarioId, YearMonth mesReferencia);
 
