@@ -26,6 +26,7 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final ExtratoMensalRepository extratoMensalRepository;
     private final TransacaoRepository transacaoRepository;
     private final CarteiraRepository carteiraRepository;
+    private final CartaoRepository cartaoRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DatabaseSeeder(
@@ -34,12 +35,14 @@ public class DatabaseSeeder implements CommandLineRunner {
             ExtratoMensalRepository extratoMensalRepository,
             TransacaoRepository transacaoRepository,
             CarteiraRepository carteiraRepository,
+            CartaoRepository cartaoRepository,
             PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.categoriaRepository = categoriaRepository;
         this.extratoMensalRepository = extratoMensalRepository;
         this.transacaoRepository = transacaoRepository;
         this.carteiraRepository = carteiraRepository;
+        this.cartaoRepository = cartaoRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -84,6 +87,15 @@ public class DatabaseSeeder implements CommandLineRunner {
             categoriaRepository.save(cat);
         }
 
+        // 3.5 Criar Cartões de Crédito
+        CartaoEntity cartaoNubank = new CartaoEntity("Nubank Roxinho", "1234", usuario);
+        CartaoEntity cartaoItau = new CartaoEntity("Itaú Personnalité", "5678", usuario);
+        CartaoEntity cartaoXp = new CartaoEntity("XP Gold", "9012", usuario);
+        
+        cartaoNubank = cartaoRepository.save(cartaoNubank);
+        cartaoItau = cartaoRepository.save(cartaoItau);
+        cartaoXp = cartaoRepository.save(cartaoXp);
+
         final Long usuarioId = usuario.getId();
 
         CategoriaEntity catAlimentacao = getCategoria("Alimentação", usuarioId);
@@ -107,46 +119,46 @@ public class DatabaseSeeder implements CommandLineRunner {
 
             // --- RECEITAS ---
             // 1. Salário do Mês (Dia 05)
-            saldoMensal = saldoMensal.add(criarTransacao(extrato, carteira, usuario, "Salário do Mês", TipoTransacao.RECEITA, MeioPagamento.PIX, mes.atDay(5).atTime(8, 0), "5500.00", catSalario));
+            saldoMensal = saldoMensal.add(criarTransacao(extrato, carteira, usuario, "Salário do Mês", TipoTransacao.RECEITA, MeioPagamento.PIX, mes.atDay(5).atTime(8, 0), "5500.00", catSalario, null));
 
             // --- DESPESAS FIXAS (Moradia) ---
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Aluguel", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(6).atTime(10, 0), "1500.00", getCategoria("Moradia", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Conta de Luz", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(10).atTime(14, 30), "180.00", getCategoria("Moradia", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Conta de Água", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(11).atTime(9, 15), "85.00", getCategoria("Moradia", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Internet (Fibra)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(15).atTime(18, 0), "120.00", getCategoria("Moradia", usuarioId)));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Aluguel", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(6).atTime(10, 0), "1500.00", getCategoria("Moradia", usuarioId), null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Conta de Luz", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(10).atTime(14, 30), "180.00", getCategoria("Moradia", usuarioId), null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Conta de Água", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(11).atTime(9, 15), "85.00", getCategoria("Moradia", usuarioId), null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Internet (Fibra)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(15).atTime(18, 0), "120.00", getCategoria("Moradia", usuarioId), cartaoNubank));
 
             // --- TRANSPORTE ---
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Combustível (Posto Ipiranga)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(8).atTime(19, 45), "200.00", getCategoria("Transporte", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Uber (Ida Trabalho)", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(12).atTime(7, 30), "35.00", getCategoria("Transporte", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Uber (Volta Trabalho)", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(12).atTime(18, 15), "42.00", getCategoria("Transporte", usuarioId)));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Estacionamento Shopping", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(20).atTime(21, 0), "25.00", getCategoria("Transporte", usuarioId)));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Combustível (Posto Ipiranga)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(8).atTime(19, 45), "200.00", getCategoria("Transporte", usuarioId), cartaoItau));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Uber (Ida Trabalho)", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(12).atTime(7, 30), "35.00", getCategoria("Transporte", usuarioId), null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Uber (Volta Trabalho)", TipoTransacao.DESPESA, MeioPagamento.PIX, mes.atDay(12).atTime(18, 15), "42.00", getCategoria("Transporte", usuarioId), null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Estacionamento Shopping", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(20).atTime(21, 0), "25.00", getCategoria("Transporte", usuarioId), null));
 
             // --- ALIMENTAÇÃO ---
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Supermercado (Compra do Mês)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(7).atTime(11, 20), "600.00", catAlimentacao));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Padaria (Café da Manhã)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(10).atTime(7, 45), "18.50", catAlimentacao));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Padaria (Café da Manhã)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(18).atTime(8, 10), "22.00", catAlimentacao));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "iFood (Lanche da Tarde)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(14).atTime(16, 30), "45.00", catAlimentacao));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Almoço (Restaurante Self-Service)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(15).atTime(12, 15), "35.00", catAlimentacao));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Almoço (Restaurante Self-Service)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(22).atTime(12, 30), "40.00", catAlimentacao));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Supermercado (Compra do Mês)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(7).atTime(11, 20), "600.00", catAlimentacao, cartaoItau));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Padaria (Café da Manhã)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(10).atTime(7, 45), "18.50", catAlimentacao, null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Padaria (Café da Manhã)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(18).atTime(8, 10), "22.00", catAlimentacao, null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "iFood (Lanche da Tarde)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(14).atTime(16, 30), "45.00", catAlimentacao, cartaoNubank));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Almoço (Restaurante Self-Service)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(15).atTime(12, 15), "35.00", catAlimentacao, null));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Almoço (Restaurante Self-Service)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(22).atTime(12, 30), "40.00", catAlimentacao, null));
 
             // --- LAZER (Variável + Fixo) ---
             CategoriaEntity catLazer = getCategoria("Lazer", usuarioId);
             // Assinaturas fixas
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Assinatura Netflix", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(3).atTime(10, 0), "45.00", catLazer));
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Assinatura Spotify", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(10).atTime(9, 0), "21.90", catLazer));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Assinatura Netflix", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(3).atTime(10, 0), "45.00", catLazer, cartaoXp));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Assinatura Spotify", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(10).atTime(9, 0), "21.90", catLazer, cartaoXp));
             
             // Variável Lazer (Com variação de valor a cada mês)
             double variacaoHappyHour = 80.00 + (40.00 * random.nextDouble()); // Entre 80 e 120
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Happy Hour com Amigos", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(14).atTime(22, 30), String.format(java.util.Locale.US, "%.2f", variacaoHappyHour), catLazer));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Happy Hour com Amigos", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(14).atTime(22, 30), String.format(java.util.Locale.US, "%.2f", variacaoHappyHour), catLazer, cartaoItau));
             
             double variacaoCinema = 60.00 + (30.00 * random.nextDouble()); // Entre 60 e 90
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Cinema + Pipoca", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(25).atTime(19, 0), String.format(java.util.Locale.US, "%.2f", variacaoCinema), catLazer));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Cinema + Pipoca", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(25).atTime(19, 0), String.format(java.util.Locale.US, "%.2f", variacaoCinema), catLazer, null));
             
             double variacaoLivro = 40.00 + (30.00 * random.nextDouble()); // Entre 40 e 70
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Livro (Amazon)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(28).atTime(14, 20), String.format(java.util.Locale.US, "%.2f", variacaoLivro), catLazer));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Livro (Amazon)", TipoTransacao.DESPESA, MeioPagamento.CREDITO, mes.atDay(28).atTime(14, 20), String.format(java.util.Locale.US, "%.2f", variacaoLivro), catLazer, cartaoNubank));
 
             // --- SAÚDE ---
-            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Farmácia (Analgésicos/Cosméticos)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(17).atTime(15, 40), "65.00", getCategoria("Saúde", usuarioId)));
+            saldoMensal = saldoMensal.subtract(criarTransacao(extrato, carteira, usuario, "Farmácia (Analgésicos/Cosméticos)", TipoTransacao.DESPESA, MeioPagamento.DEBITO, mes.atDay(17).atTime(15, 40), "65.00", getCategoria("Saúde", usuarioId), null));
 
             extrato.setSaldoExtrato(saldoMensal);
             extratoMensalRepository.save(extrato);
@@ -156,17 +168,25 @@ public class DatabaseSeeder implements CommandLineRunner {
             carteiraRepository.save(carteira);
         }
 
-        System.out.println("DataSeeder concluído! Usuário, Categorias, Extratos e 21 Transações por mês inseridos com sucesso (8 meses).");
+        System.out.println("DataSeeder concluído! Usuário, Categorias, Extratos, 3 Cartões de Crédito e 21 Transações por mês inseridos com sucesso (8 meses).");
     }
 
-    private BigDecimal criarTransacao(ExtratoMensalEntity extrato, CarteiraEntity carteira, UsuarioEntity usuario, String descricao, TipoTransacao tipo, MeioPagamento meioPagamento, LocalDateTime data, String valorStr, CategoriaEntity categoria) {
+    private BigDecimal criarTransacao(ExtratoMensalEntity extrato, CarteiraEntity carteira, UsuarioEntity usuario, String descricao, TipoTransacao tipo, MeioPagamento meioPagamento, LocalDateTime data, String valorStr, CategoriaEntity categoria, CartaoEntity cartao) {
         BigDecimal valor = new BigDecimal(valorStr);
         TransacaoEntity t = new TransacaoEntity(descricao, tipo, meioPagamento, false, data, usuario);
         t.setValor(valor);
         t.setCategoria(categoria);
         t.setExtrato(extrato);
         t.setCarteira(carteira);
+        t.setCartao(cartao);
         transacaoRepository.save(t);
+
+        if (cartao != null) {
+            cartao.setQuantidadeCompras(cartao.getQuantidadeCompras() + 1);
+            cartao.setGastos(cartao.getGastos().add(valor));
+            cartaoRepository.save(cartao);
+        }
+
         return valor;
     }
 }
