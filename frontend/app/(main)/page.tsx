@@ -64,8 +64,8 @@ const Dashboard = () => {
 
                 <div className="col-12 mt-3">
                     <div className="grid">
-                        <div className="col-12">
-                            <div className="card">
+                        <div className="col-12 xl:col-6">
+                            <div className="card h-full">
                                 <h5>Últimas compras</h5>
                                 <DataTable value={transactions} rows={4} paginator sortField="id" sortOrder={-1}>
                                     <Column field="Descricao" header="Descrição" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
