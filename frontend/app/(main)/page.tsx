@@ -48,7 +48,7 @@ const Dashboard = () => {
 
     return (
         <div className="grid">
-            <div className={`${cards.length <=0 ? "pt-0": "" } col-12 xl:col-12`}>
+            <div className={`${cards.length <=0 ? "pt-0": "" } col-12`}>
 
                 {cards.length > 0 ?
                     <div className="flex flex-nowrap overflow-x-auto gap-3 ml-2 pb-2">
@@ -62,10 +62,10 @@ const Dashboard = () => {
                     null
                 }
 
-                <div className="col-12 xl:col-12">
+                <div className="col-12 mt-3">
                     <div className="grid">
-                        <div className="col-12 xl:col-6">
-                            <div className="card h-full">
+                        <div className="col-12">
+                            <div className="card">
                                 <h5>Últimas compras</h5>
                                 <DataTable value={transactions} rows={4} paginator sortField="id" sortOrder={-1}>
                                     <Column field="Descricao" header="Descrição" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
@@ -75,10 +75,10 @@ const Dashboard = () => {
                                 </DataTable>
                             </div>
                         </div>
-                        <div className="col-12 md:col-6 xl:col-3">
+                        <div className="col-12 xl:col-6">
                             <CardTipoDeGasto dados={resumoCategoria}/>
                         </div>
-                        <div className="col-12 md:col-6 xl:col-3">
+                        <div className="col-12 xl:col-6">
                             <CardTiposDeGastoCartao dados={resumoCartao}/>
                         </div>
                     </div>

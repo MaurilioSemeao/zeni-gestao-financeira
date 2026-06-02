@@ -66,7 +66,7 @@ export const CardTiposDeGastoCartao = ({ dados }: CardTiposDeGastoCartaoProps) =
                                         <div className={`${corTema.bg} h-full`} style={{ width: `${item.porcentagem}%` }} />
                                     </div>
                                     <span className={`${corTema.text} h-full ml-3 font-semibold`} style={{ minWidth: '45px', textAlign: 'right' }}>
-                                        {item.porcentagem.toFixed(0)}%
+                                        %{item.porcentagem.toFixed(0)}
                                     </span>
                                 </div>
                             </li>
