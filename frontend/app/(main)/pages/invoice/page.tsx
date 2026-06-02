@@ -50,10 +50,10 @@ const Crud = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Gerenciar Fatura</h5>
+            <h5 className="m-0">Meus Extratos</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Pesquisar..." />
             </span>
         </div>
     );
@@ -88,7 +88,7 @@ const Crud = () => {
                             <Rating value={invoice.saldoExtrato} readOnly cancel={false}></Rating>
                             <div className="flex align-items-center gap-3">
                             <span className="flex align-items-center gap-2">
-                               Mes  <i className="pi pi-caret-right"></i>
+                               Mês  <i className="pi pi-caret-right"></i>
                                 <span className="font-semibold">{invoice.mesReferencia}</span>
                             </span>
                             </div>
@@ -97,7 +97,7 @@ const Crud = () => {
                             </div>
                         </div>
                         <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                            <span className="text-2xl font-semibold">${formatCurrency(invoice.saldoExtrato)}</span>
+                            <span className="text-2xl font-semibold">{formatCurrency(invoice.saldoExtrato)}</span>
                         </div>
 
                     </div>
@@ -139,8 +139,8 @@ const Crud = () => {
                         itemTemplate={itemTemplate}
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                        emptyMessage="No products found."
+                        currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros"
+                        emptyMessage="Nenhum extrato encontrado."
                         header={header}
                     >
 

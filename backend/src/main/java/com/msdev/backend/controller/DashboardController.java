@@ -1,5 +1,6 @@
 package com.msdev.backend.controller;
 
+import com.msdev.backend.dto.response.ResumoCartaoResponse;
 import com.msdev.backend.dto.response.ResumoCategoriaResponse;
 import com.msdev.backend.service.DashboardService;
 import org.springframework.http.ResponseEntity;
@@ -31,4 +32,13 @@ public class DashboardController {
         return ResponseEntity.ok().body(gastosPorCategoria);
     }
 
+    @GetMapping("/resumoCartao")
+    public ResponseEntity<List<ResumoCartaoResponse>> getResumoCartao(
+            @RequestParam(defaultValue = "MENSAL") String periodo
+    ){
+        List<ResumoCartaoResponse> gastosPorCartao = dashboardService.getGastosPorCartao(periodo);
+        return ResponseEntity.ok().body(gastosPorCartao);
+    }
+
 }
+

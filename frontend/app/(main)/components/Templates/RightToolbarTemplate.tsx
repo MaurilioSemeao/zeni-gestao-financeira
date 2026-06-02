@@ -10,8 +10,8 @@ interface Props {
 export const RightToolbarTemplate = ({exportCSV}: Props) => {
     return (
         <React.Fragment>
-            <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} chooseLabel="Import" className="mr-2 inline-block" />
-            <Button label="Export" icon="pi pi-upload" severity="help" onClick={exportCSV} />
+            <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} chooseLabel="Importar" className="mr-2 inline-block" />
+            <Button label="Exportar" icon="pi pi-upload" severity="help" onClick={exportCSV} />
         </React.Fragment>
     );
 };

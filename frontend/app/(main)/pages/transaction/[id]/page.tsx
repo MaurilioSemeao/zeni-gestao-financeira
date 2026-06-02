@@ -10,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
-import React, {useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCrud } from '@/hook/useEntityCrud';
 import { createFormHandlers } from '@/utils/formHandlers';
 import { LeftToolbarTemplate } from '@/app/(main)/components/Templates/LeftToolbarTemplate';
@@ -19,16 +19,11 @@ import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBo
 import { transactionService } from '@/service/TransactionService';
 import { useParams, useSearchParams } from 'next/navigation';
 
-
-
-
-
 const Crud = () => {
-
-    const emptyCategory : Zeni.Category ={
+    const emptyCategory: Zeni.Category = {
         id: 0,
         nome: ''
-    }
+    };
 
     let emptyTransaction: Zeni.Transaction = {
         id: 0,
@@ -42,7 +37,6 @@ const Crud = () => {
         contaId: null,
         categoria: emptyCategory,
     };
-
 
     const {
         entities,
@@ -59,7 +53,6 @@ const Crud = () => {
         setGlobalFilter,
         toast,
         dt,
-
         openNew,
         hideDialog,
         hideDeleteDialog,
@@ -72,33 +65,26 @@ const Crud = () => {
         deleteSelectedEntities,
         exportCSV,
         formatCurrency,
-
-    } = useCrud<Zeni.Transaction>(emptyTransaction)
-
-    console.log(entities)
+    } = useCrud<Zeni.Transaction>(emptyTransaction);
 
     const params = useParams();
-    const id= params.id;
+    const id = params.id;
 
     const searchParams = useSearchParams();
-
-    const  status  = searchParams.get('status')?.trim();
-
+    const status = searchParams.get('status')?.trim();
     const data = searchParams.get('data');
 
-
-    const {onInputChange,onInputNumberChange} = createFormHandlers<Zeni.Transaction>(setEntity);
+    const { onInputChange, onInputNumberChange } = createFormHandlers<Zeni.Transaction>(setEntity);
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        (async function loadData(){
-            const [transactionData] = await Promise.all([ transactionService.getAllById(`extratomensal/${id}`)])
-            setEntities(transactionData)
-        }())
-        if(entities.length === 0){
-            setRefresh(true)
+        (async function loadData() {
+            const [transactionData] = await Promise.all([transactionService.getAllById(`extratomensal/${id}`)]);
+            setEntities(transactionData);
+        })();
+        if (entities.length === 0) {
+            setRefresh(true);
         }
-
     }, [entities.length, id, setEntities, setRefresh]);
 
     const leftToolbarTemplate = () => {
@@ -112,54 +98,29 @@ const Crud = () => {
     };
 
     const rightToolbarTemplate = () => {
-        return (
-            <RightToolbarTemplate
-                exportCSV={exportCSV}
-            />
-        );
+        return <RightToolbarTemplate exportCSV={exportCSV} />;
     };
 
-
     const descriptionBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (
-            <GenericBodyTemplate
-                title={"Code"}
-                value={rowData.descricao}
-            />
-        );
+        return <GenericBodyTemplate title={"Code"} value={rowData.descricao} />;
     };
 
     const priceBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (
-            <GenericBodyTemplate
-                title={"Code"}
-                value={formatCurrency(rowData.valor)}
-            />
-        );
+        return <GenericBodyTemplate title={"Code"} value={formatCurrency(rowData.valor)} />;
     };
 
-
     const dateBodyTemplate = (rowData: Zeni.Transaction) => {
-
-        return (
-            <GenericBodyTemplate
-                title={"Code"}
-                value={rowData.dataTransacao}
-            />
-        );
+        return <GenericBodyTemplate title={"Code"} value={rowData.dataTransacao} />;
     };
 
     const meioDePagamentoBodyTemplate = (rowData: Zeni.Transaction) => {
-        return (<GenericBodyTemplate title={"MeioDePagamento"} value={rowData.meioPagamento} />);
+        return <GenericBodyTemplate title={"MeioDePagamento"} value={rowData.meioPagamento} />;
     };
 
     const categoriaBodyTemplate = (rowData: Zeni.Transaction) => {
         // @ts-ignore
-        return (<GenericBodyTemplate title={"Categoria"} value={rowData.categoria.nome} />);
+        return <GenericBodyTemplate title={"Categoria"} value={rowData.categoria?.nome || 'Sem Categoria'} />;
     };
-
-
-
 
     const actionBodyTemplate = (rowData: Zeni.Transaction) => {
         return (
@@ -172,23 +133,25 @@ const Crud = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Transação Mês: {data} </h5>
+            <h5 className="m-0">Transações do Extrato Mês: {data} </h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)} placeholder="Pesquisar..." />
             </span>
         </div>
     );
 
+    const saving = () => {
+        saveEntity(transactionService).then(() => {
+            setRefresh(prev => !prev);
+        });
+    };
 
-
-    const saving=() =>{
-        saveEntity(transactionService).then(r => {} )
-    }
-
-    const deleteById = () =>{
-        deleteEntityById(transactionService).then(r => {})
-    }
+    const deleteById = () => {
+        deleteEntityById(transactionService).then(() => {
+            setRefresh(prev => !prev);
+        });
+    };
 
     const userDialogFooter = (
         <>
@@ -196,16 +159,18 @@ const Crud = () => {
             <Button label="Salvar" icon="pi pi-check" text onClick={saving} />
         </>
     );
+
     const deleteEntityDialogFooter = (
         <>
-            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntitiesDialog} />
+            <Button label="Não" icon="pi pi-times" text onClick={hideDeleteDialog} />
             <Button label="Sim" icon="pi pi-check" text onClick={deleteById} />
         </>
     );
+
     const deleteEntitiesDialogFooter = (
         <>
             <Button label="Não" icon="pi pi-times" text onClick={hideDeleteEntitiesDialog} />
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteSelectedEntities} />
+            <Button label="Sim" icon="pi pi-check" text onClick={deleteSelectedEntities} />
         </>
     );
 
@@ -229,9 +194,9 @@ const Crud = () => {
                         rowsPerPageOptions={[5, 10, 25]}
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                        currentPageReportTemplate="Exibindo {first} a {last} de {totalRecords} registros"
                         globalFilter={globalFilter}
-                        emptyMessage="No products found."
+                        emptyMessage="Nenhuma transação encontrada."
                         header={header}
                         responsiveLayout="scroll"
                     >
@@ -246,15 +211,17 @@ const Crud = () => {
                             : <Column field="fechada" header="Fechada" sortable body={"fechada"} headerStyle={{ minWidth: '15rem' }}></Column>}
                     </DataTable>
 
-                    <Dialog visible={entityDialog} style={{ width: '450px' }} header="Detalhes Usuario" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
-                        <div className="field">{submitted && !entity.id && <small className="p-invalid">Name is required.</small>}</div>
+                    <Dialog visible={entityDialog} style={{ width: '450px' }} header="Detalhes da Transação" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                        <div className="field">
+                            {submitted && !entity.descricao && <small className="p-error block">Campo obrigatório.</small>}
+                        </div>
                         <div className="field">
                             <label htmlFor="description">Descrição</label>
                             <InputText id="description" value={entity.descricao} onChange={(e) => onInputChange(e, 'descricao')} required autoFocus className={classNames({ 'p-invalid': submitted && !entity.descricao })} />
                         </div>
 
                         <div className="field col">
-                            <label htmlFor="price">Price</label>
+                            <label htmlFor="price">Valor</label>
                             <InputNumber
                                 id="price"
                                 value={entity.valor}
@@ -263,27 +230,26 @@ const Crud = () => {
                                 currency="BRL"
                                 locale="pt-BR"
                                 required
-                                autoFocus
                                 className={classNames({ 'p-invalid': submitted && !entity.valor })}
                             />
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntityDialogFooter} onHide={hideDeleteDialog}>
+                    <Dialog visible={deleteEntityDialog} style={{ width: '450px' }} header="Confirmação" modal footer={deleteEntityDialogFooter} onHide={hideDeleteDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {entity && (
                                 <span>
-                                   Voce Realmente deseja excluir a transação <b>{entity.descricao}</b>?
+                                    Você realmente deseja excluir a transação <b>{entity.descricao}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEntitiesDialogFooter} onHide={hideDeleteEntitiesDialog}>
+                    <Dialog visible={deleteEntitiesDialog} style={{ width: '450px' }} header="Confirmação" modal footer={deleteEntitiesDialogFooter} onHide={hideDeleteEntitiesDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {entity && <span>Você realmente deseja excluir as transações ?</span>}
+                            {entity && <span>Você realmente deseja excluir as transações selecionadas?</span>}
                         </div>
                     </Dialog>
                 </div>
@@ -291,6 +257,5 @@ const Crud = () => {
         </div>
     );
 };
-
 
 export default Crud;

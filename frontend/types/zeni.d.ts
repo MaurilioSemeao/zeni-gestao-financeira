@@ -49,7 +49,12 @@ declare namespace Zeni {
        porcentagem: number;
     }
 
-
-
+    type ResumoCartao = {
+        apelidoCartao: string;
+        ultimosDigitos: string;
+        valorTotal: number;
+        quantidadeCompras: number;
+        porcentagem: number;
+     }
 
 }

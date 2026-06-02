@@ -5,6 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import React, { useEffect } from 'react';
 import { CardAccount } from '@/app/(main)/components/Cards/CardAccount';
 import { CardTipoDeGasto } from '@/app/(main)/components/Cards/CardTiposDeGasto';
+import { CardTiposDeGastoCartao } from '@/app/(main)/components/Cards/CardTiposDeGastoCartao';
 import { CardGrafic } from '@/app/(main)/components/Cards/CardGrafic';
 import {useDashboard} from '@/context/DashBoardContext';
 import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBodyTemplate';
@@ -12,7 +13,7 @@ import { GenericBodyTemplate } from '@/app/(main)/components/Templates/GenericBo
 
 const Dashboard = () => {
 
-    const {cards, transactions, resumoCategoria, loading, fetchData} = useDashboard();
+    const {cards, transactions, resumoCategoria, resumoCartao, loading, fetchData} = useDashboard();
 
 
     useEffect(()=>{
@@ -20,16 +21,16 @@ const Dashboard = () => {
     },[fetchData])
 
     if(loading){
-        return <div>Carregando seu dashbiard...</div>
+        return <div>Carregando seu dashboard...</div>
     }
 
     const carOrder = [...cards].sort((a, b) => b.gastos - a.gastos)
 
 
     const formatCurrency = (value: number) => {
-        return value?.toLocaleString('en-US', {
+        return value?.toLocaleString('pt-BR', {
             style: 'currency',
-            currency: 'USD'
+            currency: 'BRL'
         });
     };
 
@@ -47,7 +48,7 @@ const Dashboard = () => {
 
     return (
         <div className="grid">
-            <div className={`${cards.length <=0 ? "pt-0": "" } col-12 xl:col-11`}>
+            <div className={`${cards.length <=0 ? "pt-0": "" } col-12 xl:col-12`}>
 
                 {cards.length > 0 ?
                     <div className="flex flex-nowrap overflow-x-auto gap-3 ml-2 pb-2">
@@ -65,7 +66,7 @@ const Dashboard = () => {
                     <div className="grid">
                         <div className="col-12 xl:col-6">
                             <div className="card h-full">
-                                <h5>Ultimas compras</h5>
+                                <h5>Últimas compras</h5>
                                 <DataTable value={transactions} rows={4} paginator sortField="id" sortOrder={-1}>
                                     <Column field="Descricao" header="Descrição" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '10em' }}></Column>
                                     <Column field="valor" header="Valor" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '7em' }}></Column>
@@ -74,8 +75,11 @@ const Dashboard = () => {
                                 </DataTable>
                             </div>
                         </div>
-                        <div className="col-12 xl:col-6">
+                        <div className="col-12 md:col-6 xl:col-3">
                             <CardTipoDeGasto dados={resumoCategoria}/>
+                        </div>
+                        <div className="col-12 md:col-6 xl:col-3">
+                            <CardTiposDeGastoCartao dados={resumoCartao}/>
                         </div>
                     </div>
                 </div>

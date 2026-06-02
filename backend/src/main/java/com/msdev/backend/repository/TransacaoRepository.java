@@ -1,5 +1,6 @@
 package com.msdev.backend.repository;
 
+import com.msdev.backend.dto.response.ResumoCartaoResponse;
 import com.msdev.backend.dto.response.ResumoCategoriaResponse;
 import com.msdev.backend.entity.TransacaoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +25,18 @@ public interface TransacaoRepository extends JpaRepository<TransacaoEntity, Long
     List<ResumoCategoriaResponse> findGastosPorCategoria(
             @Param("usuarioId") Long usuarioId,
             @Param("dataInicio") LocalDateTime daInicio,
+            @Param("dataFim") LocalDateTime dataFim);
+
+    @Query("SELECT new com.msdev.backend.dto.response.ResumoCartaoResponse(" +
+            "   t.cartao.apelido, t.cartao.ultimosDigitos, SUM(t.valor), COUNT(t), CAST(0.0 as double)) " +
+            "FROM TransacaoEntity t " +
+            "WHERE t.usuario.id = :usuarioId " +
+            "AND t.tipo = 'DESPESA' " +
+            "AND t.cartao IS NOT NULL " +
+            "AND t.dataTransacao BETWEEN :dataInicio AND :dataFim " +
+            "GROUP BY t.cartao.apelido, t.cartao.ultimosDigitos")
+    List<ResumoCartaoResponse> findGastosPorCartao(
+            @Param("usuarioId") Long usuarioId,
+            @Param("dataInicio") LocalDateTime dataInicio,
             @Param("dataFim") LocalDateTime dataFim);
 }

@@ -1,5 +1,6 @@
 package com.msdev.backend.service;
 
+import com.msdev.backend.dto.response.ResumoCartaoResponse;
 import com.msdev.backend.dto.response.ResumoCategoriaResponse;
 import com.msdev.backend.entity.CategoriaEntity;
 import com.msdev.backend.entity.UsuarioEntity;
@@ -30,9 +31,7 @@ public class DashboardService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    public List<ResumoCategoriaResponse> getGastosPorCategoria(String periodo){
-        UsuarioEntity usuario = authenticationService.getLoggedIUser();
-
+    private LocalDateTime[] calcularIntervalo(String periodo) {
         LocalDate hoje = LocalDate.now();
         LocalDateTime dataInicio;
         LocalDateTime dataFim;
@@ -57,7 +56,14 @@ public class DashboardService {
                 break;
         }
 
-        List<ResumoCategoriaResponse> lista = transacaoRepository.findGastosPorCategoria(usuario.getId(), dataInicio, dataFim);
+        return new LocalDateTime[]{dataInicio, dataFim};
+    }
+
+    public List<ResumoCategoriaResponse> getGastosPorCategoria(String periodo){
+        UsuarioEntity usuario = authenticationService.getLoggedIUser();
+        LocalDateTime[] intervalo = calcularIntervalo(periodo);
+
+        List<ResumoCategoriaResponse> lista = transacaoRepository.findGastosPorCategoria(usuario.getId(), intervalo[0], intervalo[1]);
 
         List<CategoriaEntity> todasCategorias = categoriaRepository.findAllByUsuarioId(usuario.getId());
 
@@ -92,4 +98,30 @@ public class DashboardService {
 
         return listaIntegrada;
     }
+
+    public List<ResumoCartaoResponse> getGastosPorCartao(String periodo){
+        UsuarioEntity usuario = authenticationService.getLoggedIUser();
+        LocalDateTime[] intervalo = calcularIntervalo(periodo);
+
+        List<ResumoCartaoResponse> lista = transacaoRepository.findGastosPorCartao(usuario.getId(), intervalo[0], intervalo[1]);
+
+        BigDecimal totalGeral = lista.stream()
+                .map(ResumoCartaoResponse::getValorTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        if(totalGeral.compareTo(BigDecimal.ZERO) > 0){
+            for(ResumoCartaoResponse item : lista){
+                BigDecimal porcentagem = item.getValorTotal()
+                        .multiply(new BigDecimal(100))
+                        .divide(totalGeral, 0, RoundingMode.HALF_UP);
+
+                item.setPorcentagem(porcentagem.doubleValue());
+            }
+        }
+
+        lista.sort((a, b) -> b.getValorTotal().compareTo(a.getValorTotal()));
+
+        return lista;
+    }
 }
+

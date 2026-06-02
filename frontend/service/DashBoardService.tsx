@@ -15,6 +15,16 @@ export class DashBoardService extends BaseService{
             console.log("Erro ao Buscar resumo de categoria" + error);
         }
     }
+
+    async getResumoCartao(periodo: string = "MENSAL"){
+        try{
+            const response = await axiosInstance.get(`/dashboard/resumoCartao?periodo=${periodo}`);
+            return response.data;
+        }
+        catch(error){
+            console.log("Erro ao Buscar resumo de cartao" + error);
+        }
+    }
 }
 
 

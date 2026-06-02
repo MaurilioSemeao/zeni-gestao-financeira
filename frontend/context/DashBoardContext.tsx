@@ -13,6 +13,7 @@ interface DashBoardContextType{
     invoices: Zeni.Invoice[];
     transactions: Zeni.Transaction[];
     resumoCategoria: Zeni.ResumoCategoria[];
+    resumoCartao: Zeni.ResumoCartao[];
     loading: boolean;
     fetchData: () => Promise<void>;
     periodoCategoria: string;
@@ -33,6 +34,7 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
     const [invoices, setInvoices] = useState<Zeni.Invoice[]>([]);
     const [transactions, setTransactions] = useState<Zeni.Transaction[] >([]);
     const [resumoCategoria, setResumoCategoria] = useState<Zeni.ResumoCategoria[]>([]);
+    const [resumoCartao, setResumoCartao] = useState<Zeni.ResumoCartao[]>([]);
     const [periodoCategoria, setPeriodoCategoria] = useState<string>("MENSAL");
     const [loading, setLoading] = useState(true);
 
@@ -42,17 +44,19 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
                 setLoading(true);
 
 
-                const [cardData, transactionData, resumoCategoria] = await Promise.all([
+                const [cardData, transactionData, resumoCat, resumoCart] = await Promise.all([
                     cartaoService.getAll(),
                     transactionService.getAll(),
-                    dashBoradService.getResumoCategoria(periodoCategoria)
+                    dashBoradService.getResumoCategoria(periodoCategoria),
+                    dashBoradService.getResumoCartao(periodoCategoria)
                    // invoiceService.getAll(),
                 ]);
 
                 setCards(cardData);
                 //setInvoices(invoiceData);
                 setTransactions(transactionData);
-                setResumoCategoria(resumoCategoria);
+                setResumoCategoria(resumoCat);
+                setResumoCartao(resumoCart);
 
 
             }catch(error){
@@ -61,19 +65,23 @@ export const DashboardProvider = ({ children }: {children: ReactNode}) => {
             finally {
                 setLoading(false);
             }
-        },[]);
+        },[periodoCategoria]); // Add dependency to avoid stale closure of periodoCategoria if needed, but it uses the state value.
 
     const changePeriodoCategoria = useCallback(async (novoPeriodo: string) => {
         setPeriodoCategoria(novoPeriodo);
         try {
-            const data = await dashBoradService.getResumoCategoria(novoPeriodo);
-            setResumoCategoria(data);
+            const [catData, cartData] = await Promise.all([
+                dashBoradService.getResumoCategoria(novoPeriodo),
+                dashBoradService.getResumoCartao(novoPeriodo)
+            ]);
+            setResumoCategoria(catData);
+            setResumoCartao(cartData);
         } catch(error) {
             console.log("Erro ao atualizar periodo", error);
         }
     }, []);
 
-    const value = {user, cards, invoices, transactions, resumoCategoria, loading, fetchData, periodoCategoria, changePeriodoCategoria};
+    const value = {user, cards, invoices, transactions, resumoCategoria, resumoCartao, loading, fetchData, periodoCategoria, changePeriodoCategoria};
 
     return(
         <DashBoardContext.Provider value={value}>
