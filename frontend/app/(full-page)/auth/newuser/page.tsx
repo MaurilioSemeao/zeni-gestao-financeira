@@ -42,8 +42,8 @@ const NewUserPage = () => {
         loginService.creatNewUser(user).then((response) =>{
             toast.current?.show({
                 severity: 'success',
-                summary: 'New user created successfully',
-                detail: 'User created successfully',
+                summary: 'Usuário criado com sucesso',
+                detail: 'Cadastro realizado!',
             })
             setTimeout(()=>{
                 router.push('/auth/login');
@@ -53,7 +53,7 @@ const NewUserPage = () => {
         }).catch((error) =>{
             toast.current?.show({
                 severity: 'error',
-                summary: 'Failed to create new user',
+                summary: 'Falha ao criar usuário',
                 detail: error.message,
             })
 
@@ -77,7 +77,7 @@ const NewUserPage = () => {
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
                             <div className="text-900 text-3xl font-medium mb-3">
-                                Faça seu login </div>
+                                Faça seu cadastro </div>
                         </div>
 
                         <div>
@@ -90,7 +90,7 @@ const NewUserPage = () => {
                                 id="nome1"
                                 value={user.nome}
                                 type="text"
-                                placeholder="Digite Seu nome"
+                                placeholder="Digite seu nome"
                                 className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }}
                                 onChange={(e) => onInputChange(e, 'nome')}
                             />
@@ -102,18 +102,18 @@ const NewUserPage = () => {
                                 id="email1"
                                 value={user.email}
                                 type="text"
-                                placeholder="Digite Seu email"
+                                placeholder="Digite seu email"
                                 className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }}
                                 onChange={(e) => onInputChange(e, 'email')}
                             />
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
-                                Password
+                                Senha
                             </label>
                             <Password
                                 inputId="password1"
                                 value={user.senha}
-                                placeholder="Password"
+                                placeholder="Senha"
                                 toggleMask className="w-full mb-5"
                                 inputClassName="w-full p-3 md:w-30rem"
                                 onChange={(e) => setUser(prev => ({ ...prev, senha: e.target.value }))}
@@ -127,11 +127,11 @@ const NewUserPage = () => {
                                     style={{ color: 'var(--primary-color)' }}
                                     onClick={() => router.push('/auth/login') }
                                 >
-                                    Já Possuo uma conta?
+                                    Já possuo uma conta?
                                 </a>
 
                             </div>
-                            <Button label="Entras" className="w-full p-3 text-xl" onClick={() => creatNewUser()}></Button>
+                            <Button label="Cadastrar" className="w-full p-3 text-xl" onClick={() => creatNewUser()}></Button>
                         </div>
                     </div>
                 </div>
