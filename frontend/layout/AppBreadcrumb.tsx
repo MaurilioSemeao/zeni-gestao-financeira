@@ -12,6 +12,7 @@ export const AppBreadcrumb = () => {
         '/': 'Dashboard',
         '/pages/cards': 'Cartões',
         '/pages/invoice': 'Extratos',
+        '/pages/category': 'Categorias',
         '/pages/transaction': 'Transações',
     };
 

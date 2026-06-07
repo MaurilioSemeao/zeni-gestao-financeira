@@ -19,7 +19,7 @@ public class CategoriaController {
 
     private final CategoriaService categoriaService;
 
-    private CategoriaController(CategoriaService categoriaService){
+    public CategoriaController(CategoriaService categoriaService){
         this.categoriaService = categoriaService;
     }
 
@@ -41,7 +41,7 @@ public class CategoriaController {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(categoria)
+                .buildAndExpand(categoria.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(categoria);
     }

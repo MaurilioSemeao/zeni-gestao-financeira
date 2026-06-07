@@ -34,4 +34,11 @@ public class CategoriaService extends BaseServiceImpl<CategoriaEntity, Long, Cat
         return  categoriaRepository.findAllByUsuarioId(usuarioLogado.getId());
     }
 
+    @Override
+    public void beforeCreate(CategoriaEntity entity, CategoriaRequest request){
+        UsuarioEntity usuario = authenticationService.getLoggedIUser();
+        entity.setUsuario(usuario);
+        entity.setPadrao(false);
+    }
+
 }

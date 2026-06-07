@@ -18,7 +18,6 @@ declare namespace Zeni {
         cartaoId: number | null;
         contaId: number | null;
         categoria: Category | null;
-
     };
 
     type Invoice = {
@@ -28,7 +27,7 @@ declare namespace Zeni {
         mesReferencia: string;
     };
 
-   type  Card ={
+   type Card = {
         id: number;
         apelido: string;
         ultimosDigitos: string;
@@ -40,9 +39,10 @@ declare namespace Zeni {
     type Category = {
        id: number;
        nome: string;
+       padrao?: boolean;
     }
 
-    type ResumoCategoria ={
+    type ResumoCategoria = {
        id: number;
        nomeCategoria: string;
        valorTotal: number;
@@ -55,6 +55,5 @@ declare namespace Zeni {
         valorTotal: number;
         quantidadeCompras: number;
         porcentagem: number;
-     }
-
+    }
 }
