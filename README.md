@@ -57,7 +57,7 @@ O Lean Canvas abaixo resume o modelo de negócio do Zeni, identificando a propos
 
 O diagrama a seguir ilustra as principais interações dos atores (Usuário, Administrador) com as funcionalidades do sistema Zeni.
 
-![Diagrama de Casos de Uso do sistema Zeni](./documentacaoDoProjeto/imgUML/CasoDeUso.svg)
+![Diagrama de Casos de Uso do sistema Zeni](./documentacaoDoProjeto/imgUML/--CasoDeUso.svg)
 
 ### 4.3. Diagrama BPMN (Processo de Negócio)
 
@@ -92,7 +92,7 @@ HU-09: Visualizar Dashboard
 
 O Diagrama de Estados modela o ciclo de vida de um objeto, definindo todos os seus estados possíveis e as regras que causam as transições entre eles, como o ciclo de vida da Fatura.
 
-![Diagrama de Estados do ciclo de vida da Fatura](./documentacaoDoProjeto/imgUML/diagEstadoFatura.svg)
+![Diagrama de Estados do ciclo de vida da Fatura](./documentacaoDoProjeto/imgUML/--diagEstadoFatura.svg)
 
 ## 6\. Arquitetura e Modelo de Dados
 
@@ -100,23 +100,15 @@ A arquitetura do sistema foi projetada para ser modular e escalável, separando 
 
 ### 6.1. Diagrama de Entidade-Relacionamento (DER)
 
-O diagrama abaixo ilustra a estrutura do banco de dados, com as principais entidades e seus relacionamentos.
-
-![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DER.svg)
-
 ### --- Modeo Diagrama DER mais Descritivo ---
 
-![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/DERdescritivo.svg)
+![Diagrama de Entidade-Relacionamento do sistema Zeni](./documentacaoDoProjeto/imgUML/--DERdescritivo.svg)
 
-### 6.2. Diagrama de Classes
 
 O Diagrama de Classes detalha a estrutura estática dos objetos do sistema, incluindo seus atributos, métodos e associações.
 
-![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/DiagramaDeClasse.svg)
+![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/--DiagramaDeClasse.svg)
 
-### --- Modelo Diagrama Classes mais Limpo ---
-
-![Diagrama de Classes do sistema Zeni](./documentacaoDoProjeto/imgUML/UMLclassLc.svg)
 
 ## 7\. Backlog do Produto (MVP)
 
